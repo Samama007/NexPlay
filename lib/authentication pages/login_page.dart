@@ -108,23 +108,24 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 32.0),
-                          SizedBox(
-                            width: 150,
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const HomePage(),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                          TextButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Container(
+                              width: 170,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade500,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ),
                           ),

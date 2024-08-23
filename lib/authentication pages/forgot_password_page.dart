@@ -110,7 +110,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               const SizedBox(height: 50),
               Center(
-                child: ElevatedButton(
+                child: TextButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       showDialog(
@@ -144,16 +144,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       });
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    width: 250,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade500,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    backgroundColor: Colors.red.shade500,
-                  ),
-                  child: const Text(
-                    'Reset Password',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    child: Center(
+                      child: Text(
+                        'Reset Password',
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
                   ),
                 ),
               ),
