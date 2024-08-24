@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:games_database/authentication%20pages/forgot_password_page.dart';
-import 'package:games_database/authentication%20pages/signup_page.dart';
-import 'package:games_database/pages/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nexplay/authentication%20pages/forgot_password_page.dart';
+import 'package:nexplay/authentication%20pages/signup_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class LibraryPage extends StatelessWidget {
+  const LibraryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text('Profile')),
+      child: Center(child: Text('Library')),
     );
   }
 }
