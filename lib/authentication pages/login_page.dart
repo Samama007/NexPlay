@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nexplay/authentication%20pages/forgot_password_page.dart';
 import 'package:nexplay/authentication%20pages/signup_page.dart';
+import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -110,7 +111,7 @@ class LoginPage extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
                               }
                             },
                             child: Container(

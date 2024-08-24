@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nexplay/pages/home_page.dart';
+import 'package:nexplay/authentication%20pages/login_page.dart';
+import 'package:nexplay/pages/explore_page.dart';
+import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
 void main() {
   runApp(const NexPlay());
@@ -16,7 +18,7 @@ class NexPlayState extends State<NexPlay> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: BottomNavBar(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.grey,
