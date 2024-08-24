@@ -42,6 +42,7 @@ class _ExplorePagState extends State<ExplorePage> {
           height: 250, // Fixed height for the ListView
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
             itemCount: games.length,
             itemBuilder: (context, index) {
               return Container(
