@@ -41,6 +41,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
         currentIndex: selectedIndex,
         onTap: onTapped,
         selectedItemColor: Colors.red.shade500,
