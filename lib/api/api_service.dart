@@ -1,17 +1,17 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'game.dart';
+import 'dart:convert';
 
-class ApiService {
-  final String baseUrl = "https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e";
+class GameApi {
+  static const String apiKey = 'b4c477df733b421d8b4d897023fb0f6e';
+  static const String baseUrl = 'https://api.rawg.io/api/games';
 
-  Future<List<Game>> fetchGames() async {
-    final response = await http.get(Uri.parse(baseUrl));
+  static Future<List<dynamic>> fetchGames() async {
+    final url = Uri.parse('$baseUrl?key=$apiKey');
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      final List gamesData = jsonData['results'];
-      return gamesData.map((game) => Game.fromJson(game)).toList();
+      final Map<String, dynamic> data = json.decode(response.body);
+      return data['results'];
     } else {
       throw Exception('Failed to load games');
     }
