@@ -1,95 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
-import 'package:nexplay/pages/game_detail.dart';
+import 'package:nexplay/models/my_model.dart';
 
-class MyCarousel extends StatefulWidget {
+class MyCarousel extends StatelessWidget {
   const MyCarousel({super.key});
 
   @override
-  State<MyCarousel> createState() => _MyCarouselState();
-}
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<GameModel>>(
+      future: GameApi().fetchGames(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No data available'));
+        } else {
+          // return ConstrainedBox(
+          //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+          //   child: CarouselView(
+          //     itemExtent: 330,
+          //     children: snapshot.data!
+          //         .map((game) => Card(
+          //               margin: const EdgeInsets.all(10),
+          //               shape: RoundedRectangleBorder(
+          //                 borderRadius: BorderRadius.circular(15),
+          //               ),
+          //               child: Stack(
+          //                 alignment: Alignment.bottomCenter,
+          //                 children: [
+          //                   ClipRRect(
+          //                     borderRadius: BorderRadius.circular(15),
+          //                     child: Image.network(
+          //                       game.backgroundImage,
+          //                       width: double.infinity,
+          //                       height: double.infinity,
+          //                       fit: BoxFit.cover,
+          //                     ),
+          //                   ),
+          //                   Container(
+          //                     width: double.infinity,
+          //                     padding: const EdgeInsets.all(8),
+          //                     decoration: BoxDecoration(
+          //                       color: Colors.black54,
+          //                       borderRadius: BorderRadius.circular(15),
+          //                     ),
+          //                     child: Text(
+          //                       game.name,
+          //                       textAlign: TextAlign.center,
+          //                       style: const TextStyle(
+          //                         color: Colors.white,
+          //                         fontSize: 18,
+          //                         fontWeight: FontWeight.bold,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ))
+          //         .toList(),
+          //   ),
+          // );
 
-class _MyCarouselState extends State<MyCarousel> {
-  List<Widget> games = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadGames();
-  }
-
-  Future<void> _loadGames() async {
-    try {
-      final gamesData = await GameApi.fetchGames();
-      setState(() {
-        games = gamesData.map((game) {
-          return Card(
-            margin: const EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
+          return ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+            child: CarouselView(
+              itemExtent: 300,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    game['background_image'],
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    game['name'],
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(snapshot.data![index].backgroundImage),
+                        ),
+                      ),
+                      child: Text(snapshot.data![0].name),
+                    );
+                  },
+                )
               ],
             ),
           );
-        }).toList();
-      });
-    } catch (e) {
-      throw Exception('Caught Exception: $e');
-    }
-
-  //   void gamedetail(){
-  //     // var image = game['background_image']
-  //     Navigator.push(context, MaterialPageRoute(builder: (context) => GameDetail(image: ,),));
-  //   }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return games.isEmpty
-        ? const Center(child: CircularProgressIndicator(
-          color: Colors.red,
-        ))
-        : Center(
-            child: InkWell(
-              // onTap: () => ,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 200),
-                child: CarouselView(
-                  itemExtent: 350,
-                  shrinkExtent: 10,
-                  children: games,
-                ),
-              ),
-            ),
-          );
+        }
+      },
+    );
   }
 }
