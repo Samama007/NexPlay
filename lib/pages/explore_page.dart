@@ -14,15 +14,15 @@ class ExplorePage extends StatefulWidget {
 class _ExplorePagState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(title: Center(child: Text('Games'))),
-          body: Column(
-            children: <Widget>[
+    return Scaffold(
+        appBar: AppBar(title: Center(child: Text('Games'))),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
               Mysearchbar(),
               MyCarousel(),
             ],
-          )),
-    );
+          ),
+        ));
   }
 }

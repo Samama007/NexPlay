@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
+import 'package:nexplay/pages/game_detail.dart';
 
 class MyCarousel extends StatefulWidget {
   const MyCarousel({super.key});
@@ -21,7 +22,7 @@ class _MyCarouselState extends State<MyCarousel> {
     try {
       final gamesData = await GameApi.fetchGames();
       setState(() {
-        games = gamesData.map<Widget>((game) {
+        games = gamesData.map((game) {
           return Card(
             margin: const EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -62,20 +63,31 @@ class _MyCarouselState extends State<MyCarousel> {
         }).toList();
       });
     } catch (e) {
-      throw Exception('Failed to load games');
+      throw Exception('Caught Exception: $e');
     }
+
+  //   void gamedetail(){
+  //     // var image = game['background_image']
+  //     Navigator.push(context, MaterialPageRoute(builder: (context) => GameDetail(image: ,),));
+  //   }
   }
 
   @override
   Widget build(BuildContext context) {
     return games.isEmpty
-        ? const Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator(
+          color: Colors.red,
+        ))
         : Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 300),
-              child: CarouselView(
-                itemExtent: 350,
-                children: games,
+            child: InkWell(
+              // onTap: () => ,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: CarouselView(
+                  itemExtent: 350,
+                  shrinkExtent: 10,
+                  children: games,
+                ),
               ),
             ),
           );
