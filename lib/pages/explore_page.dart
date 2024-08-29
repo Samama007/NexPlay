@@ -20,6 +20,11 @@ class _ExplorePagState extends State<ExplorePage> {
           child: Column(
             children: [
               Mysearchbar(),
+              Text(
+                'Trending Now',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
               MyCarousel(),
             ],
           ),
