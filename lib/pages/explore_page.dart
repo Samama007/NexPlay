@@ -16,29 +16,28 @@ class _ExplorePagState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Center(child: Text('Games'))),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Mysearchbar(),
-              SizedBox(
-                height: 20,
-              ),
-              Row(children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 25),
-                  child: Text(
-                    'Trending now',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
-                  ),
-                )
-              ]),
-              MyCarousel(),
-              SizedBox(height: 20),
-              Categories(),
-            ],
+      child: Column(
+        children: [
+          Mysearchbar(),
+          SizedBox(
+            height: 20,
           ),
-        ));
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: Text(
+                'Trending now',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+              ),
+            )
+          ]),
+          MyCarousel(),
+          SizedBox(height: 20),
+          Categories(),
+        ],
+      ),
+    ));
   }
 }

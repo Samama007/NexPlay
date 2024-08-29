@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_model.dart';
+import 'package:nexplay/pages/game_detail.dart';
 
 class MyCarousel extends StatelessWidget {
   const MyCarousel({super.key});
@@ -18,11 +19,10 @@ class MyCarousel extends StatelessWidget {
           return const Center(child: Text('No data available'));
         } else {
           return ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.28),
             child: CarouselView(
               itemExtent: 370,
               shrinkExtent: 200,
-              // itemSnapping: true,
               children: snapshot.data!
                   .map((game) => Card(
                         margin: const EdgeInsets.all(10),
@@ -53,8 +53,8 @@ class MyCarousel extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
@@ -64,28 +64,6 @@ class MyCarousel extends StatelessWidget {
                   .toList(),
             ),
           );
-
-          // return ConstrainedBox(
-          //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
-          //   child: CarouselView(
-          //     itemExtent: 300,
-          //     children: [
-          //       ListView.builder(
-          //         itemCount: snapshot.data!.length,
-          //         itemBuilder: (context, index) {
-          //           return Container(
-          //             decoration: BoxDecoration(
-          //               image: DecorationImage(
-          //                 image: NetworkImage(snapshot.data![index].backgroundImage),
-          //               ),
-          //             ),
-          //             child: Text(snapshot.data![0].name),
-          //           );
-          //         },
-          //       )
-          //     ],
-          //   ),
-          // );
         }
       },
     );

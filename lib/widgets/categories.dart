@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nexplay/authentication%20pages/login_page.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
@@ -13,7 +14,14 @@ class Categories extends StatelessWidget {
             children: [
               IconButton(
                   style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {},
+                  onPressed: () {
+                    print('object');
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => LoginPage(),
+                    //     ));
+                  },
                   icon: Icon(
                     Icons.sports_cricket_rounded,
                     color: Colors.white,

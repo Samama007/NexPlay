@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GameDetail extends StatelessWidget {
-  var image;
-  var name;
+  final String image;
+  final String name;
 
-  GameDetail({super.key, @required this.image, @required this.name});
+  const GameDetail({super.key, required this.image, required this.name});
 
   @override
   Widget build(BuildContext context) {
