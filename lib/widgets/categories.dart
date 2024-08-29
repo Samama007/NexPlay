@@ -66,23 +66,6 @@ class Categories extends StatelessWidget {
                   style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
                   onPressed: () {},
                   icon: Icon(
-                    Icons.games_rounded,
-                    color: Colors.white,
-                    size: 50,
-                    semanticLabel: 'Games',
-                  )),
-              Text('Games', style: TextStyle(color: Colors.white, fontSize: 15)),
-            ],
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            children: [
-              IconButton(
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {},
-                  icon: Icon(
                     Icons.menu,
                     color: Colors.white,
                     size: 50,
