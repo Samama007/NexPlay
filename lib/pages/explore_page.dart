@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nexplay/widgets/carousel.dart';
+import 'package:nexplay/widgets/categories.dart';
 import 'package:nexplay/widgets/search_bar.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -20,12 +21,22 @@ class _ExplorePagState extends State<ExplorePage> {
           child: Column(
             children: [
               Mysearchbar(),
-              Text(
-                'Trending Now',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              SizedBox(
+                height: 20,
               ),
+              Row(children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 25),
+                  child: Text(
+                    'Trending now',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+                  ),
+                )
+              ]),
               MyCarousel(),
+              SizedBox(height: 20),
+              Categories(),
             ],
           ),
         ));
