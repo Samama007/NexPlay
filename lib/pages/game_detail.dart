@@ -59,19 +59,35 @@ class GameDetail extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text(game.rating.toString(), style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                            Text(game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
                             SizedBox(width: 2),
-                            Icon(Icons.star, color: Colors.white, size: 17)
+                            Icon(Icons.star, color: Colors.white, size: 22)
                           ],
                         ),
                         Text('${game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
                       ],
                     ),
                   ),
+                  VerticalDivider(color: Colors.white),
+                  SizedBox(width: 40),
+                  Column(
+                    children: [
+                      Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                      SizedBox(height: 2),
+                      Text(game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                    ],
+                  ),
+                  SizedBox(width: 40),
+                  Column(
+                    children: [
+                      Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                      SizedBox(height: 2),
+                      Text('Playtime: ${game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                    ],
+                  ),
                 ],
               ),
             ),
-            VerticalDivider(color: Colors.white, thickness: 20, width: 20)
           ],
         ),
       ),
