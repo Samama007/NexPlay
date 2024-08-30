@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
-import 'package:nexplay/models/my_model.dart';
+import 'package:nexplay/models/description_model.dart';
+import 'package:nexplay/models/game_model.dart';
+import 'package:animated_read_more_text/animated_read_more_text.dart';
 
 class GameDetail extends StatefulWidget {
   final GameModel game;
@@ -13,52 +15,60 @@ class GameDetail extends StatefulWidget {
 
 class _GameDetailState extends State<GameDetail> {
   GameApi gameApi = GameApi();
+  DescriptionModel? description;
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    gameApi.fetchdetails(3498);
+    fetchDetails();
+  }
+
+  Future<void> fetchDetails() async {
+    List<DescriptionModel> fetchedDetails = await gameApi.fetchdetails(widget.game.id);
+    setState(() {
+      description = fetchedDetails.first;
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Image.network(
-                    widget.game.backgroundImage,
-                    fit: BoxFit.cover,
+        child: SingleChildScrollView(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.network(
+                      widget.game.backgroundImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Colors.black,
-                    size: 25,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
-                )
-              ],
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
+                  )
+                ],
+              ),
             ),
             SizedBox(height: 15),
             Center(
               child: ListTile(
-                title: Center(
-                  child: Text(
-                    widget.game.name,
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white),
-                  ),
+                title: Text(
+                  widget.game.name,
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
-                // subtitle: Padding(
-                //   padding: const EdgeInsets.only(left: 2.0),
-                //   child: Text(game.released.year.toString()),
-                // ),
+                subtitle: isLoading ? Center(child: CircularProgressIndicator()) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
               ),
             ),
             SizedBox(height: 15),
@@ -90,21 +100,34 @@ class _GameDetailState extends State<GameDetail> {
                       Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
                     ],
                   ),
-                  SizedBox(width: 40),
+                  SizedBox(width: 60),
                   Column(
                     children: [
                       Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
                       SizedBox(height: 2),
-                      Text('Playtime: ${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                      Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
                     ],
                   ),
                 ],
               ),
             ),
-            Text(
-              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ',
-            )
-          ],
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
+            ),
+            isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
+                    child: AnimatedReadMoreText(
+                      description!.description.toString(),
+                      maxLines: 6,
+                      textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                      buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
+                    ),
+                  ),
+          ]),
         ),
       ),
     );

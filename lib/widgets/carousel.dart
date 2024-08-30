@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
-import 'package:nexplay/models/my_model.dart';
+import 'package:nexplay/models/game_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
 
 class MyCarousel extends StatelessWidget {
