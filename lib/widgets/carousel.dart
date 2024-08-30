@@ -27,6 +27,7 @@ class MyCarousel extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => GameDetail(
                       game: snapshot.data![value],
+                      
                     ),
                   ),
                 );
