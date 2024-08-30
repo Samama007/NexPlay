@@ -61,7 +61,7 @@ class _GameDetailState extends State<GameDetail> {
                 ],
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 12),
             Center(
               child: ListTile(
                 title: Text(
@@ -71,7 +71,7 @@ class _GameDetailState extends State<GameDetail> {
                 subtitle: isLoading ? Center(child: CircularProgressIndicator()) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
               ),
             ),
-            SizedBox(height: 15),
+            // SizedBox(height: 1),
             Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
@@ -91,8 +91,10 @@ class _GameDetailState extends State<GameDetail> {
                       ],
                     ),
                   ),
-                  VerticalDivider(color: Colors.white),
-                  SizedBox(width: 40),
+                  // VerticalDivider(color: Colors.white),
+                  SizedBox(width: 30),
+                  Container(width: 2, height: 30, color: Colors.white),
+                  SizedBox(width: 30),
                   Column(
                     children: [
                       Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
@@ -100,7 +102,9 @@ class _GameDetailState extends State<GameDetail> {
                       Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
                     ],
                   ),
-                  SizedBox(width: 60),
+                  SizedBox(width: 30),
+                  Container(width: 2, height: 30, color: Colors.white),
+                  SizedBox(width: 30),
                   Column(
                     children: [
                       Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),

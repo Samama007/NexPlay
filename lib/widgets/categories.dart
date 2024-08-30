@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nexplay/authentication%20pages/login_page.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
