@@ -18,7 +18,10 @@ class NexPlayState extends State<NexPlay> {
   Widget build(BuildContext context) {
     return MaterialApp(
       scrollBehavior: const MaterialScrollBehavior().copyWith(
-        dragDevices: {PointerDeviceKind.mouse,PointerDeviceKind.touch},
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch
+        },
       ),
       home: BottomNavBar(),
       debugShowCheckedModeBanner: false,

@@ -18,21 +18,20 @@ class _ExplorePagState extends State<ExplorePage> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Mysearchbar(),
           SizedBox(
             height: 20,
           ),
-          Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25),
-              child: Text(
-                'Trending now',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
-              ),
-            )
-          ]),
+          Padding(
+            padding: const EdgeInsets.only(left: 25),
+            child: Text(
+              'Trending now',
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.white),
+            ),
+          ),
           MyCarousel(),
           SizedBox(height: 20),
           Categories(),

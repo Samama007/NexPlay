@@ -5,6 +5,8 @@ class GameModel {
   final DateTime released;
   final int playtime;
   final int ratingsCount;
+  final double rating;
+
   final List<ShortScreenshot> shortScreenshots;
 
   GameModel({
@@ -14,6 +16,7 @@ class GameModel {
     required this.released,
     required this.playtime,
     required this.ratingsCount,
+    required this.rating,
     required this.shortScreenshots,
   });
 
@@ -25,6 +28,7 @@ class GameModel {
       released: DateTime.parse(json['released']),
       playtime: json['playtime'],
       ratingsCount: json['ratings_count'],
+      rating: json['rating'],
       shortScreenshots: List<ShortScreenshot>.from(
         json['short_screenshots'].map((x) => ShortScreenshot.fromJson(x)),
       ),
@@ -45,6 +49,4 @@ class ShortScreenshot {
         id: json["id"],
         image: json["image"],
       );
-
 }
-

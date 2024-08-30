@@ -21,6 +21,16 @@ class MyCarousel extends StatelessWidget {
           return ConstrainedBox(
             constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.28),
             child: CarouselView(
+              onTap: (value) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GameDetail(
+                      game: snapshot.data![value],
+                    ),
+                  ),
+                );
+              },
               itemExtent: 370,
               shrinkExtent: 200,
               children: snapshot.data!
