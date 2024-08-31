@@ -15,11 +15,13 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var myheight = MediaQuery.of(context).size.height;
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    String username;
+    var mheight = MediaQuery.sizeOf(context).height;
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
           width: double.infinity,
+          height: mheight,
           decoration: BoxDecoration(
             gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
               Colors.black38,
@@ -30,12 +32,12 @@ class LoginPage extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/logo.png',
-                height: 300,
-                width: 300,
+                height: 250,
+                width: 400,
               ),
               const SizedBox(height: 10),
               Container(
-                width: 500,
+                width: 350,
                 height: 430,
                 decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(20)),
                 child: Column(
@@ -59,13 +61,13 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: 400,
+                            width: 300,
                             child: TextFormField(
                               controller: _emailController,
                               style: TextStyle(color: Colors.white, fontSize: 15),
                               decoration: const InputDecoration(
                                 labelText: 'Email',
-                                labelStyle: TextStyle(color: Colors.white),
+                                labelStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
                                 prefixIcon: Icon(
                                   FontAwesomeIcons.envelope,
                                   color: Colors.white,
@@ -85,7 +87,7 @@ class LoginPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           SizedBox(
-                            width: 400,
+                            width: 300,
                             child: TextFormField(
                               controller: _passwordController,
                               obscureText: true,
@@ -93,8 +95,8 @@ class LoginPage extends StatelessWidget {
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  hintText: "Password",
-                                  hintStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w100),
+                                  labelText: 'Password',
+                                  labelStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
                                   prefixIcon: Icon(Icons.lock, color: Colors.white)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -111,7 +113,13 @@ class LoginPage extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
+                                username = _emailController.text.replaceAll(RegExp(r'@.*\..*'), '').toUpperCase().toString();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BottomNavBar(
+                                              name: username,
+                                            )));
                               }
                             },
                             child: Container(
@@ -130,7 +138,7 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
                           TextButton(
                             onPressed: () {
@@ -140,7 +148,7 @@ class LoginPage extends StatelessWidget {
                               tag: 'forgot password',
                               child: Text(
                                 'Forgot Password?',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: Colors.white),
                               ),
                             ),
                           ),
@@ -150,9 +158,7 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: myheight * 0.16,
-              ),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

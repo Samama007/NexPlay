@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
 import 'package:nexplay/widgets/search_bar.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+  final String username;
+  const ExplorePage({super.key, required this.username});
 
   @override
   State<ExplorePage> createState() => _ExplorePagState();
@@ -16,26 +16,45 @@ class _ExplorePagState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Mysearchbar(),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25),
-            child: Text(
-              'Trending now',
-              textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.white),
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25, bottom: 10),
+              child: Row(
+                children: [
+                  Text("Welcome,", style: TextStyle(color: Colors.white, fontSize: 25)),
+                  SizedBox(width: 5),
+                  Text(widget.username, style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700)),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 22),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage('https://media.fortniteapi.io/images/dd35114d0cb56d5df4e2cd3c0fc992d0/transparent.png'),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          MyCarousel(),
-          SizedBox(height: 20),
-          Categories(),
-        ],
+            Mysearchbar(),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: Text(
+                'Trending now',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.white),
+              ),
+            ),
+            MyCarousel(),
+            SizedBox(height: 20),
+            Categories(),
+          ],
+        ),
       ),
     ));
   }

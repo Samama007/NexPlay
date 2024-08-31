@@ -15,6 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   http: ^1.2.2
   animated_read_more_text: ^0.0.6
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/description_model.dart';
 import 'package:nexplay/models/game_model.dart';
@@ -37,6 +36,7 @@ class _GameDetailState extends State<GameDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: TextButton(onPressed: () {}, child: Text('BUY')),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -125,34 +125,36 @@ class _GameDetailState extends State<GameDetail> {
                       ),
                     ),
               SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 170,
-                  child: ListView.builder(
-                      itemCount: widget.game.shortScreenshots.length,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenShotDetail(game: widget.game, index: index)));
-                          },
-                          child: Card(
-                            clipBehavior: Clip.hardEdge,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                            margin: EdgeInsets.only(right: 15),
-                            child: Image.network(
-                              widget.game.shortScreenshots[index].image,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              ),
+              isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 170,
+                        child: ListView.builder(
+                            itemCount: widget.game.shortScreenshots.length,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenShotDetail(game: widget.game, index: index)));
+                                },
+                                child: Card(
+                                  clipBehavior: Clip.hardEdge,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Image.network(
+                                    widget.game.shortScreenshots[index].image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ),
             ],
           ),
         ),

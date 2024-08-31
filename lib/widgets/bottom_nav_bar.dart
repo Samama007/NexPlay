@@ -7,7 +7,9 @@ import 'package:nexplay/pages/library_page.dart';
 import 'package:nexplay/pages/profile_page.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  final String name;
+
+  const BottomNavBar({super.key, required this.name});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -36,7 +38,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             });
           },
           children: [
-            ExplorePage(),
+            ExplorePage(username: widget.name),
             LibraryPage(),
             ProfilePage(),
           ],

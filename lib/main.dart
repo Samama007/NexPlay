@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:nexplay/authentication%20pages/login_page.dart';
 import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
 void main() {
@@ -23,7 +24,7 @@ class NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      home: BottomNavBar(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.grey,
