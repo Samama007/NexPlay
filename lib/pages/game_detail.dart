@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/description_model.dart';
 import 'package:nexplay/models/game_model.dart';
 import 'package:animated_read_more_text/animated_read_more_text.dart';
+import 'package:nexplay/pages/ss_detail.dart';
 
 class GameDetail extends StatefulWidget {
   final GameModel game;
@@ -37,17 +39,14 @@ class _GameDetailState extends State<GameDetail> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12),
-              child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.network(
-                      widget.game.backgroundImage,
-                      fit: BoxFit.cover,
-                    ),
+                  Image.network(
+                    widget.game.backgroundImage,
+                    fit: BoxFit.cover,
                   ),
                   IconButton(
                     icon: Icon(
@@ -60,25 +59,19 @@ class _GameDetailState extends State<GameDetail> {
                   )
                 ],
               ),
-            ),
-            SizedBox(height: 12),
-            Center(
-              child: ListTile(
+              SizedBox(height: 12),
+              ListTile(
                 title: Text(
                   widget.game.name,
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
                 subtitle: isLoading ? Center(child: CircularProgressIndicator()) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
               ),
-            ),
-            // SizedBox(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Column(
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Column(
                       children: [
                         Row(
                           children: [
@@ -90,48 +83,78 @@ class _GameDetailState extends State<GameDetail> {
                         Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
                       ],
                     ),
-                  ),
-                  // VerticalDivider(color: Colors.white),
-                  SizedBox(width: 30),
-                  Container(width: 2, height: 30, color: Colors.white),
-                  SizedBox(width: 30),
-                  Column(
-                    children: [
-                      Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
-                      SizedBox(height: 2),
-                      Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
-                    ],
-                  ),
-                  SizedBox(width: 30),
-                  Container(width: 2, height: 30, color: Colors.white),
-                  SizedBox(width: 30),
-                  Column(
-                    children: [
-                      Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
-                      SizedBox(height: 2),
-                      Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
-            ),
-            isLoading
-                ? Center(child: CircularProgressIndicator())
-                : Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-                    child: AnimatedReadMoreText(
-                      description!.description.toString(),
-                      maxLines: 6,
-                      textStyle: TextStyle(fontSize: 16, color: Colors.white),
-                      buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
+                    // VerticalDivider(color: Colors.white),
+                    SizedBox(width: 30),
+                    Container(width: 2, height: 30, color: Colors.white),
+                    SizedBox(width: 30),
+                    Column(
+                      children: [
+                        Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                        SizedBox(height: 2),
+                        Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                      ],
                     ),
-                  ),
-          ]),
+                    SizedBox(width: 30),
+                    Container(width: 2, height: 30, color: Colors.white),
+                    SizedBox(width: 30),
+                    Column(
+                      children: [
+                        Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                        SizedBox(height: 2),
+                        Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
+              ),
+              // SizedBox(height: 5),
+              isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: AnimatedReadMoreText(
+                        description!.description.toString(),
+                        maxLines: 3,
+                        textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                        buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
+                      ),
+                    ),
+              SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 170,
+                  child: ListView.builder(
+                      itemCount: widget.game.shortScreenshots.length,
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenShotDetail(game: widget.game, index: index)));
+                          },
+                          child: Card(
+                            clipBehavior: Clip.hardEdge,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            margin: EdgeInsets.only(right: 15),
+                            child: Image.network(
+                              widget.game.shortScreenshots[index].image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
