@@ -24,6 +24,7 @@ class NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
+      
       home: LoginPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
