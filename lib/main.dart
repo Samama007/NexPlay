@@ -24,7 +24,7 @@ class NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      home: LoginPage(),
+      home: BottomNavBar(name: 'username'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.grey,

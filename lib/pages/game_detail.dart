@@ -26,9 +26,9 @@ class _GameDetailState extends State<GameDetail> {
   }
 
   Future<void> fetchDetails() async {
-    List<DescriptionModel> fetchedDetails = await gameApi.fetchdetails(widget.game.id);
+    DescriptionModel fetchedDetails = await gameApi.fetchDescription(widget.game.id);
     setState(() {
-      description = fetchedDetails.first;
+      description = fetchedDetails;
       isLoading = false;
     });
   }
