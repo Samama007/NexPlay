@@ -29,20 +29,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: PageView(
-          controller: pageController,
-          onPageChanged: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          children: [
-            ExplorePage(username: widget.name),
-            LibraryPage(),
-            ProfilePage(),
-          ],
-        ),
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        children: [
+          ExplorePage(username: widget.name),
+          LibraryPage(),
+          ProfilePage(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
