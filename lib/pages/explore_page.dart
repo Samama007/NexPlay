@@ -16,19 +16,6 @@ class _ExplorePagState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // floatingActionButton: Padding(
-        //   padding: const EdgeInsets.all(20),
-        //   child: FloatingActionButton(
-        //       onPressed: () {
-        //       },
-        //       backgroundColor: Colors.white,
-        //       foregroundColor: Colors.black,
-        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        //       child: Icon(
-        //         Icons.gamepad_outlined,
-        //         size: 35,
-        //       )),
-        // ),
         body: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

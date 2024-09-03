@@ -1,10 +1,6 @@
-import 'dart:convert';
+// ignore_for_file: constant_identifier_names
 
-Model ModelFromJson(String str) => Model.fromJson(json.decode(str));
-
-String ModelToJson(Model data) => json.encode(data.toJson());
-
-class Model {
+class FullGameDescriptionModel {
     final int id;
     final String name;
     final String description;
@@ -60,7 +56,7 @@ class Model {
     final dynamic clip;
     final String descriptionRaw;
 
-    Model({
+    FullGameDescriptionModel({
         required this.id,
         required this.slug,
         required this.name,
@@ -117,7 +113,7 @@ class Model {
         required this.descriptionRaw,
     });
 
-    factory Model.fromJson(Map<String, dynamic> json) => Model(
+    factory FullGameDescriptionModel.fromJson(Map<String, dynamic> json) => FullGameDescriptionModel(
         id: json["id"],
         slug: json["slug"],
         name: json["name"],

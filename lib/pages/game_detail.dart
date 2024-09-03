@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
-import 'package:nexplay/models/description_model.dart';
-import 'package:nexplay/models/game_model.dart';
+import 'package:nexplay/models/my_game_description_model.dart';
+import 'package:nexplay/models/my_game_model.dart';
 import 'package:animated_read_more_text/animated_read_more_text.dart';
 import 'package:nexplay/pages/ss_detail.dart';
 
@@ -36,7 +36,6 @@ class _GameDetailState extends State<GameDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: TextButton(onPressed: () {}, child: Text('BUY')),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

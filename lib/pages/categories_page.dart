@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexplay/models/demo_categories.dart';
+import 'package:nexplay/models/my_categories_model.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/pages/cat_details.dart';
 
@@ -49,7 +49,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CatDetails(),
+                            builder: (context) => CatDetails(id: category.id),
                           ),
                         );
                       },

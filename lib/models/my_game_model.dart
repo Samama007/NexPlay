@@ -2,10 +2,10 @@ class GameModel {
   final int id;
   final String name;
   final String backgroundImage;
+  final double rating;
   final DateTime released;
   final int playtime;
   final int ratingsCount;
-  final double rating;
   final EsrbRating esrbRating;
   final List<ShortScreenshot> shortScreenshots;
 
@@ -24,12 +24,12 @@ class GameModel {
   factory GameModel.fromJson(Map<String, dynamic> json) {
     return GameModel(
       id: json['id'],
-      name: json['name'],
-      backgroundImage: json['background_image'],
+      name: json["name"],
+      backgroundImage: json["background_image"],
+      rating: json["rating"]?.toDouble(),
       released: DateTime.parse(json['released']),
       playtime: json['playtime'],
       ratingsCount: json['ratings_count'],
-      rating: json['rating'],
       shortScreenshots: List<ShortScreenshot>.from(
         json['short_screenshots'].map((x) => ShortScreenshot.fromJson(x)),
       ),
@@ -54,19 +54,19 @@ class ShortScreenshot {
 }
 
 class EsrbRating {
-    int id;
-    String name;
-    String slug;
+  int id;
+  String name;
+  String slug;
 
-    EsrbRating({
-        required this.id,
-        required this.name,
-        required this.slug,
-    });
+  EsrbRating({
+    required this.id,
+    required this.name,
+    required this.slug,
+  });
 
-    factory EsrbRating.fromJson(Map<String, dynamic> json) => EsrbRating(
+  factory EsrbRating.fromJson(Map<String, dynamic> json) => EsrbRating(
         id: json["id"],
         name: json["name"],
         slug: json["slug"],
-    );
+      );
 }

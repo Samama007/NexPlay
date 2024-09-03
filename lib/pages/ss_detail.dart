@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexplay/models/game_model.dart';
+import 'package:nexplay/models/my_game_model.dart';
 
 class ScreenShotDetail extends StatelessWidget {
   final GameModel game;

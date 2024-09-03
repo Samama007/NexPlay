@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
-import 'package:nexplay/models/game_model.dart';
+import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
 
 class MyCarousel extends StatelessWidget {
@@ -14,9 +14,7 @@ class MyCarousel extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No data available'));
+          return Center(child: Text('${snapshot.error}'));
         } else {
           return ConstrainedBox(
             constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.28),

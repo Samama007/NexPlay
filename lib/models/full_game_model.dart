@@ -1,10 +1,6 @@
-import 'dart:convert';
+// ignore_for_file: constant_identifier_names
 
-ApiModel apiModelFromJson(String str) => ApiModel.fromJson(json.decode(str));
-
-String apiModelToJson(ApiModel data) => json.encode(data.toJson());
-
-class ApiModel {
+class FullGameModel {
     int count;
     String next;
     dynamic previous;
@@ -19,7 +15,7 @@ class ApiModel {
     Filters filters;
     List<String> nofollowCollections;
 
-    ApiModel({
+    FullGameModel({
         required this.count,
         required this.next,
         required this.previous,
@@ -35,7 +31,7 @@ class ApiModel {
         required this.nofollowCollections,
     });
 
-    factory ApiModel.fromJson(Map<String, dynamic> json) => ApiModel(
+    factory FullGameModel.fromJson(Map<String, dynamic> json) => FullGameModel(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
