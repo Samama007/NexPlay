@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexplay/pages/categories_page.dart';
+import 'package:nexplay/pages/category_details.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
@@ -12,91 +13,64 @@ class Categories extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          Column(
-            children: [
-              IconButton(
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.sports_cricket_rounded,
-                    color: Colors.white,
-                    size: 50,
-                  )),
-              SizedBox(height: 2),
-              Text('Sports', style: TextStyle(color: Colors.white, fontSize: 17))
-            ],
+          _buildCategoryItem(context, icon: FaIcon(FontAwesomeIcons.gamepad, color: Colors.white, size: 40), label: 'Arcade', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 11)))),
+          _buildCategoryItem(
+            context,
+            icon: FaIcon(FontAwesomeIcons.baseballBatBall, color: Colors.white, size: 40),
+            label: 'Sports',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 15))),
           ),
-          SizedBox(
-            width: 20,
+          _buildCategoryItem(
+            context,
+            icon: Icon(CupertinoIcons.car_detailed, color: Colors.white, size: 40),
+            label: 'Racing',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 1))),
           ),
-          Column(
-            children: [
-              IconButton(
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.sports_esports_rounded,
-                    color: Colors.white,
-                    size: 50,
-                  )),
-              SizedBox(height: 2),
-              Text('Esports', style: TextStyle(color: Colors.white, fontSize: 17))
-            ],
+          _buildCategoryItem(context, icon: Icon(FontAwesomeIcons.gun, color: Colors.white, size: 40), label: 'Shooter', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 2)))),
+          _buildCategoryItem(
+            context,
+            icon: Icon(Icons.shield, color: Colors.white, size: 40),
+            label: 'RPG',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 5))),
           ),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            children: [
-              IconButton(
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.casino_rounded,
-                    color: Colors.white,
-                    size: 50,
-                  )),
-              SizedBox(height: 2),
-              Text('Casino', style: TextStyle(color: Colors.white, fontSize: 17))
-            ],
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            children: [
-              IconButton(
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {},
-                  icon: Icon(
-                    CupertinoIcons.car_detailed,
-                    color: Colors.white,
-                    size: 50,
-                  )),
-              SizedBox(height: 2),
-              Text('Racing', style: TextStyle(color: Colors.white, fontSize: 17)),
-            ],
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            children: [
-              IconButton(
-                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey)),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesPage()));
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                    size: 50,
-                  )),
-              SizedBox(height: 2),
-              Text('More', style: TextStyle(color: Colors.white, fontSize: 17)),
-            ],
-          )
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryItem(BuildContext context, {required Widget icon, required String label, required VoidCallback onTap}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                shape: BoxShape.circle,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 6,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: icon,
+            ),
+            SizedBox(height: 8),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

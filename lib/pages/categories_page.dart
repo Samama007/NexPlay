@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/models/my_categories_model.dart';
 import 'package:nexplay/api/api_service.dart';
-import 'package:nexplay/pages/cat_details.dart';
+import 'package:nexplay/pages/category_details.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+// import 'package:nexplay/util/theme.dart';
 // import 'package:nexplay/authentication%20pages/login_page.dart';
 import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
@@ -26,10 +27,7 @@ class NexPlayState extends State<NexPlay> {
       ),
       home: BottomNavBar(name: 'username'),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        brightness: Brightness.dark,
-      ),
+      theme: ThemeData(brightness: Brightness.dark),
     );
   }
 }

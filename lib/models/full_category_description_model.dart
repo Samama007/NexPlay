@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class CategoriesDetails {
   final int count;
   final String next;

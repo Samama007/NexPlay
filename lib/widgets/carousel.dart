@@ -29,7 +29,7 @@ class MyCarousel extends StatelessWidget {
                   ),
                 );
               },
-              itemExtent: 370,
+              itemExtent: 280,
               shrinkExtent: 200,
               children: snapshot.data!
                   .map((game) => Card(
