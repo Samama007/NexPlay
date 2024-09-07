@@ -28,9 +28,9 @@ class _ExplorePagState extends State<ExplorePage> {
                   padding: const EdgeInsets.only(left: 25, bottom: 10, top: 20),
                   child: Row(
                     children: [
-                      Text("Welcome,", style: TextStyle(color: Colors.white, fontSize: 25)),
+                      Text("Welcome,", style: TextStyle(color: Colors.white, fontSize: 22)),
                       SizedBox(width: 5),
-                      Text(widget.username, style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700)),
+                      Text(widget.username, style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
                       Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(right: 22),
