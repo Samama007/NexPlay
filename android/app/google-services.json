@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "719706620793",
+    "project_id": "nexplay-36f92",
+    "storage_bucket": "nexplay-36f92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719706620793:android:2540f9550a9acd118a25a8",
+        "android_client_info": {
+          "package_name": "com.example.games_database"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoIKJ4dy7yudaHvu6b9NKWLshCPTfkmtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719706620793:android:43214416ad76b8508a25a8",
+        "android_client_info": {
+          "package_name": "com.nexplay.game_db"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoIKJ4dy7yudaHvu6b9NKWLshCPTfkmtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
