@@ -1,13 +1,34 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nexplay/authentication/user%20auth/firebase_auth_services.dart';
 
-class SignupPage extends StatelessWidget {
-  SignupPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _namecontroller = TextEditingController();
+
   final TextEditingController _emailcontroller = TextEditingController();
+
   final TextEditingController _passwordcontroller = TextEditingController();
+
+  @override
+  void dispose() {
+    _namecontroller.dispose();
+    _passwordcontroller.dispose();
+    _emailcontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +155,7 @@ class SignupPage extends StatelessWidget {
                                 TextButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      Navigator.pop(context);
+                                      _signUp();
                                     }
                                   },
                                   child: Container(
@@ -176,5 +197,17 @@ class SignupPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _signUp() async {
+    String email = _emailcontroller.text;
+    String password = _passwordcontroller.text;
+
+    User? user = await _auth.signUpWithEmailandPasword(email, password);
+
+    if (user != null) {
+      // print(user.uid);
+      Navigator.pop(context);
+    }
   }
 }

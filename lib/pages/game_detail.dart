@@ -68,42 +68,46 @@ class _GameDetailState extends State<GameDetail> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
-                            SizedBox(width: 2),
-                            Icon(Icons.star, color: Colors.white, size: 22)
-                          ],
-                        ),
-                        Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
-                      ],
-                    ),
-                    // VerticalDivider(color: Colors.white),
-                    SizedBox(width: 30),
-                    Container(width: 2, height: 30, color: Colors.white),
-                    SizedBox(width: 30),
-                    Column(
-                      children: [
-                        Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
-                        SizedBox(height: 2),
-                        Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
-                      ],
-                    ),
-                    SizedBox(width: 30),
-                    Container(width: 2, height: 30, color: Colors.white),
-                    SizedBox(width: 30),
-                    Column(
-                      children: [
-                        Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
-                        SizedBox(height: 2),
-                        Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
-                      ],
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
+                              SizedBox(width: 2),
+                              Icon(Icons.star, color: Colors.white, size: 22)
+                            ],
+                          ),
+                          Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
+                        ],
+                      ),
+                      // VerticalDivider(color: Colors.white),
+                      SizedBox(width: 30),
+                      Container(width: 2, height: 30, color: Colors.white),
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                          SizedBox(height: 2),
+                          Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                        ],
+                      ),
+                      SizedBox(width: 30),
+                      Container(width: 2, height: 30, color: Colors.white),
+                      SizedBox(width: 30),
+                      Column(
+                        children: [
+                          Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                          SizedBox(height: 2),
+                          Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 12),
