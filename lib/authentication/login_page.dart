@@ -208,7 +208,6 @@ class _LoginPageState extends State<LoginPage> {
     User? user = await _auth.signInWithEmailandPasword(email, password);
 
     if (user != null) {
-      // print(user.uid);
       String username = _emailController.text.replaceAll(RegExp(r'@.*\..*'), '').toUpperCase().toString();
       toast('Welcome $username');
       Navigator.push(
