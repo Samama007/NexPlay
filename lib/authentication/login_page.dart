@@ -132,16 +132,6 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 _login();
-                                // showDialog(
-                                //   context: context,
-                                //   builder: (context) {
-                                //     return AlertDialog(
-                                //       elevation: 20,
-                                //       title: Center(child: Text('Logging in...')),
-                                //       titleTextStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
-                                //     );
-                                //   },
-                                // );
                               }
                             },
                             child: Container(

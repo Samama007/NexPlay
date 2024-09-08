@@ -157,16 +157,6 @@ class _SignupPageState extends State<SignupPage> {
                                 TextButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (context) {
-                                      //     return AlertDialog(
-                                      //       elevation: 20,
-                                      //       title: Center(child: Text('Regestering...')),
-                                      //       titleTextStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
-                                      //     );
-                                      //   },
-                                      // );
                                       _signUp();
                                     }
                                   },
