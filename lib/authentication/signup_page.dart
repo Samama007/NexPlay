@@ -14,6 +14,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  bool isLoading = false;
+
   final FirebaseAuthServices _auth = FirebaseAuthServices();
 
   final _formKey = GlobalKey<FormState>();
@@ -157,6 +159,9 @@ class _SignupPageState extends State<SignupPage> {
                                 TextButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
                                       _signUp();
                                     }
                                   },
@@ -168,10 +173,12 @@ class _SignupPageState extends State<SignupPage> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Center(
-                                      child: Text(
-                                        'Sign Up',
-                                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
-                                      ),
+                                      child: isLoading
+                                          ? CircularProgressIndicator()
+                                          : Text(
+                                              'Sign Up',
+                                              style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
+                                            ),
                                     ),
                                   ),
                                 ),
@@ -208,6 +215,7 @@ class _SignupPageState extends State<SignupPage> {
     User? user = await _auth.signUpWithEmailandPasword(email, password);
 
     if (user != null) {
+      Future.delayed(Duration(seconds: 2));
       toast('User successfully created');
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
     }

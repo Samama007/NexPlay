@@ -21,6 +21,7 @@ dependencies:
   firebase_auth: ^5.2.0
   firebase_storage: ^12.2.0
   fluttertoast: ^8.2.8
+  flutter_native_splash: ^2.4.1
 
 
 dev_dependencies:
@@ -35,3 +36,16 @@ flutter:
   assets:
     - assets/images/
 
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: '#050505'
+  image: "assets/splash_screen/2.png"
+
+  android_12:
+    color: '#050505'
+    image: "assets/splash_screen/2.png"
+  
