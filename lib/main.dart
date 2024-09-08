@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'authentication/firebase module/firebase_options.dart';
 import 'dart:ui';
-import 'package:nexplay/authentication/login_page.dart';
-// import 'package:nexplay/widgets/bottom_nav_bar.dart';
+// import 'package:nexplay/authentication/login_page.dart';
+import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,8 +45,8 @@ class _NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      // home: BottomNavBar(name: 'username'),
-      home: LoginPage(),
+      home: BottomNavBar(name: 'username'),
+      // home: LoginPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.grey,

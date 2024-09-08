@@ -7,8 +7,9 @@ import 'package:nexplay/pages/ss_detail.dart';
 
 class GameDetail extends StatefulWidget {
   final GameModel game;
+  final String price;
 
-  const GameDetail({super.key, required this.game});
+  const GameDetail({super.key, required this.game, required this.price});
 
   @override
   State<GameDetail> createState() => _GameDetailState();
@@ -18,6 +19,7 @@ class _GameDetailState extends State<GameDetail> {
   GameApi gameApi = GameApi();
   DescriptionModel? description;
   bool isLoading = true;
+  String price = '';
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _GameDetailState extends State<GameDetail> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
@@ -71,50 +73,66 @@ class _GameDetailState extends State<GameDetail> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
-                  child: Row(
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
-                              SizedBox(width: 2),
-                              Icon(Icons.star, color: Colors.white, size: 22)
-                            ],
-                          ),
-                          Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
-                        ],
-                      ),
-                      // VerticalDivider(color: Colors.white),
-                      SizedBox(width: 30),
-                      Container(width: 2, height: 30, color: Colors.white),
-                      SizedBox(width: 30),
-                      Column(
-                        children: [
-                          Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
-                          SizedBox(height: 2),
-                          Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
-                        ],
-                      ),
-                      SizedBox(width: 30),
-                      Container(width: 2, height: 30, color: Colors.white),
-                      SizedBox(width: 30),
-                      Column(
-                        children: [
-                          Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
-                          SizedBox(height: 2),
-                          Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
-                        ],
-                      ),
-                    ],
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
+                                SizedBox(width: 2),
+                                Icon(Icons.star, color: Colors.yellow, size: 25)
+                              ],
+                            ),
+                            Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
+                          ],
+                        ),
+                        SizedBox(width: 30),
+                        Container(width: 2, height: 30, color: Colors.white),
+                        SizedBox(width: 30),
+                        Column(
+                          children: [
+                            Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                            SizedBox(height: 2),
+                            Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                          ],
+                        ),
+                        SizedBox(width: 30),
+                        Container(width: 2, height: 30, color: Colors.white),
+                        SizedBox(width: 30),
+                        Column(
+                          children: [
+                            Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                            SizedBox(height: 2),
+                            Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.red),
+                      minimumSize: WidgetStatePropertyAll(
+                        Size(double.infinity, 50),
+                      )),
+                  onPressed: () {},
+                  child: Text('\$${widget.price}', style: TextStyle(fontSize: 18, color: Colors.white)),
+                ),
               ),
+              SizedBox(height: 12),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
+                  )),
               // SizedBox(height: 5),
               isLoading
                   ? Center(child: CircularProgressIndicator())

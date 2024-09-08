@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_game_model.dart';
+import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
 
 class MyCarousel extends StatelessWidget {
@@ -20,11 +23,16 @@ class MyCarousel extends StatelessWidget {
             constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.28),
             child: CarouselView(
               onTap: (value) {
+                PriceModel priceModel = PriceModel();
+                Random random = Random();
+                int index = random.nextInt(100);
+                String price = priceModel.price[index].toString();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => GameDetail(
                       game: snapshot.data![value],
+                      price: price,
                     ),
                   ),
                 );

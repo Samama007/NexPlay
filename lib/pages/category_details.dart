@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_category_description.dart';
+import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
 import 'package:nexplay/models/my_category_description.dart' as cd;
 import 'package:nexplay/models/my_game_model.dart' as gm;
@@ -63,10 +66,16 @@ class _CatDetailsState extends State<CatDetails> {
               itemBuilder: (context, index) {
                 final game = convertCategoryToGame(snapshot.data![index]);
                 return InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GameDetail(game: game)),
-                  ),
+                  onTap: () {
+                    PriceModel priceModel = PriceModel();
+                    Random random = Random();
+                    int index = random.nextInt(100);
+                    String price = priceModel.price[index].toString();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GameDetail(game: game, price: price)),
+                    );
+                  },
                   child: Card(
                     child: ListTile(
                       title: Text(game.name),
