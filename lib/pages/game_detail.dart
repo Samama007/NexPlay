@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_game_description_model.dart';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:animated_read_more_text/animated_read_more_text.dart';
+import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/ss_detail.dart';
+
+import '../controller/cart_controller.dart';
 
 class GameDetail extends StatefulWidget {
   final GameModel game;
@@ -38,148 +42,217 @@ class _GameDetailState extends State<GameDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => CartPage()),
+        backgroundColor: Colors.white,
+        shape: CircleBorder(eccentricity: 1),
+        child: Badge(
+          label: Text('2'),
+          child: Icon(
+            Icons.shopping_cart_outlined,
+            size: 30,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                children: [
-                  Image.network(
-                    widget.game.backgroundImage,
-                    fit: BoxFit.cover,
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.black,
-                      size: 25,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
-                  )
-                ],
-              ),
+              gameCover(context),
               SizedBox(height: 12),
-              ListTile(
-                title: Text(
-                  widget.game.name,
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white),
-                ),
-                subtitle: isLoading ? Center(child: CircularProgressIndicator()) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
-                                SizedBox(width: 2),
-                                Icon(Icons.star, color: Colors.yellow, size: 25)
-                              ],
-                            ),
-                            Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
-                          ],
-                        ),
-                        SizedBox(width: 30),
-                        Container(width: 2, height: 30, color: Colors.white),
-                        SizedBox(width: 30),
-                        Column(
-                          children: [
-                            Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
-                            SizedBox(height: 2),
-                            Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
-                          ],
-                        ),
-                        SizedBox(width: 30),
-                        Container(width: 2, height: 30, color: Colors.white),
-                        SizedBox(width: 30),
-                        Column(
-                          children: [
-                            Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
-                            SizedBox(height: 2),
-                            Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              gameName(),
+              gameRating(),
               SizedBox(height: 12),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.red),
-                      minimumSize: WidgetStatePropertyAll(
-                        Size(double.infinity, 50),
-                      )),
-                  onPressed: () {},
-                  child: Text('\$${widget.price}', style: TextStyle(fontSize: 18, color: Colors.white)),
-                ),
-              ),
+              buyPage(),
               SizedBox(height: 12),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
-                  )),
-              // SizedBox(height: 5),
-              isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: AnimatedReadMoreText(
-                        description!.description.toString(),
-                        maxLines: 3,
-                        textStyle: TextStyle(fontSize: 16, color: Colors.white),
-                        buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
-                      ),
-                    ),
+              gameDescription(),
               SizedBox(height: 15),
-              isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 170,
-                        child: ListView.builder(
-                            itemCount: widget.game.shortScreenshots.length,
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenShotDetail(game: widget.game, index: index)));
-                                },
-                                child: Card(
-                                  clipBehavior: Clip.hardEdge,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                  margin: EdgeInsets.only(right: 15),
-                                  child: Image.network(
-                                    widget.game.shortScreenshots[index].image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
-                    ),
+              gameSS(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Center gameSS() {
+    return Center(
+      child: isLoading
+          ? CircularProgressIndicator()
+          : Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: SizedBox(
+                width: double.infinity,
+                height: 170,
+                child: ListView.builder(
+                    itemCount: widget.game.shortScreenshots.length,
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenShotDetail(game: widget.game, index: index)));
+                        },
+                        child: Card(
+                          clipBehavior: Clip.hardEdge,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                          margin: EdgeInsets.only(right: 15),
+                          child: Image.network(
+                            widget.game.shortScreenshots[index].image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+    );
+  }
+
+  Padding gameDescription() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
+          ),
+          isLoading
+              ? Center(child: CircularProgressIndicator())
+              : AnimatedReadMoreText(
+                  description!.description.toString(),
+                  maxLines: 3,
+                  textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                  buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
+                ),
+        ],
+      ),
+    );
+  }
+
+  Padding buyPage() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+            minimumSize: WidgetStatePropertyAll(
+              Size(double.infinity, 50),
+            )),
+        onPressed: () {
+          final CartController cartController = Get.find();
+          var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price));
+          cartController.addItem(newItem);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Added to cart',
+                style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Colors.black,
+              duration: Duration(seconds: 3),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              elevation: 0,
+              action: SnackBarAction(
+                label: 'View',
+                textColor: Colors.red,
+                onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage(name: widget.game.name, price: widget.price)));
+                  // var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price));
+                  // CartController().addItem(newItem);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+                },
+              ),
+              width: MediaQuery.sizeOf(context).width * 0.8,
+            ),
+          );
+        },
+        child: Text('\$${widget.price}', style: TextStyle(fontSize: 18, color: Colors.white)),
+      ),
+    );
+  }
+
+  Padding gameRating() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
+        child: Center(
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
+                      SizedBox(width: 2),
+                      Icon(Icons.star, color: Colors.yellow, size: 25)
+                    ],
+                  ),
+                  Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
+                ],
+              ),
+              SizedBox(width: 30),
+              Container(width: 2, height: 30, color: Colors.white),
+              SizedBox(width: 30),
+              Column(
+                children: [
+                  Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                  SizedBox(height: 2),
+                  Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                ],
+              ),
+              SizedBox(width: 30),
+              Container(width: 2, height: 30, color: Colors.white),
+              SizedBox(width: 30),
+              Column(
+                children: [
+                  Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                  SizedBox(height: 2),
+                  Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ListTile gameName() {
+    return ListTile(
+      title: Text(
+        widget.game.name,
+        style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white),
+      ),
+      subtitle: isLoading ? Center(child: CircularProgressIndicator()) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
+    );
+  }
+
+  Stack gameCover(BuildContext context) {
+    return Stack(
+      children: [
+        Image.network(
+          widget.game.backgroundImage,
+          fit: BoxFit.cover,
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.black,
+            size: 25,
+          ),
+          onPressed: () => Navigator.pop(context),
+          style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
+        )
+      ],
     );
   }
 }

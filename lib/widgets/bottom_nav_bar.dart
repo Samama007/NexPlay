@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nexplay/pages/explore_page.dart';
 import 'package:nexplay/pages/library_page.dart';
@@ -15,7 +14,7 @@ class BottomNavBar extends StatefulWidget {
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
   int selectedIndex = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -23,7 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
   @override
@@ -42,26 +41,66 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ProfilePage(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        currentIndex: selectedIndex,
-        onTap: onTapped,
-        selectedItemColor: Colors.red.shade500,
-        unselectedItemColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            label: "Explore",
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-          ),
-          BottomNavigationBarItem(
-            label: "Library",
-            icon: FaIcon(FontAwesomeIcons.book),
-          ),
-          BottomNavigationBarItem(
-            label: "Profile",
-            icon: FaIcon(FontAwesomeIcons.user),
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+        ),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: GNav(
+          selectedIndex: selectedIndex,
+          onTabChange: onTapped,
+          rippleColor: Colors.grey[800]!, // Tab ripple color
+          hoverColor: Colors.grey[700]!, // Tab hover color
+          haptic: true, // Haptic feedback when a tab is clicked
+          tabBorderRadius: 15,
+          backgroundColor: Colors.black,
+          color: Colors.white, // Inactive icon color
+          activeColor: Colors.red.shade500, // Active icon color
+          iconSize: 24,
+          tabBackgroundColor: Colors.red.shade200.withOpacity(0.3), // Active tab background color
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          gap: 8, // Gap between icon and text
+          duration: Duration(milliseconds: 400), // Animation duration
+          curve: Curves.easeInOut, // Animation curve
+          tabs: [
+            GButton(
+              icon: FontAwesomeIcons.magnifyingGlass,
+              text: "Explore",
+              iconActiveColor: Colors.red.shade500,
+              iconColor: Colors.white,
+              textColor: Colors.red.shade500,
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              backgroundColor: Colors.red.shade200.withOpacity(0.3),
+            ),
+            GButton(
+              icon: FontAwesomeIcons.book,
+              text: "Library",
+              iconActiveColor: Colors.green.shade500,
+              iconColor: Colors.white,
+              textColor: Colors.green.shade500,
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              backgroundColor: Colors.green.shade200.withOpacity(0.3),
+            ),
+            GButton(
+              icon: FontAwesomeIcons.user,
+              text: "Profile",
+              iconActiveColor: Colors.blue.shade500,
+              iconColor: Colors.white,
+              textColor: Colors.blue.shade500,
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              backgroundColor: Colors.blue.shade200.withOpacity(0.3),
+            ),
+          ],
+        ),
       ),
     );
   }
