@@ -8,7 +8,6 @@ import 'dart:ui';
 // import 'package:nexplay/authentication/login_page.dart';
 import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
-import 'controller/library_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,6 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   Get.put(CartController());
-  Get.put(LibraryController());
   runApp(const NexPlay());
 }
 

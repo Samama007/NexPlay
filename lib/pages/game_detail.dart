@@ -6,7 +6,6 @@ import 'package:nexplay/models/my_game_model.dart';
 import 'package:animated_read_more_text/animated_read_more_text.dart';
 import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/ss_detail.dart';
-
 import '../controller/cart_controller.dart';
 
 class GameDetail extends StatefulWidget {
@@ -24,6 +23,7 @@ class _GameDetailState extends State<GameDetail> {
   DescriptionModel? description;
   bool isLoading = true;
   String price = '';
+  CartController cartController = Get.find();
 
   @override
   void initState() {
@@ -42,19 +42,7 @@ class _GameDetailState extends State<GameDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => CartPage()),
-        backgroundColor: Colors.white,
-        shape: CircleBorder(eccentricity: 1),
-        child: Badge(
-          label: Text('2'),
-          child: Icon(
-            Icons.shopping_cart_outlined,
-            size: 30,
-            color: Colors.black,
-          ),
-        ),
-      ),
+      floatingActionButton: cartButton(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -72,6 +60,23 @@ class _GameDetailState extends State<GameDetail> {
               gameSS(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  FloatingActionButton cartButton() {
+    return FloatingActionButton(
+      onPressed: () => Get.to(() => CartPage()),
+      backgroundColor: Colors.white,
+      shape: CircleBorder(eccentricity: 1),
+      child: Badge(
+        backgroundColor: Colors.red,
+        label: Obx(() => Text(cartController.cartItems.length.toString(), style: TextStyle(color: Colors.white, fontSize: 13))),
+        child: Icon(
+          Icons.shopping_cart_outlined,
+          size: 30,
+          color: Colors.black,
         ),
       ),
     );
@@ -144,33 +149,19 @@ class _GameDetailState extends State<GameDetail> {
               Size(double.infinity, 50),
             )),
         onPressed: () {
-          final CartController cartController = Get.find();
           var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price));
           cartController.addItem(newItem);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Added to cart',
-                style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              backgroundColor: Colors.black,
-              duration: Duration(seconds: 3),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              elevation: 0,
-              action: SnackBarAction(
-                label: 'View',
-                textColor: Colors.red,
-                onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage(name: widget.game.name, price: widget.price)));
-                  // var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price));
-                  // CartController().addItem(newItem);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
-                },
-              ),
-              width: MediaQuery.sizeOf(context).width * 0.8,
-            ),
+          Get.snackbar(
+            newItem.name,
+            'Added to cart',
+            backgroundColor: Colors.black,
+            duration: Duration(seconds: 2),
+            isDismissible: true,
+            maxWidth: MediaQuery.sizeOf(context).width * 0.8,
+            snackPosition: SnackPosition.TOP,
+            borderRadius: 15,
+            colorText: Colors.white,
+            margin: EdgeInsets.symmetric(horizontal: 10),
           );
         },
         child: Text('\$${widget.price}', style: TextStyle(fontSize: 18, color: Colors.white)),

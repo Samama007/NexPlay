@@ -24,6 +24,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   google_nav_bar: ^5.0.6
   get: ^4.6.6
+  flutter_svg: ^2.0.10+1
 
 
 dev_dependencies:

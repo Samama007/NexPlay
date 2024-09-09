@@ -52,7 +52,7 @@ class _CatDetailsState extends State<CatDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: FutureBuilder<List<CategoryDescriptionModel>>(
         future: categoryDescriptionModel,
         builder: (context, snapshot) {
@@ -79,7 +79,12 @@ class _CatDetailsState extends State<CatDetails> {
                   child: Card(
                     child: ListTile(
                       title: Text(game.name),
-                      subtitle: Text(game.rating.toString()),
+                      subtitle: Row(
+                        children: [
+                          Text(game.rating.toString()),
+                          Icon(Icons.star, color: Colors.yellow, size: 15)
+                        ],
+                      ),
                       trailing: Image.network(game.backgroundImage),
                     ),
                   ),
