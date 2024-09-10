@@ -1,10 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_category_description.dart';
 import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:nexplay/models/my_category_description.dart' as cd;
 import 'package:nexplay/models/my_game_model.dart' as gm;
 
@@ -57,7 +57,23 @@ class _CatDetailsState extends State<CatDetails> {
         future: categoryDescriptionModel,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Skeletonizer(
+                effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50),
+                child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) => Card(
+                    child: ListTile(
+                      title: Text(BoneMock.name),
+                      subtitle: Row(
+                        children: [
+                          Text(BoneMock.phone),
+                          Skeleton.ignore(child: Icon(Icons.star, color: Colors.yellow, size: 15))
+                        ],
+                      ),
+                      trailing: Text(BoneMock.title),
+                    ),
+                  ),
+                ));
           } else if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else if (snapshot.hasData) {

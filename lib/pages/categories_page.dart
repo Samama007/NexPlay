@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nexplay/models/my_categories_model.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/pages/category_details.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -29,18 +30,46 @@ class _CategoriesPageState extends State<CategoriesPage> {
             future: _categoriesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return Skeletonizer(
+                  effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50),
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: 3 / 2),
+                    itemCount: 20,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 5,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: null,
+                            ),
+                            Center(
+                              child: Text(
+                                BoneMock.name,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Failed to load categories'));
               } else {
                 var categories = snapshot.data!.first.results;
                 return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 3 / 2,
-                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: 3 / 2),
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
                     var category = categories[index];

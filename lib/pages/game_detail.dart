@@ -7,6 +7,7 @@ import 'package:animated_read_more_text/animated_read_more_text.dart';
 import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/ss_detail.dart';
 import '../controller/cart_controller.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class GameDetail extends StatefulWidget {
   final GameModel game;
@@ -46,7 +47,6 @@ class _GameDetailState extends State<GameDetail> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               gameCover(context),
               SizedBox(height: 12),
@@ -82,10 +82,30 @@ class _GameDetailState extends State<GameDetail> {
     );
   }
 
+  Stack gameCover(BuildContext context) {
+    return Stack(
+      children: [
+        Image.network(
+          widget.game.backgroundImage,
+          fit: BoxFit.cover,
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.black,
+            size: 25,
+          ),
+          onPressed: () => Navigator.pop(context),
+          style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
+        )
+      ],
+    );
+  }
+
   Center gameSS() {
     return Center(
       child: isLoading
-          ? CircularProgressIndicator()
+          ? null
           : Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: SizedBox(
@@ -120,21 +140,25 @@ class _GameDetailState extends State<GameDetail> {
   Padding gameDescription() {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
-          ),
-          isLoading
-              ? Center(child: CircularProgressIndicator())
-              : AnimatedReadMoreText(
-                  description!.description.toString(),
-                  maxLines: 3,
-                  textStyle: TextStyle(fontSize: 16, color: Colors.white),
-                  buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
-                ),
-        ],
+      child: Skeletonizer(
+        enabled: isLoading,
+        effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
+            ),
+            isLoading
+                ? Text(BoneMock.paragraph, maxLines: 3)
+                : AnimatedReadMoreText(
+                    description!.description.toString(),
+                    maxLines: 3,
+                    textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                    buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
+                  ),
+          ],
+        ),
       ),
     );
   }
@@ -217,33 +241,14 @@ class _GameDetailState extends State<GameDetail> {
     );
   }
 
-  ListTile gameName() {
-    return ListTile(
-      title: Text(
-        widget.game.name,
-        style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white),
+  Skeletonizer gameName() {
+    return Skeletonizer(
+      enabled: isLoading,
+      effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+      child: ListTile(
+        title: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white)),
+        subtitle: isLoading ? Text(BoneMock.subtitle) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
       ),
-      subtitle: isLoading ? Center(child: CircularProgressIndicator()) : Text(description!.developers.first.name, style: TextStyle(fontSize: 18, color: Colors.red)),
-    );
-  }
-
-  Stack gameCover(BuildContext context) {
-    return Stack(
-      children: [
-        Image.network(
-          widget.game.backgroundImage,
-          fit: BoxFit.cover,
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.black,
-            size: 25,
-          ),
-          onPressed: () => Navigator.pop(context),
-          style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
-        )
-      ],
     );
   }
 }

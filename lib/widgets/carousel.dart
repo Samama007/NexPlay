@@ -5,6 +5,7 @@ import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MyCarousel extends StatelessWidget {
   const MyCarousel({super.key});
@@ -15,7 +16,30 @@ class MyCarousel extends StatelessWidget {
       future: GameApi().fetchGames(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          // return const Center(child: CircularProgressIndicator());
+          return Skeletonizer(
+            effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50),
+            child: Card(
+              margin: const EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Container(
+                width: double.infinity,
+                height: 200,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade800,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  BoneMock.longParagraph,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text('${snapshot.error}'));
         } else {
