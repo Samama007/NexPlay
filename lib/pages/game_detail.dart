@@ -107,7 +107,7 @@ class _GameDetailState extends State<GameDetail> {
       child: isLoading
           ? null
           : Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
               child: SizedBox(
                 width: double.infinity,
                 height: 170,

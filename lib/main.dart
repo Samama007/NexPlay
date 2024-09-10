@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:nexplay/controller/cart_controller.dart';
 import 'authentication/firebase module/firebase_options.dart';
+import 'package:nexplay/authentication/login_page.dart';
 import 'dart:ui';
-// import 'package:nexplay/authentication/login_page.dart';
-import 'package:nexplay/widgets/bottom_nav_bar.dart';
+// import 'package:nexplay/controller/cart_controller.dart';
+// import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
+import 'controllers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +18,10 @@ void main() async {
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  Get.put(CartController());
+  // Get.put(CartController());
   runApp(const NexPlay());
+  Controllers controllers = Controllers().initializeController();
+  controllers.initializeController();
 }
 
 class NexPlay extends StatefulWidget {
@@ -49,13 +52,10 @@ class _NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      home: BottomNavBar(name: 'username'),
-      // home: LoginPage(),
+      // home: BottomNavBar(name: 'username'),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        brightness: Brightness.dark,
-      ),
+      theme: ThemeData(brightness: Brightness.dark),
     );
   }
 }

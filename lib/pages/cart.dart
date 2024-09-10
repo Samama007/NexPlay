@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/pages/add_card.dart';
-
 import '../controller/cart_controller.dart';
 
 class CartPage extends StatelessWidget {
@@ -12,43 +11,124 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('Cart'))),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Obx(() => ListView.builder(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Cart',
+          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.black,
+              Colors.deepPurple.shade900,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Obx(
+                  () => ListView.builder(
                     itemCount: cartController.cartItems.length,
-                    shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final item = cartController.cartItems[index];
-                      return ListTile(title: Text(item.name), subtitle: Text('\$${(item.price * item.quantity).toStringAsFixed(2)}'), trailing: IconButton(onPressed: () => cartController.removeItem(index), icon: Icon(Icons.delete_outline_outlined, color: Colors.red, size: 30)));
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 5,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(15),
+                          title: Text(
+                            item.name,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          subtitle: Text(
+                            '\$${(item.price * item.quantity).toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            onPressed: () => cartController.removeItem(index),
+                            icon: const Icon(
+                              Icons.delete_outline_outlined,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      );
                     },
-                  )),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Total:'),
-                    subtitle: Obx(() => Text(
-                          '\$${cartController.totalPrice.toStringAsFixed(2)}',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-                        )),
                   ),
                 ),
-                // Spacer(),
-                TextButton(
-                    style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.red)),
-                    onPressed: () => Get.to(() => NoPaymentMethodsScreen()),
-                    child: Text(
-                      'Checkout',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-                    ))
-              ],
-            ),
-          ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text(
+                          'Total:',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        subtitle: Obx(
+                          () => Text(
+                            '\$${cartController.totalPrice.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 25,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      onPressed: () => Get.to(() => NoPaymentMethodsScreen()),
+                      child: const Text(
+                        'Checkout',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

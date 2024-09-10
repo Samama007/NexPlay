@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nexplay/controller/cart_controller.dart';
+import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/categories_page.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
@@ -14,6 +17,8 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _ExplorePagState extends State<ExplorePage> {
+  CartController cartController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,11 +38,18 @@ class _ExplorePagState extends State<ExplorePage> {
                       Text(widget.username, style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
                       Spacer(),
                       Padding(
-                        padding: const EdgeInsets.only(right: 22),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage('https://media.fortniteapi.io/images/dd35114d0cb56d5df4e2cd3c0fc992d0/transparent.png'),
-                        ),
-                      )
+                          padding: const EdgeInsets.only(right: 22),
+                          child: Badge(
+                            backgroundColor: Colors.red,
+                            label: Obx(() => Text(cartController.cartItems.length.toString(), style: TextStyle(color: Colors.white, fontSize: 13))),
+                            child: IconButton(
+                                color: Colors.white,
+                                onPressed: () => Get.to(() => CartPage()),
+                                icon: Icon(
+                                  Icons.shopping_cart_outlined,
+                                  size: 30,
+                                )),
+                          ))
                     ],
                   ),
                 ),
