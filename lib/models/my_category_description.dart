@@ -8,6 +8,7 @@ class CategoryDescriptionModel {
   final int ratingsCount;
   final List<ShortScreenshot> shortScreenshots;
   final EsrbRating? esrbRating;
+  final List<Rating> ratings;
 
   CategoryDescriptionModel({
     required this.id,
@@ -19,6 +20,7 @@ class CategoryDescriptionModel {
     required this.rating,
     required this.shortScreenshots,
     required this.esrbRating,
+    required this.ratings,
   });
 
   factory CategoryDescriptionModel.fromJson(Map<String, dynamic> json) => CategoryDescriptionModel(
@@ -32,7 +34,10 @@ class CategoryDescriptionModel {
         shortScreenshots: List<ShortScreenshot>.from(
           json['short_screenshots'].map((x) => ShortScreenshot.fromJson(x)),
         ),
-        esrbRating: json['esrb_rating'] != null ? EsrbRating.fromJson(json['esrb_rating']) : null, // Handle null case
+        esrbRating: json['esrb_rating'] != null ? EsrbRating.fromJson(json['esrb_rating']) : null,
+        ratings: List<Rating>.from(
+          json['ratings'].map((x) => Rating.fromJson(x)),
+        ),
       );
 }
 
@@ -81,4 +86,25 @@ class EsrbRating {
         "name_en": nameEn,
         "name_ru": nameRu,
       };
+}
+
+class Rating {
+  int id;
+  String title;
+  int count;
+  double percent;
+
+  Rating({
+    required this.id,
+    required this.title,
+    required this.count,
+    required this.percent,
+  });
+
+  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
+        id: json["id"],
+        title: json["title"],
+        count: json["count"],
+        percent: json["percent"]?.toDouble(),
+      );
 }

@@ -26,6 +26,7 @@ dependencies:
   get: ^4.6.6
   flutter_svg: ^2.0.10+1
   skeletonizer: ^1.4.2
+  custom_rating_bar: ^3.0.0
 
 
 dev_dependencies:

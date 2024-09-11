@@ -8,6 +8,7 @@ class GameModel {
   final int ratingsCount;
   final EsrbRating esrbRating;
   final List<ShortScreenshot> shortScreenshots;
+  final List<Rating> ratings;
 
   GameModel({
     required this.id,
@@ -19,6 +20,7 @@ class GameModel {
     required this.rating,
     required this.shortScreenshots,
     required this.esrbRating,
+    required this.ratings,
   });
 
   factory GameModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,9 @@ class GameModel {
         json['short_screenshots'].map((x) => ShortScreenshot.fromJson(x)),
       ),
       esrbRating: EsrbRating.fromJson(json['esrb_rating']),
+      ratings: List<Rating>.from(
+        json['ratings'].map((x) => Rating.fromJson(x)),
+      ),
     );
   }
 }
@@ -68,5 +73,26 @@ class EsrbRating {
         id: json["id"],
         name: json["name"],
         slug: json["slug"],
+      );
+}
+
+class Rating {
+  int id;
+  String title;
+  int count;
+  double percent;
+
+  Rating({
+    required this.id,
+    required this.title,
+    required this.count,
+    required this.percent,
+  });
+
+  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
+        id: json["id"],
+        title: json["title"],
+        count: json["count"],
+        percent: json["percent"]?.toDouble(),
       );
 }

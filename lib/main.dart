@@ -6,7 +6,7 @@ import 'authentication/firebase module/firebase_options.dart';
 import 'package:nexplay/authentication/login_page.dart';
 import 'dart:ui';
 // import 'package:nexplay/controller/cart_controller.dart';
-// import 'package:nexplay/widgets/bottom_nav_bar.dart';
+import 'package:nexplay/widgets/bottom_nav_bar.dart';
 
 import 'controllers.dart';
 
@@ -52,8 +52,8 @@ class _NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      // home: BottomNavBar(name: 'username'),
-      home: LoginPage(),
+      home: BottomNavBar(name: 'username'),
+      // home: LoginPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark),
     );
