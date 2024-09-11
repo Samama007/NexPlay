@@ -96,7 +96,7 @@ class _GameDetailState extends State<GameDetail> {
             children: [
               Text('Ratings and reviews', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
               Spacer(),
-              IconButton(onPressed: () => Get.to(RatingsPage()), icon: Icon(Icons.arrow_forward_outlined, color: Colors.white, size: 25))
+              IconButton(onPressed: () => Get.to(RatingsPage(id: widget.game.id)), icon: Icon(Icons.arrow_forward_outlined, color: Colors.white, size: 25))
             ],
           ),
           Padding(
@@ -179,7 +179,18 @@ class _GameDetailState extends State<GameDetail> {
   Center gameSS() {
     return Center(
       child: isLoading
-          ? null
+          ? Skeletonizer(
+              child: Card(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                margin: EdgeInsets.only(right: 15),
+                child: Container(
+                  height: Get.width,
+                  width: 300,
+                  color: Colors.grey.shade300,
+                ),
+              ),
+            )
           : Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
               child: SizedBox(

@@ -1,13 +1,47 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:get/get.dart';
+import 'package:nexplay/api/api_service.dart';
+import 'package:nexplay/models/my_game_description_model.dart';
+import 'package:nexplay/models/user_model.dart';
+// import 'package:skeletonizer/skeletonizer.dart';
 
-class RatingsPage extends StatelessWidget {
-  const RatingsPage({super.key});
+class RatingsPage extends StatefulWidget {
+  final int id;
+  const RatingsPage({super.key, required this.id});
+
+  @override
+  State<RatingsPage> createState() => _RatingsPageState();
+}
+
+class _RatingsPageState extends State<RatingsPage> {
+  GameApi gameApi = GameApi();
+  DescriptionModel? description;
+  bool isLoading = true;
+  MyUser? myUser;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDetails();
+  }
+
+  Future<void> fetchDetails() async {
+    DescriptionModel fetchedDetails = await gameApi.fetchDescription(widget.id);
+    MyUser fetchedUsers = await gameApi.fetchUsers();
+    setState(() {
+      description = fetchedDetails;
+      myUser = fetchedUsers;
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    Object? selectedValue;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Reviews', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700)),
@@ -22,7 +56,7 @@ class RatingsPage extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           color: Colors.deepPurple.shade900,
           child: ListView.builder(
-            itemCount: 20,
+            itemCount: description!.ratings.length,
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -37,29 +71,61 @@ class RatingsPage extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.teal,
-                            child: Text('Z', style: TextStyle(color: Colors.white)),
+                            backgroundImage: NetworkImage(
+                              myUser!.results[index].picture.thumbnail,
+                            ),
                           ),
                           SizedBox(width: 8),
-                          Text('Zeeshan Daanish', style: TextStyle(color: Colors.white)),
+                          Text('${myUser!.results[index].name.first} ${myUser!.results[index].name.last}', style: TextStyle(color: Colors.white)),
                           Spacer(),
-                          Icon(Icons.more_vert, color: Colors.white),
+                          DropdownButton(
+                              value: selectedValue,
+                              icon: Icon(Icons.more_vert_rounded, color: Colors.white),
+                              style: TextStyle(color: Colors.white),
+                              underline: Container(color: Colors.black),
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'Report',
+                                  child: Text('Flag as Inappropiate'),
+                                  onTap: () {
+                                    Get.snackbar(
+                                      'Thank You',
+                                      'Review Flagged as Inappropiate',
+                                      titleText: Text('Thank You', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18), textAlign: TextAlign.center),
+                                      messageText: Text('Review Flagged as Inappropiate', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12), textAlign: TextAlign.center),
+                                      backgroundColor: Colors.black,
+                                      duration: Duration(seconds: 3),
+                                      isDismissible: true,
+                                      maxWidth: MediaQuery.sizeOf(context).width * 0.7,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      borderRadius: 15,
+                                      snackStyle: SnackStyle.FLOATING,
+                                    );
+                                  },
+                                ),
+                              ],
+                              onChanged: (newValue) {
+                                setState(() {
+                                  selectedValue = newValue;
+                                });
+                              })
                         ],
                       ),
                       SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.yellow, size: 16),
-                          Icon(Icons.star, color: Colors.yellow, size: 16),
-                          Icon(Icons.star, color: Colors.yellow, size: 16),
-                          Icon(Icons.star, color: Colors.yellow, size: 16),
-                          Icon(Icons.star, color: Colors.yellow, size: 16),
-                        ],
+                      RatingBar.readOnly(
+                        filledIcon: Icons.star,
+                        isHalfAllowed: true,
+                        halfFilledColor: const Color.fromARGB(255, 255, 230, 7),
+                        halfFilledIcon: Icons.star_half_sharp,
+                        emptyIcon: Icons.star_border,
+                        initialRating: description!.ratings[index].percent,
+                        maxRating: 5,
+                        size: 35,
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'This app is ver.',
-                        style: TextStyle(color: Colors.white),
+                        '"${description!.ratings[index].title.toUpperCase()}"',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16),
                       ),
                     ],
                   ),

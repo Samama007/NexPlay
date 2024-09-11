@@ -42,7 +42,6 @@ class _CatDetailsState extends State<CatDetails> {
       playtime: category.playtime,
       ratingsCount: category.ratingsCount,
       rating: category.rating,
-      ratings: category.ratings.map((rating) => gm.Rating(id: rating.id, title: rating.title, count: rating.count, percent: rating.percent)).toList(),
       shortScreenshots: category.shortScreenshots.map(convertScreenshot).toList(),
       esrbRating: category.esrbRating != null
           ? gm.EsrbRating(
