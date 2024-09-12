@@ -80,7 +80,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Skeletonizer(
                   effect: ShimmerEffect(
-                    baseColor: Colors.grey.shade800,
+                    baseColor: Colors.grey.shade400,
                     highlightColor: Colors.grey.shade50,
                   ),
                   child: GridView.builder(

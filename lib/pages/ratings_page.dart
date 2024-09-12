@@ -73,7 +73,7 @@ class _RatingsPageState extends State<RatingsPage> {
                         children: [
                           Skeletonizer(
                             enabled: isLoading,
-                            effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+                            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
                             child: isLoading
                                 ? CircleAvatar()
                                 : CircleAvatar(
@@ -86,7 +86,7 @@ class _RatingsPageState extends State<RatingsPage> {
                           Expanded(
                             child: Skeletonizer(
                                 enabled: isLoading,
-                                effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+                                effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
                                 child: isLoading
                                     ? Text(BoneMock.subtitle)
                                     : Text(
@@ -141,7 +141,7 @@ class _RatingsPageState extends State<RatingsPage> {
                       SizedBox(height: 8),
                       Skeletonizer(
                         enabled: isLoading,
-                        effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+                        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
                         child: isLoading
                             ? Text(BoneMock.subtitle)
                             : Text(

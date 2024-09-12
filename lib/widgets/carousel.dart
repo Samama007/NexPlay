@@ -18,7 +18,7 @@ class MyCarousel extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return const Center(child: CircularProgressIndicator());
           return Skeletonizer(
-            effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50),
+            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50),
             child: Card(
               margin: const EdgeInsets.all(10),
               shape: RoundedRectangleBorder(

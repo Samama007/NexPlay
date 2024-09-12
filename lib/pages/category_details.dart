@@ -26,11 +26,33 @@ class CatDetails extends StatefulWidget {
 class _CatDetailsState extends State<CatDetails> {
   late Future<List<CategoryDescriptionModel>> categoryDescriptionModel;
   CartController cartController = Get.find();
+  final ScrollController _scrollController = ScrollController();
+  bool _showSeeMore = false;
 
   @override
   void initState() {
     super.initState();
     categoryDescriptionModel = GameApi().fetchCateDetails(widget.id);
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
+      setState(() {
+        _showSeeMore = true;
+      });
+    } else {
+      setState(() {
+        _showSeeMore = false;
+      });
+    }
   }
 
   gm.GameModel convertCategoryToGame(cd.CategoryDescriptionModel category) {
@@ -94,112 +116,138 @@ class _CatDetailsState extends State<CatDetails> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: FutureBuilder<List<CategoryDescriptionModel>>(
-            future: categoryDescriptionModel,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Skeletonizer(
-                  effect: ShimmerEffect(
-                    baseColor: Colors.grey.shade800,
-                    highlightColor: Colors.grey.shade50,
-                  ),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) => Card(
-                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(16),
-                        title: Container(
-                          height: 20,
-                          width: 100,
-                          color: Colors.grey.shade300,
+          child: Column(
+            children: [
+              Expanded(
+                child: FutureBuilder<List<CategoryDescriptionModel>>(
+                  future: categoryDescriptionModel,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Skeletonizer(
+                        effect: ShimmerEffect(
+                          baseColor: Colors.grey.shade400,
+                          highlightColor: Colors.grey.shade50,
                         ),
-                        subtitle: Row(
-                          children: [
-                            Container(
-                              height: 15,
-                              width: 60,
-                              color: Colors.grey.shade300,
+                        child: ListView.builder(
+                          itemCount: 10,
+                          itemBuilder: (context, index) => Card(
+                            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            const SizedBox(width: 10),
-                            const Icon(Icons.star, color: Colors.yellow, size: 15),
-                          ],
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(16),
+                              title: Container(
+                                height: 20,
+                                width: 100,
+                                color: Colors.grey.shade300,
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Container(
+                                    height: 15,
+                                    width: 60,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Icon(Icons.star, color: Colors.yellow, size: 15),
+                                ],
+                              ),
+                              trailing: Container(
+                                height: 50,
+                                width: 50,
+                                color: Colors.grey.shade300,
+                              ),
+                            ),
+                          ),
                         ),
-                        trailing: Container(
-                          height: 50,
-                          width: 50,
-                          color: Colors.grey.shade300,
-                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text(snapshot.error.toString()));
+                    } else if (snapshot.hasData) {
+                      return ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final game = convertCategoryToGame(snapshot.data![index]);
+                          return InkWell(
+                            onTap: () {
+                              PriceModel priceModel = PriceModel();
+                              Random random = Random();
+                              int index = random.nextInt(100);
+                              String price = priceModel.price[index].toString();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => GameDetail(game: game, price: price)),
+                              );
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 12),
+                              elevation: 6,
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16),
+                                title: Text(
+                                  game.name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                subtitle: Row(
+                                  children: [
+                                    Text(
+                                      game.rating.toString(),
+                                      style: const TextStyle(color: Colors.white70, fontSize: 16),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Icon(Icons.star, color: Colors.yellow, size: 15),
+                                  ],
+                                ),
+                                trailing: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.network(
+                                    game.backgroundImage,
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(child: Text('No data available'));
+                    }
+                  },
+                ),
+              ),
+              if (_showSeeMore)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: InkWell(
+                    onTap: () {
+                      // print('object');
+
+                    },
+                    child: Text(
+                      'See More...',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              } else if (snapshot.hasData) {
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final game = convertCategoryToGame(snapshot.data![index]);
-                    return InkWell(
-                      onTap: () {
-                        PriceModel priceModel = PriceModel();
-                        Random random = Random();
-                        int index = random.nextInt(100);
-                        String price = priceModel.price[index].toString();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => GameDetail(game: game, price: price)),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 12),
-                        elevation: 6,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(16),
-                          title: Text(
-                            game.name,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                game.rating.toString(),
-                                style: const TextStyle(color: Colors.white70, fontSize: 16),
-                              ),
-                              const SizedBox(width: 8),
-                              const Icon(Icons.star, color: Colors.yellow, size: 15),
-                            ],
-                          ),
-                          trailing: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                              game.backgroundImage,
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              } else {
-                return const Center(child: Text('No data available'));
-              }
-            },
+                ),
+            ],
           ),
         ),
       ),

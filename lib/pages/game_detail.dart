@@ -59,12 +59,23 @@ class _GameDetailState extends State<GameDetail> {
                   padding: const EdgeInsets.only(top: 221),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-                    child: ColoredBox(
-                      color: Colors.deepPurple.shade900,
+                    child: Container(
+                      // color: Colors.deepPurple.shade900,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black,
+                            Colors.deepPurple.shade900,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
                       child: Column(
                         children: [
                           SizedBox(height: 5),
                           gameName(),
+                          SizedBox(height: 5),
                           summaryBar(),
                           SizedBox(height: 12),
                           buyPage(),
@@ -90,46 +101,50 @@ class _GameDetailState extends State<GameDetail> {
   Padding ratings() {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 10),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text('Ratings and reviews', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
-              Spacer(),
-              IconButton(onPressed: () => Get.to(RatingsPage(id: widget.game.id)), icon: Icon(Icons.arrow_forward_outlined, color: Colors.white, size: 25))
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Row(
+      child: Skeletonizer(
+        enabled: isLoading,
+        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Column(
-                  children: [
-                    Text(widget.game.rating.toString(), style: TextStyle(fontSize: 60, color: Colors.white, fontWeight: FontWeight.w700)),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w400)),
-                    )
-                  ],
-                ),
-                SizedBox(width: 30),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 25),
-                  child: RatingBar.readOnly(
-                    filledIcon: Icons.star,
-                    isHalfAllowed: true,
-                    halfFilledColor: const Color.fromARGB(255, 255, 230, 7),
-                    halfFilledIcon: Icons.star_half_sharp,
-                    emptyIcon: Icons.star_border,
-                    initialRating: widget.game.rating,
-                    maxRating: 5,
-                    size: 35,
-                  ),
-                )
+                isLoading ? Text(BoneMock.name) : Text('Ratings and reviews', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
+                Spacer(),
+                IconButton(onPressed: () => Get.to(RatingsPage(id: widget.game.id)), icon: Icon(Icons.arrow_forward_outlined, color: Colors.white, size: 25))
               ],
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      isLoading ? Text(BoneMock.name) : Text(widget.game.rating.toString(), style: TextStyle(fontSize: 60, color: Colors.white, fontWeight: FontWeight.w700)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: isLoading ? Text(BoneMock.name) : Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w400)),
+                      )
+                    ],
+                  ),
+                  SizedBox(width: 30),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 25),
+                    child: RatingBar.readOnly(
+                      filledIcon: Icons.star,
+                      isHalfAllowed: true,
+                      halfFilledColor: const Color.fromARGB(255, 255, 230, 7),
+                      halfFilledIcon: Icons.star_half_sharp,
+                      emptyIcon: Icons.star_border,
+                      initialRating: widget.game.rating,
+                      maxRating: 5,
+                      size: 35,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -227,7 +242,7 @@ class _GameDetailState extends State<GameDetail> {
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: Skeletonizer(
         enabled: isLoading,
-        effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
         child: Column(
           children: [
             Align(
@@ -285,71 +300,62 @@ class _GameDetailState extends State<GameDetail> {
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
         child: Center(
-          child: Row(
-            children: [
-              // Column(
-              //   children: [
-              //     Row(
-              //       children: [
-              //         Text(widget.game.rating.toString(), style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold)),
-              //         SizedBox(width: 2),
-              //         Icon(Icons.star, color: Colors.yellow, size: 25)
-              //       ],
-              //     ),
-              //     Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 14, color: Colors.white))
-              //   ],
-              // ),
-              // SizedBox(width: 30),
-              Column(
-                children: [
-                  SizedBox(height: 2),
-                  Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.computer,
-                        size: 27,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 10),
-                      FaIcon(
-                        FontAwesomeIcons.playstation,
-                        size: 27,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 10),
-                      FaIcon(
-                        FontAwesomeIcons.xbox,
-                        size: 27,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Text('Available for', style: TextStyle(fontSize: 14, color: Colors.white))
-                ],
-              ),
-              SizedBox(width: 10),
-              Container(width: 2, height: 30, color: Colors.white),
-              SizedBox(width: 30),
-              Column(
-                children: [
-                  Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
-                  SizedBox(height: 2),
-                  Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
-                ],
-              ),
-              SizedBox(width: 30),
-              Container(width: 2, height: 30, color: Colors.white),
-              SizedBox(width: 30),
-              Column(
-                children: [
-                  Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
-                  SizedBox(height: 2),
-                  Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
-                ],
-              ),
-            ],
+          child: Skeletonizer(
+            enabled: isLoading,
+            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(height: 2),
+                    Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.computer,
+                          size: 27,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 10),
+                        FaIcon(
+                          FontAwesomeIcons.playstation,
+                          size: 27,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 10),
+                        FaIcon(
+                          FontAwesomeIcons.xbox,
+                          size: 27,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Text('Available for', style: TextStyle(fontSize: 14, color: Colors.white))
+                  ],
+                ),
+                SizedBox(width: 10),
+                Container(width: 2, height: 30, color: Colors.white),
+                SizedBox(width: 20),
+                Column(
+                  children: [
+                    Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                    SizedBox(height: 2),
+                    isLoading ? Text(BoneMock.subtitle) : Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                  ],
+                ),
+                SizedBox(width: 20),
+                Container(width: 2, height: 30, color: Colors.white),
+                SizedBox(width: 30),
+                Column(
+                  children: [
+                    Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                    SizedBox(height: 2),
+                    Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -359,7 +365,7 @@ class _GameDetailState extends State<GameDetail> {
   Skeletonizer gameName() {
     return Skeletonizer(
       enabled: isLoading,
-      effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+      effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
       child: ListTile(
         title: Center(child: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white))),
         subtitle: Row(
