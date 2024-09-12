@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_game_description_model.dart';
 import 'package:nexplay/models/user_model.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 // import 'package:skeletonizer/skeletonizer.dart';
 
 class RatingsPage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _RatingsPageState extends State<RatingsPage> {
           height: MediaQuery.of(context).size.height,
           color: Colors.deepPurple.shade900,
           child: ListView.builder(
-            itemCount: description!.ratings.length,
+            itemCount: isLoading ? 4 : description!.ratings.length,
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -70,14 +71,29 @@ class _RatingsPageState extends State<RatingsPage> {
                     children: [
                       Row(
                         children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              myUser!.results[index].picture.thumbnail,
-                            ),
+                          Skeletonizer(
+                            enabled: isLoading,
+                            effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+                            child: isLoading
+                                ? CircleAvatar()
+                                : CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      myUser!.results[index].picture.thumbnail,
+                                    ),
+                                  ),
                           ),
                           SizedBox(width: 8),
-                          Text('${myUser!.results[index].name.first} ${myUser!.results[index].name.last}', style: TextStyle(color: Colors.white)),
-                          Spacer(),
+                          Expanded(
+                            child: Skeletonizer(
+                                enabled: isLoading,
+                                effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+                                child: isLoading
+                                    ? Text(BoneMock.subtitle)
+                                    : Text(
+                                        '${myUser!.results[index].name.first} ${myUser!.results[index].name.last}',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                          ),
                           DropdownButton(
                               value: selectedValue,
                               icon: Icon(Icons.more_vert_rounded, color: Colors.white),
@@ -118,14 +134,20 @@ class _RatingsPageState extends State<RatingsPage> {
                         halfFilledColor: const Color.fromARGB(255, 255, 230, 7),
                         halfFilledIcon: Icons.star_half_sharp,
                         emptyIcon: Icons.star_border,
-                        initialRating: description!.ratings[index].percent,
+                        initialRating: isLoading ? 0 : (description!.ratings[index].percent / 100) * 5,
                         maxRating: 5,
                         size: 35,
                       ),
                       SizedBox(height: 8),
-                      Text(
-                        '"${description!.ratings[index].title.toUpperCase()}"',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16),
+                      Skeletonizer(
+                        enabled: isLoading,
+                        effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+                        child: isLoading
+                            ? Text(BoneMock.subtitle)
+                            : Text(
+                                '"${description!.ratings[index].title.toUpperCase()}"',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16),
+                              ),
                       ),
                     ],
                   ),

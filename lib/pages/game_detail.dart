@@ -358,21 +358,23 @@ class _GameDetailState extends State<GameDetail> {
 
   Skeletonizer gameName() {
     return Skeletonizer(
-        enabled: isLoading,
-        effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
-        child: ListTile(
-            title: Center(child: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white))),
-            subtitle: Row(
-              children: [
-                isLoading
-                    ? Text(BoneMock.subtitle)
-                    : Text(
-                        description!.developers.first.name,
-                        style: TextStyle(fontSize: 18, color: Colors.red),
-                      ),
-                Spacer(),
-                isLoading ? Text(BoneMock.subtitle) : Text(description!.released.year.toString(), style: TextStyle(fontSize: 18, color: Colors.red))
-              ],
-            )));
+      enabled: isLoading,
+      effect: ShimmerEffect(baseColor: Colors.grey.shade800, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+      child: ListTile(
+        title: Center(child: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white))),
+        subtitle: Row(
+          children: [
+            isLoading
+                ? Text(BoneMock.subtitle)
+                : Text(
+                    description!.developers.first.name,
+                    style: TextStyle(fontSize: 18, color: Colors.red),
+                  ),
+            Spacer(),
+            isLoading ? Text(BoneMock.subtitle) : Text(description!.released.year.toString(), style: TextStyle(fontSize: 18, color: Colors.red))
+          ],
+        ),
+      ),
+    );
   }
 }
