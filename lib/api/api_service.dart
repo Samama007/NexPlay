@@ -53,8 +53,8 @@ class GameApi {
     }
   }
 
-  Future<List<CategoryDescriptionModel>> fetchCateDetails(int id) async {
-    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&genres=$id'));
+  Future<List<CategoryDescriptionModel>> fetchCateDetails(int id,int pageNumber) async {
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&genres=$id&page=$pageNumber'));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       List<CategoryDescriptionModel> categorydescription = (data['results'] as List).map((gameJson) => CategoryDescriptionModel.fromJson(gameJson)).toList();

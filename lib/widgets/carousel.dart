@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_game_model.dart';
@@ -16,7 +15,6 @@ class MyCarousel extends StatelessWidget {
       future: GameApi().fetchGames(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // return const Center(child: CircularProgressIndicator());
           return Skeletonizer(
             effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50),
             child: Card(

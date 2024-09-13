@@ -60,7 +60,6 @@ class _GameDetailState extends State<GameDetail> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                     child: Container(
-                      // color: Colors.deepPurple.shade900,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [

@@ -11,10 +11,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:nexplay/models/my_category_description.dart' as cd;
 import 'package:nexplay/models/my_game_model.dart' as gm;
 
-gm.ShortScreenshot convertScreenshot(cd.ShortScreenshot screenshot) {
-  return gm.ShortScreenshot(id: screenshot.id, image: screenshot.image);
-}
-
 class CatDetails extends StatefulWidget {
   final int id;
   const CatDetails({super.key, required this.id});
@@ -24,35 +20,48 @@ class CatDetails extends StatefulWidget {
 }
 
 class _CatDetailsState extends State<CatDetails> {
-  late Future<List<CategoryDescriptionModel>> categoryDescriptionModel;
+  List<CategoryDescriptionModel> categoryList = [];
   CartController cartController = Get.find();
-  final ScrollController _scrollController = ScrollController();
-  bool _showSeeMore = false;
+  int pageNumber = 1;
+  final _scrollController = ScrollController();
+  bool isLoading = true;
+  bool isPaginating = false;
 
   @override
   void initState() {
     super.initState();
-    categoryDescriptionModel = GameApi().fetchCateDetails(widget.id);
-    _scrollController.addListener(_onScroll);
+    _populateCategoryDetails(pageNumber);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent == _scrollController.offset && !isPaginating) {
+        pageNumber++;
+        _populateCategoryDetails(pageNumber);
+      }
+    });
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
-    if (_scrollController.offset >= _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
-      setState(() {
-        _showSeeMore = true;
-      });
-    } else {
-      setState(() {
-        _showSeeMore = false;
-      });
-    }
+  Future<void> _populateCategoryDetails(int page) async {
+    setState(() {
+      if (page == 1) {
+        isLoading = true;
+      } else {
+        isPaginating = true;
+      }
+    });
+
+    List<CategoryDescriptionModel> data = await GameApi().fetchCateDetails(widget.id, page);
+
+    setState(() {
+      categoryList.addAll(data);
+      isLoading = false;
+      isPaginating = false;
+    });
   }
 
   gm.GameModel convertCategoryToGame(cd.CategoryDescriptionModel category) {
@@ -75,6 +84,10 @@ class _CatDetailsState extends State<CatDetails> {
     );
   }
 
+  gm.ShortScreenshot convertScreenshot(cd.ShortScreenshot screenshot) {
+    return gm.ShortScreenshot(id: screenshot.id, image: screenshot.image);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,15 +105,11 @@ class _CatDetailsState extends State<CatDetails> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => CartPage()),
         backgroundColor: Colors.white,
-        shape: CircleBorder(eccentricity: 1),
+        shape: const CircleBorder(),
         child: Badge(
           backgroundColor: Colors.red,
-          label: Obx(() => Text(cartController.cartItems.length.toString(), style: TextStyle(color: Colors.white, fontSize: 13))),
-          child: Icon(
-            Icons.shopping_cart_outlined,
-            size: 30,
-            color: Colors.black,
-          ),
+          label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Colors.white, fontSize: 13))),
+          child: const Icon(Icons.shopping_cart_outlined, size: 30, color: Colors.black),
         ),
       ),
       body: Container(
@@ -108,7 +117,7 @@ class _CatDetailsState extends State<CatDetails> {
           gradient: LinearGradient(
             colors: [
               Colors.black,
-              Colors.deepPurple.shade900,
+              Colors.deepPurple.shade900
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -119,11 +128,8 @@ class _CatDetailsState extends State<CatDetails> {
           child: Column(
             children: [
               Expanded(
-                child: FutureBuilder<List<CategoryDescriptionModel>>(
-                  future: categoryDescriptionModel,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Skeletonizer(
+                child: isLoading
+                    ? Skeletonizer(
                         effect: ShimmerEffect(
                           baseColor: Colors.grey.shade400,
                           highlightColor: Colors.grey.shade50,
@@ -161,92 +167,71 @@ class _CatDetailsState extends State<CatDetails> {
                             ),
                           ),
                         ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text(snapshot.error.toString()));
-                    } else if (snapshot.hasData) {
-                      return ListView.builder(
+                      )
+                    : ListView.builder(
                         controller: _scrollController,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        itemCount: snapshot.data!.length,
+                        itemCount: categoryList.length + (isPaginating ? 1 : 0), 
                         itemBuilder: (context, index) {
-                          final game = convertCategoryToGame(snapshot.data![index]);
-                          return InkWell(
-                            onTap: () {
-                              PriceModel priceModel = PriceModel();
-                              Random random = Random();
-                              int index = random.nextInt(100);
-                              String price = priceModel.price[index].toString();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => GameDetail(game: game, price: price)),
-                              );
-                            },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              margin: const EdgeInsets.symmetric(vertical: 12),
-                              elevation: 6,
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.all(16),
-                                title: Text(
-                                  game.name,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                          if (index < categoryList.length) {
+                            final game = convertCategoryToGame(categoryList[index]);
+                            return InkWell(
+                              onTap: () {
+                                PriceModel priceModel = PriceModel();
+                                Random random = Random();
+                                int randomIndex = random.nextInt(100);
+                                String price = priceModel.price[randomIndex].toString();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => GameDetail(game: game, price: price)),
+                                );
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                subtitle: Row(
-                                  children: [
-                                    Text(
-                                      game.rating.toString(),
-                                      style: const TextStyle(color: Colors.white70, fontSize: 16),
+                                margin: const EdgeInsets.symmetric(vertical: 12),
+                                elevation: 6,
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  title: Text(
+                                    game.name,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
-                                    const SizedBox(width: 8),
-                                    const Icon(Icons.star, color: Colors.yellow, size: 15),
-                                  ],
-                                ),
-                                trailing: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.network(
-                                    game.backgroundImage,
-                                    height: 60,
-                                    width: 60,
-                                    fit: BoxFit.cover,
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      Text(
+                                        game.rating.toString(),
+                                        style: const TextStyle(color: Colors.white70, fontSize: 16),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Icon(Icons.star, color: Colors.yellow, size: 15),
+                                    ],
+                                  ),
+                                  trailing: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      game.backgroundImage,
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 32),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
                         },
-                      );
-                    } else {
-                      return const Center(child: Text('No data available'));
-                    }
-                  },
-                ),
-              ),
-              if (_showSeeMore)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: InkWell(
-                    onTap: () {
-                      // print('object');
-
-                    },
-                    child: Text(
-                      'See More...',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
                       ),
-                    ),
-                  ),
-                ),
+              ),
             ],
           ),
         ),
