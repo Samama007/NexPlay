@@ -12,7 +12,7 @@ class FavoriteProductsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Center(child: const Text("Favorite")),
+        title: const Center(child: Text("Favorite")),
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(

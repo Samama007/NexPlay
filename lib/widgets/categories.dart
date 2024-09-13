@@ -9,29 +9,29 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          _buildCategoryItem(context, icon: FaIcon(FontAwesomeIcons.gamepad, color: Colors.white, size: 40), label: 'Arcade', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 11)))),
+          _buildCategoryItem(context, icon: const FaIcon(FontAwesomeIcons.gamepad, color: Colors.white, size: 40), label: 'Arcade', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 11)))),
           _buildCategoryItem(
             context,
-            icon: FaIcon(FontAwesomeIcons.baseballBatBall, color: Colors.white, size: 40),
+            icon: const FaIcon(FontAwesomeIcons.baseballBatBall, color: Colors.white, size: 40),
             label: 'Sports',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 15))),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 15))),
           ),
           _buildCategoryItem(
             context,
-            icon: Icon(CupertinoIcons.car_detailed, color: Colors.white, size: 40),
+            icon: const Icon(CupertinoIcons.car_detailed, color: Colors.white, size: 40),
             label: 'Racing',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 1))),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 1))),
           ),
-          _buildCategoryItem(context, icon: Icon(FontAwesomeIcons.gun, color: Colors.white, size: 40), label: 'Shooter', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 2)))),
+          _buildCategoryItem(context, icon: const Icon(FontAwesomeIcons.gun, color: Colors.white, size: 40), label: 'Shooter', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 2)))),
           _buildCategoryItem(
             context,
-            icon: Icon(Icons.shield, color: Colors.white, size: 40),
+            icon: const Icon(Icons.shield, color: Colors.white, size: 40),
             label: 'RPG',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CatDetails(id: 5))),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 5))),
           ),
         ],
       ),
@@ -46,7 +46,7 @@ class Categories extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.grey[800],
                 shape: BoxShape.circle,
@@ -60,10 +60,10 @@ class Categories extends StatelessWidget {
               ),
               child: icon,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,

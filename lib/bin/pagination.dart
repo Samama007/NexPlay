@@ -71,7 +71,7 @@ class _EgState extends State<Eg> {
                   ),
                 );
               } else {
-                return Padding(padding: EdgeInsets.symmetric(vertical: 32), child: Center(child: CircularProgressIndicator()));
+                return const Padding(padding: EdgeInsets.symmetric(vertical: 32), child: Center(child: CircularProgressIndicator()));
               }
             }),
       ),

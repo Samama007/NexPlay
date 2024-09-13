@@ -170,7 +170,7 @@ class _CatDetailsState extends State<CatDetails> {
                       )
                     : ListView.builder(
                         controller: _scrollController,
-                        itemCount: categoryList.length + (isPaginating ? 1 : 0), 
+                        itemCount: categoryList.length + (isPaginating ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index < categoryList.length) {
                             final game = convertCategoryToGame(categoryList[index]);
@@ -186,6 +186,7 @@ class _CatDetailsState extends State<CatDetails> {
                                 );
                               },
                               child: Card(
+                                color: Colors.deepPurple.shade600,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -205,18 +206,18 @@ class _CatDetailsState extends State<CatDetails> {
                                     children: [
                                       Text(
                                         game.rating.toString(),
-                                        style: const TextStyle(color: Colors.white70, fontSize: 16),
+                                        style: const TextStyle(color: Colors.white70, fontSize: 20),
                                       ),
                                       const SizedBox(width: 8),
-                                      const Icon(Icons.star, color: Colors.yellow, size: 15),
+                                      const Icon(Icons.star, color: Colors.yellow, size: 18),
                                     ],
                                   ),
                                   trailing: ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.network(
                                       game.backgroundImage,
-                                      height: 60,
-                                      width: 60,
+                                      height: double.infinity,
+                                      width: 150,
                                       fit: BoxFit.cover,
                                     ),
                                   ),

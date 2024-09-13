@@ -1,8 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:nexplay/authentication/forgot_password_page.dart';
 import 'package:nexplay/authentication/signup_page.dart';
 import 'package:nexplay/authentication/user%20auth/firebase_auth_services.dart';
@@ -60,15 +59,15 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       'Login to NexPlay!',
                       style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800, color: Colors.white),
                     ),
                     const SizedBox(height: 5),
-                    Divider(
+                    const Divider(
                       color: Colors.white,
                       thickness: 1,
                     ),
@@ -82,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                             width: 300,
                             child: TextFormField(
                               controller: _emailController,
-                              style: TextStyle(color: Colors.white, fontSize: 15),
+                              style: const TextStyle(color: Colors.white, fontSize: 15),
                               decoration: const InputDecoration(
                                 labelText: 'Email',
                                 labelStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
@@ -114,8 +113,8 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   labelText: 'Password',
-                                  labelStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
-                                  prefixIcon: Icon(Icons.lock, color: Colors.white)),
+                                  labelStyle: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
+                                  prefixIcon: const Icon(Icons.lock, color: Colors.white)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your password';
@@ -141,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Colors.red.shade500,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Login',
                                   style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
@@ -156,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordPage()));
                             },
-                            child: Hero(
+                            child: const Hero(
                               tag: 'forgot password',
                               child: Text(
                                 'Forgot Password?',
@@ -170,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -180,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupPage()));
                     },
                     child: Text(
                       'Sign Up',
@@ -210,14 +209,7 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
       String username = _emailController.text.replaceAll(RegExp(r'@.*\..*'), '').toUpperCase().toString();
       toast('Welcome $username');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavBar(
-            name: username,
-          ),
-        ),
-      );
+      Get.to(BottomNavBar(name: username));
     }
   }
 }

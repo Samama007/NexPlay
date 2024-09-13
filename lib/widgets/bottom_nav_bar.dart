@@ -22,7 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     setState(() {
       selectedIndex = index;
     });
-    pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+    pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
   @override
@@ -37,15 +37,15 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
         },
         children: [
           ExplorePage(username: widget.name),
-          FavoriteProductsScreen(),
+          const FavoriteProductsScreen(),
           ProfilePage(),
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.black,
         ),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: GNav(
           selectedIndex: selectedIndex,
           onTabChange: onTapped,
@@ -58,9 +58,9 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
           activeColor: Colors.red.shade500, // Active icon color
           iconSize: 24,
           tabBackgroundColor: Colors.red.shade200.withOpacity(0.3), // Active tab background color
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           gap: 8, // Gap between icon and text
-          duration: Duration(milliseconds: 400), // Animation duration
+          duration: const Duration(milliseconds: 400), // Animation duration
           curve: Curves.easeInOut, // Animation curve
           tabs: [
             GButton(
@@ -69,7 +69,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
               iconActiveColor: Colors.red.shade500,
               iconColor: Colors.white,
               textColor: Colors.red.shade500,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -81,7 +81,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
               iconActiveColor: Colors.green.shade500,
               iconColor: Colors.white,
               textColor: Colors.green.shade500,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -93,7 +93,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
               iconActiveColor: Colors.blue.shade500,
               iconColor: Colors.white,
               textColor: Colors.blue.shade500,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,7 +56,7 @@ class _GameDetailState extends State<GameDetail> {
                 Padding(
                   padding: const EdgeInsets.only(top: 221),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -72,17 +70,17 @@ class _GameDetailState extends State<GameDetail> {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           gameName(),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           summaryBar(),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           buyPage(),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           gameDescription(),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           ratings(),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           gameSS(),
                         ],
                       ),
@@ -102,14 +100,14 @@ class _GameDetailState extends State<GameDetail> {
       padding: const EdgeInsets.only(left: 15, right: 10),
       child: Skeletonizer(
         enabled: isLoading,
-        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
         child: Column(
           children: [
             Row(
               children: [
-                isLoading ? Text(BoneMock.name) : Text('Ratings and reviews', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
-                Spacer(),
-                IconButton(onPressed: () => Get.to(RatingsPage(id: widget.game.id)), icon: Icon(Icons.arrow_forward_outlined, color: Colors.white, size: 25))
+                isLoading ? Text(BoneMock.name) : const Text('Ratings and reviews', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
+                const Spacer(),
+                IconButton(onPressed: () => Get.to(RatingsPage(id: widget.game.id)), icon: const Icon(Icons.arrow_forward_outlined, color: Colors.white, size: 25))
               ],
             ),
             Padding(
@@ -118,14 +116,14 @@ class _GameDetailState extends State<GameDetail> {
                 children: [
                   Column(
                     children: [
-                      isLoading ? Text(BoneMock.name) : Text(widget.game.rating.toString(), style: TextStyle(fontSize: 60, color: Colors.white, fontWeight: FontWeight.w700)),
+                      isLoading ? Text(BoneMock.name) : Text(widget.game.rating.toString(), style: const TextStyle(fontSize: 60, color: Colors.white, fontWeight: FontWeight.w700)),
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
-                        child: isLoading ? Text(BoneMock.name) : Text('${widget.game.ratingsCount.toString()} reviews', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w400)),
+                        child: isLoading ? Text(BoneMock.name) : Text('${widget.game.ratingsCount.toString()} reviews', style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w400)),
                       )
                     ],
                   ),
-                  SizedBox(width: 30),
+                  const SizedBox(width: 30),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 25),
                     child: RatingBar.readOnly(
@@ -152,11 +150,11 @@ class _GameDetailState extends State<GameDetail> {
     return FloatingActionButton(
       onPressed: () => Get.to(() => CartPage()),
       backgroundColor: Colors.white,
-      shape: CircleBorder(eccentricity: 1),
+      shape: const CircleBorder(eccentricity: 1),
       child: Badge(
         backgroundColor: Colors.red,
-        label: Obx(() => Text(cartController.cartItems.length.toString(), style: TextStyle(color: Colors.white, fontSize: 13))),
-        child: Icon(
+        label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Colors.white, fontSize: 13))),
+        child: const Icon(
           Icons.shopping_cart_outlined,
           size: 30,
           color: Colors.black,
@@ -169,7 +167,7 @@ class _GameDetailState extends State<GameDetail> {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
           child: Image.network(
             widget.game.backgroundImage,
             fit: BoxFit.cover,
@@ -178,13 +176,13 @@ class _GameDetailState extends State<GameDetail> {
           ),
         ),
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new,
             color: Colors.black,
             size: 25,
           ),
           onPressed: () => Navigator.pop(context),
-          style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
+          style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
         )
       ],
     );
@@ -197,7 +195,7 @@ class _GameDetailState extends State<GameDetail> {
               child: Card(
                 clipBehavior: Clip.hardEdge,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                margin: EdgeInsets.only(right: 15),
+                margin: const EdgeInsets.only(right: 15),
                 child: Container(
                   height: Get.width,
                   width: 300,
@@ -212,7 +210,7 @@ class _GameDetailState extends State<GameDetail> {
                 height: 170,
                 child: ListView.builder(
                     itemCount: widget.game.shortScreenshots.length,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -223,7 +221,7 @@ class _GameDetailState extends State<GameDetail> {
                         child: Card(
                           clipBehavior: Clip.hardEdge,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                          margin: EdgeInsets.only(right: 15),
+                          margin: const EdgeInsets.only(right: 15),
                           child: Image.network(
                             widget.game.shortScreenshots[index].image,
                             fit: BoxFit.cover,
@@ -241,10 +239,10 @@ class _GameDetailState extends State<GameDetail> {
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: Skeletonizer(
         enabled: isLoading,
-        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
         child: Column(
           children: [
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
             ),
@@ -253,8 +251,8 @@ class _GameDetailState extends State<GameDetail> {
                 : AnimatedReadMoreText(
                     description!.description.toString(),
                     maxLines: 3,
-                    textStyle: TextStyle(fontSize: 16, color: Colors.white),
-                    buttonTextStyle: TextStyle(fontSize: 16, color: Colors.red),
+                    textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                    buttonTextStyle: const TextStyle(fontSize: 16, color: Colors.red),
                   ),
           ],
         ),
@@ -266,7 +264,7 @@ class _GameDetailState extends State<GameDetail> {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: TextButton(
-        style: ButtonStyle(
+        style: const ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(Colors.red),
             minimumSize: WidgetStatePropertyAll(
               Size(double.infinity, 50),
@@ -278,16 +276,16 @@ class _GameDetailState extends State<GameDetail> {
             newItem.name,
             'Added to cart',
             backgroundColor: Colors.black,
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             isDismissible: true,
             maxWidth: MediaQuery.sizeOf(context).width * 0.8,
             snackPosition: SnackPosition.TOP,
             borderRadius: 15,
             colorText: Colors.white,
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
           );
         },
-        child: Text('\$${widget.price}', style: TextStyle(fontSize: 18, color: Colors.white)),
+        child: Text('\$${widget.price}', style: const TextStyle(fontSize: 18, color: Colors.white)),
       ),
     );
   }
@@ -297,14 +295,14 @@ class _GameDetailState extends State<GameDetail> {
       padding: const EdgeInsets.only(right: 15),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Center(
           child: Skeletonizer(
             enabled: isLoading,
-            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
             child: Row(
               children: [
-                Column(
+                const Column(
                   children: [
                     SizedBox(height: 2),
                     Row(
@@ -333,24 +331,24 @@ class _GameDetailState extends State<GameDetail> {
                     Text('Available for', style: TextStyle(fontSize: 14, color: Colors.white))
                   ],
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Container(width: 2, height: 30, color: Colors.white),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Column(
                   children: [
-                    Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
-                    SizedBox(height: 2),
-                    isLoading ? Text(BoneMock.subtitle) : Text(widget.game.esrbRating.name, style: TextStyle(fontSize: 14, color: Colors.white))
+                    const Icon(Icons.eighteen_up_rating_outlined, color: Colors.white, size: 35),
+                    const SizedBox(height: 2),
+                    isLoading ? Text(BoneMock.subtitle) : Text(widget.game.esrbRating.name, style: const TextStyle(fontSize: 14, color: Colors.white))
                   ],
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Container(width: 2, height: 30, color: Colors.white),
-                SizedBox(width: 30),
+                const SizedBox(width: 30),
                 Column(
                   children: [
-                    Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
-                    SizedBox(height: 2),
-                    Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: Colors.white))
+                    const Icon(Icons.hourglass_bottom, color: Colors.white, size: 35),
+                    const SizedBox(height: 2),
+                    Text('${widget.game.playtime.toString()} hours', style: const TextStyle(fontSize: 14, color: Colors.white))
                   ],
                 ),
               ],
@@ -364,19 +362,19 @@ class _GameDetailState extends State<GameDetail> {
   Skeletonizer gameName() {
     return Skeletonizer(
       enabled: isLoading,
-      effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: Duration(seconds: 1)),
+      effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
       child: ListTile(
-        title: Center(child: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white))),
+        title: Center(child: Text(widget.game.name, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white))),
         subtitle: Row(
           children: [
             isLoading
                 ? Text(BoneMock.subtitle)
                 : Text(
                     description!.developers.first.name,
-                    style: TextStyle(fontSize: 18, color: Colors.red),
+                    style: const TextStyle(fontSize: 18, color: Colors.red),
                   ),
-            Spacer(),
-            isLoading ? Text(BoneMock.subtitle) : Text(description!.released.year.toString(), style: TextStyle(fontSize: 18, color: Colors.red))
+            const Spacer(),
+            isLoading ? Text(BoneMock.subtitle) : Text(description!.released.year.toString(), style: const TextStyle(fontSize: 18, color: Colors.red))
           ],
         ),
       ),

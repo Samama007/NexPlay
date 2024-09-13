@@ -1,7 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:nexplay/authentication/login_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        padding: EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.only(top: 30),
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -47,9 +46,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
                 const Spacer(),
-                Hero(
+                const Hero(
                   tag: 'forgot password',
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'Forgot Password',
                       style: TextStyle(
@@ -64,11 +63,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ],
             ),
             const SizedBox(height: 50),
-            Center(
+            const Center(
               child: SizedBox(
                 width: 350,
                 height: 150,
-                child: const Text(
+                child: Text(
                   'Please enter the email address you would like your password reset information sent to.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -121,13 +120,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.error_outline_outlined,
                             color: Colors.white,
                             size: 30,
                           ),
                           backgroundColor: Colors.black,
-                          contentTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w200),
+                          contentTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w200),
                           content: Text(
                             'New password sent to ${_emailController.text}',
                             style: const TextStyle(
@@ -138,13 +137,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         );
                       },
                     );
-                    Future.delayed(Duration(seconds: 3), () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ),
-                      );
+                    Future.delayed(const Duration(seconds: 3), () {
+                      Get.to(const LoginPage());
                     });
                   }
                 },
@@ -155,7 +149,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     color: Colors.red.shade500,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Reset Password',
                       style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),

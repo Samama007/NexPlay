@@ -8,8 +8,8 @@
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
-  errors:
-    prefer_const_constructors: ignore
+  # errors:
+    # prefer_const_constructors: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

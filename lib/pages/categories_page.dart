@@ -42,7 +42,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         onPressed: () => Get.to(() => CartPage()),
         backgroundColor: Colors.white,
         child: Badge(

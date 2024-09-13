@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/controller/cart_controller.dart';
@@ -33,19 +32,19 @@ class _ExplorePagState extends State<ExplorePage> {
                   padding: const EdgeInsets.only(left: 25, bottom: 10, top: 20),
                   child: Row(
                     children: [
-                      Text("Welcome,", style: TextStyle(color: Colors.white, fontSize: 22)),
-                      SizedBox(width: 5),
-                      Text(widget.username, style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
-                      Spacer(),
+                      const Text("Welcome,", style: TextStyle(color: Colors.white, fontSize: 22)),
+                      const SizedBox(width: 5),
+                      Text(widget.username, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
+                      const Spacer(),
                       Padding(
                           padding: const EdgeInsets.only(right: 22),
                           child: Badge(
                             backgroundColor: Colors.red,
-                            label: Obx(() => Text(cartController.cartItems.length.toString(), style: TextStyle(color: Colors.white, fontSize: 13))),
+                            label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Colors.white, fontSize: 13))),
                             child: IconButton(
                                 color: Colors.white,
                                 onPressed: () => Get.to(() => CartPage()),
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.shopping_cart_outlined,
                                   size: 30,
                                 )),
@@ -53,34 +52,34 @@ class _ExplorePagState extends State<ExplorePage> {
                     ],
                   ),
                 ),
-                Mysearchbar(),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 25),
+                const Mysearchbar(),
+                const SizedBox(height: 20),
+                const Padding(
+                  padding: EdgeInsets.only(left: 25),
                   child: Text(
                     'Trending now',
                     textAlign: TextAlign.start,
                     style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.white),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 20),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10, right: 20),
                   child: MyCarousel(),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left: 25, right: 20),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'Categories',
                         textAlign: TextAlign.start,
                         style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.white),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesPage())),
-                        child: Text(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoriesPage())),
+                        child: const Text(
                           'View all',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.red),
                         ),
@@ -88,9 +87,9 @@ class _ExplorePagState extends State<ExplorePage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                const SizedBox(height: 10),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Categories(),
                 ),
               ],

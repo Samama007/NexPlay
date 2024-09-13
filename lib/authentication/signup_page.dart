@@ -1,7 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nexplay/authentication/login_page.dart';
 import 'package:nexplay/authentication/user%20auth/firebase_auth_services.dart';
 import 'package:nexplay/widgets/toast.dart';
@@ -61,22 +60,22 @@ class _SignupPageState extends State<SignupPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text(
+                      const Text(
                         'Create a new account!',
                         style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.w900),
                       ),
-                      Text(
+                      const Text(
                         "It's quick and easy.",
                         style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.white,
                         thickness: 1,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       SizedBox(
@@ -85,7 +84,7 @@ class _SignupPageState extends State<SignupPage> {
                             key: _formKey,
                             child: Column(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 13,
                                 ),
                                 TextFormField(
@@ -95,8 +94,8 @@ class _SignupPageState extends State<SignupPage> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       hintText: "Full Name",
-                                      hintStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
-                                      prefixIcon: Icon(Icons.person, color: Colors.white)),
+                                      hintStyle: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
+                                      prefixIcon: const Icon(Icons.person, color: Colors.white)),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Field cannot be empty';
@@ -108,7 +107,7 @@ class _SignupPageState extends State<SignupPage> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 23,
                                 ),
                                 TextFormField(
@@ -118,8 +117,8 @@ class _SignupPageState extends State<SignupPage> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       hintText: "Email Address",
-                                      hintStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
-                                      prefixIcon: Icon(Icons.email_outlined, size: 25, color: Colors.white)),
+                                      hintStyle: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
+                                      prefixIcon: const Icon(Icons.email_outlined, size: 25, color: Colors.white)),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Field cannot be empty';
@@ -130,7 +129,7 @@ class _SignupPageState extends State<SignupPage> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 23,
                                 ),
                                 TextFormField(
@@ -141,8 +140,8 @@ class _SignupPageState extends State<SignupPage> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       hintText: "Password",
-                                      hintStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w100),
-                                      prefixIcon: Icon(Icons.lock, color: Colors.white)),
+                                      hintStyle: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w100),
+                                      prefixIcon: const Icon(Icons.lock, color: Colors.white)),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Field cannot be empty';
@@ -153,7 +152,7 @@ class _SignupPageState extends State<SignupPage> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 TextButton(
@@ -174,8 +173,8 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     child: Center(
                                       child: isLoading
-                                          ? CircularProgressIndicator()
-                                          : Text(
+                                          ? const CircularProgressIndicator()
+                                          : const Text(
                                               'Sign Up',
                                               style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
                                             ),
@@ -189,14 +188,14 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'Already have an account?',
                   style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.w600),
                 ),
@@ -215,9 +214,9 @@ class _SignupPageState extends State<SignupPage> {
     User? user = await _auth.signUpWithEmailandPasword(email, password);
 
     if (user != null) {
-      Future.delayed(Duration(seconds: 2));
+      Future.delayed(const Duration(seconds: 2));
       toast('User successfully created');
-      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+      Get.to(const LoginPage());
     }
   }
 }

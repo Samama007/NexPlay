@@ -12,14 +12,14 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Center(
         child: TextButton(
-          style: ButtonStyle(
+          style: const ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(Colors.red),
           ),
           onPressed: () {
             showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog(
+                return const AlertDialog(
                   elevation: 20,
                   title: Center(child: Text('Signing Out...')),
                   titleTextStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
@@ -30,11 +30,11 @@ class ProfilePage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginPage(),
+                builder: (context) => const LoginPage(),
               ),
             );
           },
-          child: Text(
+          child: const Text(
             'Sign Out',
             style: TextStyle(
               fontSize: 20,

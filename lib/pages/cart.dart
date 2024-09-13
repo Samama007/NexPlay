@@ -114,7 +114,7 @@ class CartPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () => Get.to(() => NoPaymentMethodsScreen()),
+                      onPressed: () => Get.to(() => const NoPaymentMethodsScreen()),
                       child: const Text(
                         'Checkout',
                         style: TextStyle(

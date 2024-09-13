@@ -7,16 +7,16 @@ class Mysearchbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.grey.shade800,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          FaIcon(FontAwesomeIcons.magnifyingGlass, color: Colors.white),
-          SizedBox(width: 10),
+          const FaIcon(FontAwesomeIcons.magnifyingGlass, color: Colors.white),
+          const SizedBox(width: 10),
           Expanded(
             child: TextFormField(
               decoration: InputDecoration(
