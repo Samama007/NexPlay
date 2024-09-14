@@ -47,8 +47,9 @@ class _GameDetailState extends State<GameDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: cartButton(),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 35, bottom: 10),
           child: Column(
             children: [
               Stack(children: [
@@ -181,7 +182,7 @@ class _GameDetailState extends State<GameDetail> {
             color: Colors.black,
             size: 25,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.back(),
           style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.white38)),
         )
       ],

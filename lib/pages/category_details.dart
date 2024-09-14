@@ -64,7 +64,7 @@ class _CatDetailsState extends State<CatDetails> {
     });
   }
 
-  gm.GameModel convertCategoryToGame(cd.CategoryDescriptionModel category) {
+  static gm.GameModel convertCategoryToGame(cd.CategoryDescriptionModel category) {
     return gm.GameModel(
       id: category.id,
       name: category.name,
@@ -84,7 +84,7 @@ class _CatDetailsState extends State<CatDetails> {
     );
   }
 
-  gm.ShortScreenshot convertScreenshot(cd.ShortScreenshot screenshot) {
+  static gm.ShortScreenshot convertScreenshot(cd.ShortScreenshot screenshot) {
     return gm.ShortScreenshot(id: screenshot.id, image: screenshot.image);
   }
 
@@ -124,7 +124,7 @@ class _CatDetailsState extends State<CatDetails> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 35, bottom: 10),
           child: Column(
             children: [
               Expanded(
@@ -186,7 +186,7 @@ class _CatDetailsState extends State<CatDetails> {
                                 );
                               },
                               child: Card(
-                                color: Colors.deepPurple.shade600,
+                                color: Colors.deepPurple.shade700,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -196,11 +196,7 @@ class _CatDetailsState extends State<CatDetails> {
                                   contentPadding: const EdgeInsets.all(16),
                                   title: Text(
                                     game.name,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                                   ),
                                   subtitle: Row(
                                     children: [
@@ -218,7 +214,7 @@ class _CatDetailsState extends State<CatDetails> {
                                       game.backgroundImage,
                                       height: double.infinity,
                                       width: 150,
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   ),
                                 ),

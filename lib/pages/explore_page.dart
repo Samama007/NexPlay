@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:nexplay/controller/cart_controller.dart';
 import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/categories_page.dart';
+import 'package:nexplay/widgets/search.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
-import 'package:nexplay/widgets/search_bar.dart';
 
 class ExplorePage extends StatefulWidget {
   final String username;
@@ -52,7 +52,7 @@ class _ExplorePagState extends State<ExplorePage> {
                     ],
                   ),
                 ),
-                const Mysearchbar(),
+                const SearchBarr(),
                 const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 25),
