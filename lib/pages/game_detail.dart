@@ -264,29 +264,46 @@ class _GameDetailState extends State<GameDetail> {
   Padding buyPage() {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      child: TextButton(
-        style: const ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.red),
-            minimumSize: WidgetStatePropertyAll(
-              Size(double.infinity, 50),
-            )),
-        onPressed: () {
-          var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price));
-          cartController.addItem(newItem);
-          Get.snackbar(
-            newItem.name,
-            'Added to cart',
-            backgroundColor: Colors.black,
-            duration: const Duration(seconds: 2),
-            isDismissible: true,
-            maxWidth: MediaQuery.sizeOf(context).width * 0.8,
-            snackPosition: SnackPosition.TOP,
-            borderRadius: 15,
-            colorText: Colors.white,
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-          );
-        },
-        child: Text('\$${widget.price}', style: const TextStyle(fontSize: 18, color: Colors.white)),
+      child: Row(
+        children: [
+          TextButton(
+            style: ButtonStyle(
+                shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)))),
+                backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+                side: const WidgetStatePropertyAll(BorderSide(color: Colors.white)),
+                minimumSize: WidgetStatePropertyAll(
+                  Size(Get.width * 0.5, 50),
+                )),
+            onPressed: () {},
+            child: Text('\$${widget.price}', style: const TextStyle(fontSize: 25, color: Colors.white)),
+          ),
+          TextButton(
+            style: ButtonStyle(
+                shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)))),
+                backgroundColor: const WidgetStatePropertyAll(Colors.blue),
+                // side: const WidgetStatePropertyAll(BorderSide(color: Colors.purple)),
+                minimumSize: WidgetStatePropertyAll(
+                  Size(Get.width * 0.4, 50),
+                )),
+            onPressed: () {
+              var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price), backgroundimage: widget.game.backgroundImage);
+              cartController.addItem(newItem);
+              Get.snackbar(
+                newItem.name,
+                'Added to cart',
+                backgroundColor: Colors.black,
+                duration: const Duration(seconds: 2),
+                isDismissible: true,
+                maxWidth: MediaQuery.sizeOf(context).width * 0.8,
+                snackPosition: SnackPosition.TOP,
+                borderRadius: 15,
+                colorText: Colors.white,
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+              );
+            },
+            child: const Text('Add to Cart', style: TextStyle(fontSize: 25, color: Colors.white)),
+          ),
+        ],
       ),
     );
   }

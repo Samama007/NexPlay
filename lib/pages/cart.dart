@@ -17,7 +17,7 @@ class CartPage extends StatelessWidget {
         elevation: 0,
         title: const Text(
           'Cart',
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -43,6 +43,7 @@ class CartPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final item = cartController.cartItems[index];
                       return Card(
+                        color: Colors.blue.shade900,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -50,18 +51,20 @@ class CartPage extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
                           contentPadding: const EdgeInsets.all(15),
+                          leading: Image.network(item.backgroundimage),
                           title: Text(
                             item.name,
                             style: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 25,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
                             '\$${(item.price * item.quantity).toStringAsFixed(2)}',
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 19,
                               color: Colors.white70,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           trailing: IconButton(
@@ -69,7 +72,7 @@ class CartPage extends StatelessWidget {
                             icon: const Icon(
                               Icons.delete_outline_outlined,
                               color: Colors.red,
-                              size: 30,
+                              size: 40,
                             ),
                           ),
                         ),

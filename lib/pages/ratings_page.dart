@@ -47,10 +47,10 @@ class _RatingsPageState extends State<RatingsPage> {
         backgroundColor: Colors.deepPurple.shade900,
         elevation: 0,
         bottomOpacity: 0,
-        toolbarHeight: 32,
+        toolbarHeight: Get.height * 0.08,
       ),
       body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
           height: MediaQuery.of(context).size.height,
           color: Colors.deepPurple.shade900,
           child: ListView.builder(
