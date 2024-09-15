@@ -169,11 +169,14 @@ class _GameDetailState extends State<GameDetail> {
       children: [
         ClipRRect(
           borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-          child: Image.network(
-            widget.game.backgroundImage,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 220,
+          child: Hero(
+            tag: '${widget.game.id}',
+            child: Image.network(
+              widget.game.backgroundImage,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 220,
+            ),
           ),
         ),
         IconButton(
@@ -223,9 +226,12 @@ class _GameDetailState extends State<GameDetail> {
                           clipBehavior: Clip.hardEdge,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           margin: const EdgeInsets.only(right: 15),
-                          child: Image.network(
-                            widget.game.shortScreenshots[index].image,
-                            fit: BoxFit.cover,
+                          child: Hero(
+                            tag: '${widget.game.shortScreenshots[index].id}',
+                            child: Image.network(
+                              widget.game.shortScreenshots[index].image,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       );
@@ -247,10 +253,11 @@ class _GameDetailState extends State<GameDetail> {
               alignment: Alignment.centerLeft,
               child: Text('About this game', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w900)),
             ),
+            const SizedBox(height: 5),
             isLoading
                 ? Text(BoneMock.paragraph, maxLines: 3)
                 : AnimatedReadMoreText(
-                    description!.description.toString(),
+                    description!.description.replaceAll('<p>', '').replaceAll('<br />', '\n').replaceAll('</p>', '').toString(),
                     maxLines: 3,
                     textStyle: const TextStyle(fontSize: 16, color: Colors.white),
                     buttonTextStyle: const TextStyle(fontSize: 16, color: Colors.red),
@@ -272,7 +279,7 @@ class _GameDetailState extends State<GameDetail> {
                 backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
                 side: const WidgetStatePropertyAll(BorderSide(color: Colors.white)),
                 minimumSize: WidgetStatePropertyAll(
-                  Size(Get.width * 0.5, 50),
+                  Size(Get.width * 0.4, 50),
                 )),
             onPressed: () {},
             child: Text('\$${widget.price}', style: const TextStyle(fontSize: 25, color: Colors.white)),
@@ -283,7 +290,7 @@ class _GameDetailState extends State<GameDetail> {
                 backgroundColor: const WidgetStatePropertyAll(Colors.blue),
                 // side: const WidgetStatePropertyAll(BorderSide(color: Colors.purple)),
                 minimumSize: WidgetStatePropertyAll(
-                  Size(Get.width * 0.4, 50),
+                  Size(Get.width * 0.5, 50),
                 )),
             onPressed: () {
               var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price), backgroundimage: widget.game.backgroundImage);

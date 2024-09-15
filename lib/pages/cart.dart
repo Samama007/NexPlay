@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nexplay/pages/add_card.dart';
+import 'package:nexplay/pages/Purchased.dart';
+// import 'package:nexplay/pages/add_card.dart';
 import '../controller/cart_controller.dart';
 
 class CartPage extends StatelessWidget {
@@ -50,7 +51,7 @@ class CartPage extends StatelessWidget {
                         elevation: 5,
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
-                          contentPadding: const EdgeInsets.all(15),
+                          // contentPadding: const EdgeInsets.all(15),
                           leading: Image.network(item.backgroundimage),
                           title: Text(
                             item.name,
@@ -116,10 +117,31 @@ class CartPage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                      ),
-                      onPressed: () => Get.to(() => const NoPaymentMethodsScreen()),
+                      ), 
+                      onPressed: () {
+                        if (cartController.cartItems.isNotEmpty) {
+                          Get.to(() => const Purchased());
+                          Future.delayed((const Duration(seconds: 4)), () {
+                            cartController.clearCart();
+                            Get.back();
+                          });
+                        } else {
+                          Get.snackbar(
+                            'EMPTY CART!',
+                            'Add some games to the cart first',
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: Colors.grey.shade500,
+                            colorText: Colors.white,
+                            duration: const Duration(seconds: 2),
+                            borderRadius: 10,
+                            margin: const EdgeInsets.all(10),
+                            overlayBlur: 1,
+                            isDismissible: true,
+                          );
+                        }
+                      },
                       child: const Text(
-                        'Checkout',
+                        'PLACE ORDER',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

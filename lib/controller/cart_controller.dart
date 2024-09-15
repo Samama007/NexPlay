@@ -21,4 +21,8 @@ class CartController extends GetxController {
   void removeItem(int index) {
     cartItems.removeAt(index);
   }
+
+  void clearCart() {
+    cartItems.clear();
+  }
 }

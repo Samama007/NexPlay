@@ -186,7 +186,7 @@ class _CatDetailsState extends State<CatDetails> {
                                 );
                               },
                               child: Card(
-                                color: Colors.deepPurple.shade700,
+                                color: Colors.blue.shade800,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -196,6 +196,7 @@ class _CatDetailsState extends State<CatDetails> {
                                   contentPadding: const EdgeInsets.all(16),
                                   title: Text(
                                     game.name,
+                                    textAlign: TextAlign.start,
                                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                                   ),
                                   subtitle: Row(
@@ -210,11 +211,14 @@ class _CatDetailsState extends State<CatDetails> {
                                   ),
                                   trailing: ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                      game.backgroundImage,
-                                      height: double.infinity,
-                                      width: 150,
-                                      fit: BoxFit.fitWidth,
+                                    child: Hero(
+                                      tag: '${game.id}',
+                                      child: Image.network(
+                                        game.backgroundImage,
+                                        height: double.infinity,
+                                        width: 150,
+                                        fit: BoxFit.fitWidth,
+                                      ),
                                     ),
                                   ),
                                 ),

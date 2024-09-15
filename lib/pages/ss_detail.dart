@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexplay/models/my_game_model.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class ScreenShotDetail extends StatelessWidget {
   final GameModel game;
@@ -11,11 +12,15 @@ class ScreenShotDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SafeArea(
-        child: Center(
-          child: Image.network(
-            game.shortScreenshots[index].image,
-            fit: BoxFit.fill,
+      body: Center(
+        child: PinchZoom(
+          maxScale: 2.5,
+          child: Hero(
+            tag: '${game.shortScreenshots[index].id}',
+            child: Image.network(
+              game.shortScreenshots[index].image,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
       ),
