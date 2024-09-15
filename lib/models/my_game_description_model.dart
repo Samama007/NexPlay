@@ -2,10 +2,10 @@ class DescriptionModel {
   final int id;
   final String name;
   final String description;
-  final int metacritic;
-  final DateTime released;
-  final String backgroundImageAdditional;
-  final String website;
+  final int? metacritic;
+  final DateTime? released;
+  final String? backgroundImageAdditional;
+  final String? website;
   final List<Developer> developers;
   final List<Rating> ratings;
 
@@ -13,42 +13,48 @@ class DescriptionModel {
     required this.id,
     required this.name,
     required this.description,
-    required this.metacritic,
-    required this.released,
-    required this.backgroundImageAdditional,
-    required this.website,
+    this.metacritic,
+    this.released,
+    this.backgroundImageAdditional,
+    this.website,
     required this.developers,
     required this.ratings,
   });
 
   factory DescriptionModel.fromJson(Map<String, dynamic> json) => DescriptionModel(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        metacritic: json["metacritic"],
-        released: DateTime.parse(json["released"]),
-        backgroundImageAdditional: json["background_image_additional"],
-        website: json["website"],
-        developers: List<Developer>.from(json["developers"].map((x) => Developer.fromJson(x))),
-        ratings: List<Rating>.from(json["ratings"].map((x) => Rating.fromJson(x))),
+        id: json["id"] as int,
+        name: json["name"] as String,
+        description: json["description"] as String,
+        metacritic: json["metacritic"] as int?,
+        released: json["released"] != null ? DateTime.parse(json["released"] as String) : null,
+        backgroundImageAdditional: json["background_image_additional"] as String?,
+        website: json["website"] as String?,
+        developers: (json["developers"] as List<dynamic>?)
+                ?.map((x) => Developer.fromJson(x as Map<String, dynamic>))
+                .toList() ??
+            [],
+        ratings: (json["ratings"] as List<dynamic>?)
+                ?.map((x) => Rating.fromJson(x as Map<String, dynamic>))
+                .toList() ??
+            [],
       );
 }
 
 class Developer {
   final int id;
   final String name;
-  final String imageBackground;
+  final String? imageBackground;
 
   Developer({
     required this.id,
     required this.name,
-    required this.imageBackground,
+    this.imageBackground,
   });
 
   factory Developer.fromJson(Map<String, dynamic> json) => Developer(
-        id: json["id"],
-        name: json["name"],
-        imageBackground: json["image_background"],
+        id: json["id"] as int,
+        name: json["name"] as String,
+        imageBackground: json["image_background"] as String?,
       );
 }
 
@@ -66,10 +72,10 @@ class Rating {
   });
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        id: json["id"],
-        title: json["title"],
-        count: json["count"],
-        percent: json["percent"]?.toDouble(),
+        id: json["id"] as int,
+        title: json["title"] as String,
+        count: json["count"] as int,
+        percent: (json["percent"] as num).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

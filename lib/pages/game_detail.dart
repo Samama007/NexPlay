@@ -399,7 +399,7 @@ class _GameDetailState extends State<GameDetail> {
                     style: const TextStyle(fontSize: 18, color: Colors.red),
                   ),
             const Spacer(),
-            isLoading ? Text(BoneMock.subtitle) : Text(description!.released.year.toString(), style: const TextStyle(fontSize: 18, color: Colors.red))
+            isLoading ? Text(BoneMock.subtitle) : Text(description!.released!.year.toString(), style: const TextStyle(fontSize: 18, color: Colors.red))
           ],
         ),
       ),

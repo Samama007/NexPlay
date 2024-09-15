@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'authentication/firebase module/firebase_options.dart';
 // import 'package:nexplay/authentication/login_page.dart';
 import 'package:nexplay/widgets/bottom_nav_bar.dart';
-
 import 'controllers.dart';
 
 void main() async {
@@ -15,12 +14,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // Get.put(CartController());
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  
+  Controllers().initializeControllers();
+  
   runApp(const NexPlay());
-  Controllers controllers = Controllers().initializeController();
-  controllers.initializeController();
 }
 
 class NexPlay extends StatefulWidget {
