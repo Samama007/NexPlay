@@ -84,27 +84,18 @@ class _SearchBarrState extends State<SearchBarr> {
             Random random = Random();
             int randomIndex = random.nextInt(100);
             String price = priceModel.price[randomIndex].toString();
-
-            //index
             String selectedGameName = value.searchKey;
             int index = games.indexWhere((game) => game.name == selectedGameName);
-            // print(index);
             Get.to(() => GameDetail(
                   game: gamemodel.GameModel(
                     id: games[index].id,
                     name: games[index].name,
-                    backgroundImage: games[index].backgroundImage,
-                    released: games[index].released,
-                    playtime: games[index].playtime,
-                    ratingsCount: games[index].ratingsCount,
-                    rating: games[index].rating,
-                    shortScreenshots: games[index]
-                        .shortScreenshots
-                        .map((screenshot) => gamemodel.ShortScreenshot(
-                              id: screenshot.id,
-                              image: screenshot.image,
-                            ))
-                        .toList(),
+                    backgroundImage: games[index].backgroundImage!,
+                    released: games[index].released!,
+                    playtime: games[index].playtime!,
+                    ratingsCount: games[index].ratingsCount!,
+                    rating: games[index].rating!,
+                    shortScreenshots: games[index].shortScreenshots.map((screenshot) => gamemodel.ShortScreenshot(id: screenshot.id, image: screenshot.image!)).toList(),
                     esrbRating: gamemodel.EsrbRating(
                       id: 7,
                       name: 'Mature',

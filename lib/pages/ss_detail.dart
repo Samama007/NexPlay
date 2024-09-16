@@ -14,7 +14,7 @@ class ScreenShotDetail extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: PinchZoom(
-          maxScale: 2.5,
+          maxScale: 5,
           child: Hero(
             tag: '${game.shortScreenshots[index].id}',
             child: Image.network(

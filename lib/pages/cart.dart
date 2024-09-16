@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nexplay/controller/library_controller.dart' as libraryitem;
 import 'package:nexplay/pages/Purchased.dart';
 // import 'package:nexplay/pages/add_card.dart';
 import '../controller/cart_controller.dart';
 
 class CartPage extends StatelessWidget {
-  final CartController cartController = Get.find();
+  final CartController _cartController = Get.find();
+  final libraryitem.LibraryController _libraryController = Get.find();
 
   CartPage({super.key});
 
@@ -40,9 +42,9 @@ class CartPage extends StatelessWidget {
               Expanded(
                 child: Obx(
                   () => ListView.builder(
-                    itemCount: cartController.cartItems.length,
+                    itemCount: _cartController.cartItems.length,
                     itemBuilder: (context, index) {
-                      final item = cartController.cartItems[index];
+                      final item = _cartController.cartItems[index];
                       return Card(
                         color: Colors.blue.shade900,
                         shape: RoundedRectangleBorder(
@@ -51,8 +53,7 @@ class CartPage extends StatelessWidget {
                         elevation: 5,
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
-                          // contentPadding: const EdgeInsets.all(15),
-                          leading: Image.network(item.backgroundimage),
+                          leading: Image.network(item.backgroundImage, width: 100, height: 100, fit: BoxFit.cover),
                           title: Text(
                             item.name,
                             style: const TextStyle(
@@ -69,7 +70,7 @@ class CartPage extends StatelessWidget {
                             ),
                           ),
                           trailing: IconButton(
-                            onPressed: () => cartController.removeItem(index),
+                            onPressed: () => _cartController.removeItem(index),
                             icon: const Icon(
                               Icons.delete_outline_outlined,
                               color: Colors.red,
@@ -97,7 +98,7 @@ class CartPage extends StatelessWidget {
                         ),
                         subtitle: Obx(
                           () => Text(
-                            '\$${cartController.totalPrice.toStringAsFixed(2)}',
+                            '\$${_cartController.totalPrice.toStringAsFixed(2)}',
                             style: const TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -117,12 +118,28 @@ class CartPage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                      ), 
+                      ),
                       onPressed: () {
-                        if (cartController.cartItems.isNotEmpty) {
+                        if (_cartController.cartItems.isNotEmpty) {
+                          for (int i = 0; i < _cartController.cartItems.length; i++) {
+                            var newItem = libraryitem.LibraryItem(
+                              id: _cartController.cartItems[i].id,
+                              name: _cartController.cartItems[i].name,
+                              backgroundImage: _cartController.cartItems[i].backgroundImage,
+                              rating: _cartController.cartItems[i].rating,
+                              released: _cartController.cartItems[i].released,
+                              playtime: _cartController.cartItems[i].playtime,
+                              ratingsCount: _cartController.cartItems[i].ratingsCount,
+                              shortScreenshots: _cartController.cartItems[i].shortScreenshots.map((screenshot) => libraryitem.ShortScreenshot(id: _cartController.cartItems[i].shortScreenshots[i].id, image:  _cartController.cartItems[i].shortScreenshots[i].image)).toList(),
+                              esrbRating: libraryitem.EsrbRating(id: _cartController.cartItems[i].esrbRating.id, name: _cartController.cartItems[i].esrbRating.name, slug: _cartController.cartItems[i].esrbRating.slug),
+                              
+                            );
+                            _libraryController.addItem(newItem);
+                          }
+                          // print(newItem);
                           Get.to(() => const Purchased());
                           Future.delayed((const Duration(seconds: 4)), () {
-                            cartController.clearCart();
+                            _cartController.clearCart();
                             Get.back();
                           });
                         } else {

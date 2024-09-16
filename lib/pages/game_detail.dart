@@ -9,7 +9,7 @@ import 'package:animated_read_more_text/animated_read_more_text.dart';
 import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/ratings_page.dart';
 import 'package:nexplay/pages/ss_detail.dart';
-import '../controller/cart_controller.dart';
+import '../controller/cart_controller.dart' as cartitem;
 import 'package:skeletonizer/skeletonizer.dart';
 
 class GameDetail extends StatefulWidget {
@@ -27,7 +27,7 @@ class _GameDetailState extends State<GameDetail> {
   DescriptionModel? description;
   bool isLoading = true;
   String price = '';
-  CartController cartController = Get.find();
+  cartitem.CartController cartController = Get.find();
 
   @override
   void initState() {
@@ -293,7 +293,18 @@ class _GameDetailState extends State<GameDetail> {
                   Size(Get.width * 0.5, 50),
                 )),
             onPressed: () {
-              var newItem = CartItem(name: widget.game.name, price: double.parse(widget.price), backgroundimage: widget.game.backgroundImage);
+              var newItem = cartitem.CartItem(
+                name: widget.game.name,
+                price: double.parse(widget.price),
+                backgroundImage: widget.game.backgroundImage,
+                rating: widget.game.rating,
+                released: widget.game.released,
+                playtime: widget.game.playtime,
+                ratingsCount: widget.game.ratingsCount,
+                id: widget.game.id,
+                esrbRating: cartitem.EsrbRating(id: widget.game.esrbRating.id, name: widget.game.esrbRating.name, slug: widget.game.esrbRating.slug),
+                shortScreenshots: widget.game.shortScreenshots.map((screenshot) => cartitem.ShortScreenshot(id: screenshot.id, image: screenshot.image)).toList(),
+              );
               cartController.addItem(newItem);
               Get.snackbar(
                 newItem.name,
