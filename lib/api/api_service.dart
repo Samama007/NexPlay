@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:nexplay/models/achievements_model.dart';
 import 'package:nexplay/models/my_category_description.dart';
 import 'package:nexplay/models/my_categories_model.dart';
 import 'package:nexplay/models/my_game_description_model.dart';
@@ -61,6 +62,19 @@ class GameApi {
       return categorydescription;
     } else {
       throw Exception('Failed to load Category details');
+    }
+  }
+
+  Future<List<AchievementsModel>> fetchAchievements(int id, int page) async {
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/games/$id/achievements?key=b4c477df733b421d8b4d897023fb0f6e&page=$page'));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      List<AchievementsModel> category = [
+        AchievementsModel.fromJson(data)
+      ];
+      return category;
+    } else {
+      throw Exception('Failed to load Categories');
     }
   }
 }

@@ -1,105 +1,144 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/controller/library_controller.dart';
 import 'package:nexplay/models/my_game_model.dart' as gamemodel;
 import 'package:nexplay/models/price_model.dart';
+import 'package:nexplay/pages/achievements.dart';
 import 'package:nexplay/pages/game_detail.dart';
 
-class FavoriteProductsScreen extends StatelessWidget {
+class Library extends StatelessWidget {
   final LibraryController _libraryController = Get.find();
 
-  FavoriteProductsScreen({super.key});
+  Library({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.lightBlue.shade700,
       appBar: AppBar(
-        title: const Center(child: Text("Favorite")),
+        title: const Center(child: Text("Library", style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w900))),
         backgroundColor: Colors.transparent,
       ),
-      body: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: _libraryController.isLibraryEmpty.value
-                ? GridView.builder(
-                    itemCount: _libraryController.libraryItems.length,
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      childAspectRatio: 0.7,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 16,
-                    ),
-                    itemBuilder: (context, index) {
-                      double width = 140;
-                      double aspectRetio = 1.02;
-                      final item = _libraryController.libraryItems[index];
-                      if (_libraryController.libraryItems.isNotEmpty) {
-                        return InkWell(
-                          onTap: () {
-                            var game = _libraryController.libraryItems[index];
-                            PriceModel priceModel = PriceModel();
-                            Random random = Random();
-                            int randomIndex = random.nextInt(100);
-                            String price = priceModel.price[randomIndex].toString();
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return (GameDetail(
-                                game: gamemodel.GameModel(
-                                  id: game.id,
-                                  name: game.name,
-                                  backgroundImage: game.backgroundImage,
-                                  released: game.released,
-                                  playtime: game.playtime,
-                                  ratingsCount: game.ratingsCount,
-                                  rating: game.rating,
-                                  shortScreenshots: game.shortScreenshots.map((screenshot) => gamemodel.ShortScreenshot(id: screenshot.id, image: screenshot.image)).toList(),
-                                  esrbRating: gamemodel.EsrbRating(id: game.esrbRating.id, name: game.esrbRating.name, slug: game.esrbRating.slug),
-                                ),
-                                price: price,
-                              ));
-                            }));
-                          },
-                          child: SizedBox(
-                            width: width,
-                            child: GestureDetector(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: _libraryController.isLibraryEmpty.value
+            ? ListView.builder(
+                itemCount: _libraryController.libraryItems.length,
+                itemBuilder: (context, index) {
+                  final item = _libraryController.libraryItems[index];
+                  if (_libraryController.libraryItems.isNotEmpty) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ExpansionTile(
+                        showTrailingIcon: false,
+                        collapsedBackgroundColor: Colors.blue.shade900,
+                        backgroundColor: Colors.deepPurple.shade900,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        title: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(item.backgroundImage, height: 100, width: double.infinity, fit: BoxFit.cover, alignment: Alignment.topCenter),
+                        ),
+                        childrenPadding: EdgeInsets.all(20),
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
                                 children: [
-                                  AspectRatio(
-                                    aspectRatio: aspectRetio,
-                                    child: Container(
-                                      // padding: const EdgeInsets.all(20),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF979797).withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Hero(
-                                        tag: '${item.id}',
-                                        child: Image.network(
-                                          item.backgroundImage,
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    item.name,
-                                    style: Theme.of(context).textTheme.titleMedium,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                  ),
+                                  SizedBox(
+                                      width: 150,
+                                      child: Text(
+                                        item.name.toString(),
+                                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  Row(
+                                    children: [
+                                      Text('Played for ', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                                      Text(item.playtime.toString(), style: TextStyle(color: Colors.yellow.shade500, fontSize: 18, fontWeight: FontWeight.w500)),
+                                      Text(' hours', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                                    ],
+                                  )
                                 ],
                               ),
-                            ),
-                          ),
-                        );
-                      }
-                      return null;
-                    })
-                : const Center(child: Text('BUY SOME GAMES FIRST'))),
+                              Column(
+                                children: [
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(Colors.yellow.shade500),
+                                    ),
+                                    onPressed: () {
+                                      Get.to(AchievementsPage(id: item.id));
+                                    },
+                                    child: Text('ACHIEVEMENTS', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      minimumSize: WidgetStatePropertyAll(Size(130, 40)),
+                                      backgroundColor: WidgetStatePropertyAll(Colors.red.shade500),
+                                    ),
+                                    onPressed: () {
+                                      var game = _libraryController.libraryItems[index];
+                                      PriceModel priceModel = PriceModel();
+                                      Random random = Random();
+                                      int randomIndex = random.nextInt(100);
+                                      String price = priceModel.price[randomIndex].toString();
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                        return (GameDetail(
+                                          game: gamemodel.GameModel(
+                                            id: game.id,
+                                            name: game.name,
+                                            backgroundImage: game.backgroundImage,
+                                            released: game.released,
+                                            playtime: game.playtime,
+                                            ratingsCount: game.ratingsCount,
+                                            rating: game.rating,
+                                            shortScreenshots: game.shortScreenshots.map((screenshot) => gamemodel.ShortScreenshot(id: screenshot.id, image: screenshot.image)).toList(),
+                                            esrbRating: gamemodel.EsrbRating(id: game.esrbRating.id, name: game.esrbRating.name, slug: game.esrbRating.slug),
+                                          ),
+                                          price: price,
+                                        ));
+                                      }));
+                                    },
+                                    child: Text('STORE PAGE', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  return null;
+                })
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SvgPicture.asset(
+                    'assets/svg/no_game.svg',
+                    height: 350,
+                    width: Get.width * 0.8,
+                  ),
+                  const SizedBox(height: 15),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      'Uhhh, no games bought yet. 🙊',
+                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: Colors.white, fontStyle: FontStyle.normal),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
       ),
     );
   }

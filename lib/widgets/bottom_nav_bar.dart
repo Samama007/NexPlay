@@ -37,7 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
         },
         children: [
           ExplorePage(username: widget.name),
-          FavoriteProductsScreen(),
+          Library(),
           ProfilePage(),
         ],
       ),

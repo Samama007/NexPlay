@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/controller/library_controller.dart' as libraryitem;
 import 'package:nexplay/pages/Purchased.dart';
@@ -40,48 +41,64 @@ class CartPage extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Obx(
-                  () => ListView.builder(
-                    itemCount: _cartController.cartItems.length,
-                    itemBuilder: (context, index) {
-                      final item = _cartController.cartItems[index];
-                      return Card(
-                        color: Colors.blue.shade900,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                child: _cartController.cartItems.isNotEmpty
+                    ? Obx(
+                        () => ListView.builder(
+                          itemCount: _cartController.cartItems.length,
+                          itemBuilder: (context, index) {
+                            final item = _cartController.cartItems[index];
+                            return Card(
+                              color: Colors.blue.shade900,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 5,
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              child: ListTile(
+                                leading: Image.network(item.backgroundImage, width: 100, height: 100, fit: BoxFit.cover),
+                                title: Text(
+                                  item.name,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '\$${(item.price * item.quantity).toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    fontSize: 19,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                trailing: IconButton(
+                                  onPressed: () => _cartController.removeItem(index),
+                                  icon: const Icon(
+                                    Icons.delete_outline_outlined,
+                                    color: Colors.red,
+                                    size: 40,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        elevation: 5,
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: ListTile(
-                          leading: Image.network(item.backgroundImage, width: 100, height: 100, fit: BoxFit.cover),
-                          title: Text(
-                            item.name,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      )
+                    // : const Center(child: Text('empty cart')),
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 45),
+                          SvgPicture.asset(
+                            'assets/svg/empty.svg',
+                            height: 300,
+                            width: Get.width * 0.7,
                           ),
-                          subtitle: Text(
-                            '\$${(item.price * item.quantity).toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 19,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () => _cartController.removeItem(index),
-                            icon: const Icon(
-                              Icons.delete_outline_outlined,
-                              color: Colors.red,
-                              size: 40,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                          const SizedBox(height: 15),
+                          const Text('Oops, Cart is empty 😖', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white, fontStyle: FontStyle.normal))
+                        ],
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -130,9 +147,8 @@ class CartPage extends StatelessWidget {
                               released: _cartController.cartItems[i].released,
                               playtime: _cartController.cartItems[i].playtime,
                               ratingsCount: _cartController.cartItems[i].ratingsCount,
-                              shortScreenshots: _cartController.cartItems[i].shortScreenshots.map((screenshot) => libraryitem.ShortScreenshot(id: _cartController.cartItems[i].shortScreenshots[i].id, image:  _cartController.cartItems[i].shortScreenshots[i].image)).toList(),
+                              shortScreenshots: _cartController.cartItems[i].shortScreenshots.map((screenshot) => libraryitem.ShortScreenshot(id: _cartController.cartItems[i].shortScreenshots[i].id, image: _cartController.cartItems[i].shortScreenshots[i].image)).toList(),
                               esrbRating: libraryitem.EsrbRating(id: _cartController.cartItems[i].esrbRating.id, name: _cartController.cartItems[i].esrbRating.name, slug: _cartController.cartItems[i].esrbRating.slug),
-                              
                             );
                             _libraryController.addItem(newItem);
                           }

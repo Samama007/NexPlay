@@ -117,6 +117,7 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xFF1B2838),
       body: CustomScrollView(
         slivers: [
@@ -131,10 +132,10 @@ class ExplorePage extends StatelessWidget {
                   Text('Welcome, $username', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                 ],
               ),
-              // background: Image.asset(
-              //   'assets/images/ss1.png',
-              //   fit: BoxFit.cover,
-              // ),
+              background: Image.asset(
+                'assets/images/ss1.png',
+                fit: BoxFit.fitWidth,
+              ),
             ),
           ),
           SliverToBoxAdapter(
