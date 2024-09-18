@@ -110,16 +110,7 @@ class _CatDetailsState extends State<CatDetails> {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.black,
-              Colors.deepPurple.shade900
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        color: const Color(0xFF00246B),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -174,7 +165,7 @@ class _CatDetailsState extends State<CatDetails> {
   Widget _buildGameCard(gm.GameModel game) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      color: Colors.blue.shade900,
+      color: Colors.blue.shade600,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: () => _navigateToGameDetail(game),

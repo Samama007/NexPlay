@@ -69,23 +69,17 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
               iconActiveColor: Colors.red.shade500,
               iconColor: Colors.white,
               textColor: Colors.red.shade500,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
               backgroundColor: Colors.red.shade200.withOpacity(0.3),
             ),
-            GButton(
+            const GButton(
               icon: FontAwesomeIcons.book,
               text: "Library",
-              iconActiveColor: Colors.green.shade500,
+              iconActiveColor: Color(0xFF46211A),
               iconColor: Colors.white,
-              textColor: Colors.green.shade500,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              backgroundColor: Colors.green.shade200.withOpacity(0.3),
+              // textColor: Colors.green.shade500,
+              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF46211A)),
+              backgroundColor: Color(0xFFF1D3B2),
             ),
             GButton(
               icon: FontAwesomeIcons.user,

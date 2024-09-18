@@ -18,9 +18,9 @@ class Library extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue.shade700,
+      backgroundColor: Color(0xFF46211A),
       appBar: AppBar(
-        title: const Center(child: Text("Library", style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w900))),
+        title: const Center(child: Text("Library", style: TextStyle(color: Color(0xFFF1D3B2), fontSize: 36, fontWeight: FontWeight.w900))),
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
@@ -37,8 +37,8 @@ class Library extends StatelessWidget {
                       ),
                       child: ExpansionTile(
                         showTrailingIcon: false,
-                        collapsedBackgroundColor: Colors.blue.shade900,
-                        backgroundColor: Colors.deepPurple.shade900,
+                        collapsedBackgroundColor: Color(0xFFA43820),
+                        backgroundColor: Color(0xFFF1D3B2),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         title: ClipRRect(
@@ -56,14 +56,14 @@ class Library extends StatelessWidget {
                                       width: 150,
                                       child: Text(
                                         item.name.toString(),
-                                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+                                        style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
                                         textAlign: TextAlign.center,
                                       )),
                                   Row(
                                     children: [
-                                      Text('Played for ', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
-                                      Text(item.playtime.toString(), style: TextStyle(color: Colors.yellow.shade500, fontSize: 18, fontWeight: FontWeight.w500)),
-                                      Text(' hours', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                                      Text('Played for ', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
+                                      Text(item.playtime.toString(), style: TextStyle(color: Colors.red.shade500, fontSize: 18, fontWeight: FontWeight.w500)),
+                                      Text(' hours', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
                                     ],
                                   )
                                 ],
@@ -72,17 +72,15 @@ class Library extends StatelessWidget {
                                 children: [
                                   TextButton(
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStatePropertyAll(Colors.yellow.shade500),
+                                      backgroundColor: WidgetStatePropertyAll(Color(0xFF46211A)),
                                     ),
-                                    onPressed: () {
-                                      Get.to(AchievementsPage(id: item.id));
-                                    },
-                                    child: Text('ACHIEVEMENTS', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+                                    onPressed: () => Get.to(() => AchievementsPage(id: item.id)),
+                                    child: Text('ACHIEVEMENTS', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
                                   ),
                                   TextButton(
                                     style: ButtonStyle(
                                       minimumSize: WidgetStatePropertyAll(Size(130, 40)),
-                                      backgroundColor: WidgetStatePropertyAll(Colors.red.shade500),
+                                      backgroundColor: WidgetStatePropertyAll(Color(0xFF46211A)),
                                     ),
                                     onPressed: () {
                                       var game = _libraryController.libraryItems[index];
@@ -107,7 +105,7 @@ class Library extends StatelessWidget {
                                         ));
                                       }));
                                     },
-                                    child: Text('STORE PAGE', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+                                    child: Text('STORE PAGE', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
                                   ),
                                 ],
                               )
@@ -133,7 +131,7 @@ class Library extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
                       'Uhhh, no games bought yet. 🙊',
-                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: Colors.white, fontStyle: FontStyle.normal),
+                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: Color(0xFFF1D3B2), fontStyle: FontStyle.normal),
                       textAlign: TextAlign.center,
                     ),
                   )

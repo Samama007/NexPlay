@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/achievements_model.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AchievementsPage extends StatefulWidget {
   final int id;
@@ -80,14 +81,67 @@ class _AchievementsPageState extends State<AchievementsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue.shade700,
+      backgroundColor: const Color(0xFF2C5F2D),
       appBar: AppBar(
         title: const Text("Achievements", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900)),
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
       body: achievements.isEmpty && isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? GridView.builder(
+              itemCount: 6,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.7,
+              ),
+              itemBuilder: (context, index) {
+                return Skeletonizer(
+                  effect: ShimmerEffect(
+                    baseColor: Colors.grey.shade400,
+                    highlightColor: Colors.grey.shade50,
+                  ),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                            child: Container(
+                              height: 120,
+                              width: double.infinity,
+                              color: Colors.grey.shade800,
+                            )),
+                        const SizedBox(height: 5),
+                        AutoSizeText(
+                          BoneMock.name,
+                          maxLines: 2,
+                          minFontSize: 15,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w900),
+                          textAlign: TextAlign.center,
+                        ),
+                        Container(width: 50, height: 1, color: Colors.black),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: AutoSizeText(
+                            BoneMock.name,
+                            maxLines: 3,
+                            minFontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+                            textAlign: TextAlign.start,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              })
           : GridView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(8),
@@ -102,7 +156,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                 if (index < achievements.length) {
                   var achievement = achievements[index];
                   return Card(
-                    color: Colors.black,
+                    color: const Color(0xFF97BC62),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -123,10 +177,10 @@ class _AchievementsPageState extends State<AchievementsPage> {
                           maxLines: 2,
                           minFontSize: 15,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900),
+                          style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w900),
                           textAlign: TextAlign.center,
                         ),
-                        Container(width: 50, height: 1, color: Colors.white),
+                        Container(width: 50, height: 1, color: Colors.black),
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -135,7 +189,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                             maxLines: 3,
                             minFontSize: 14,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16),
+                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
                             textAlign: TextAlign.start,
                           ),
                         )
@@ -143,7 +197,11 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     ),
                   );
                 } else if (isLoading) {
-                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                  return const Center(
+                      child: Padding(
+                    padding: EdgeInsets.only(left: 100),
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ));
                 } else {
                   return const SizedBox.shrink();
                 }
