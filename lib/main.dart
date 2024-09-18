@@ -7,6 +7,9 @@ import 'authentication/firebase module/firebase_options.dart';
 // import 'package:nexplay/authentication/login_page.dart';
 import 'package:nexplay/widgets/bottom_nav_bar.dart';
 import 'controllers.dart';
+import 'package:json_theme_plus/json_theme_plus.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

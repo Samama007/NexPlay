@@ -18,9 +18,10 @@ class Library extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF46211A),
+      // backgroundColor: Color(0xFF46211A),
+      backgroundColor: Color(0xFFF1D3B2),
       appBar: AppBar(
-        title: const Center(child: Text("Library", style: TextStyle(color: Color(0xFFF1D3B2), fontSize: 36, fontWeight: FontWeight.w900))),
+        title: const Center(child: Text("Library", style: TextStyle(color: Color(0xFF46211A), fontSize: 36, fontWeight: FontWeight.w900))),
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
@@ -131,7 +132,7 @@ class Library extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
                       'Uhhh, no games bought yet. 🙊',
-                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: Color(0xFFF1D3B2), fontStyle: FontStyle.normal),
+                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: Color(0xFF46211A), fontStyle: FontStyle.normal),
                       textAlign: TextAlign.center,
                     ),
                   )

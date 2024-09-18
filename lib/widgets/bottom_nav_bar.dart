@@ -43,7 +43,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          color: Colors.black,
+          color: Color(0xFF46211A),
         ),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: GNav(
@@ -53,7 +53,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
           hoverColor: Colors.grey[700]!, // Tab hover color
           haptic: true, // Haptic feedback when a tab is clicked
           tabBorderRadius: 15,
-          backgroundColor: Colors.black,
+          backgroundColor: const Color(0xFF46211A),
           color: Colors.white, // Inactive icon color
           activeColor: Colors.red.shade500, // Active icon color
           iconSize: 24,
