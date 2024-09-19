@@ -8,21 +8,26 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).primaryColor;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: backgroundColor,
       body: Center(
         child: TextButton(
-          style: const ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(foregroundColor),
           ),
           onPressed: () {
             showDialog(
               context: context,
               builder: (context) {
-                return const AlertDialog(
+                return AlertDialog(
+                  backgroundColor: backgroundColor,
                   elevation: 20,
-                  title: Center(child: Text('Signing Out...')),
-                  titleTextStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                  title: Center(child: Text('Signing Out...', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.bold))),
+                  titleTextStyle: const TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
                 );
               },
             );
@@ -34,11 +39,11 @@ class ProfilePage extends StatelessWidget {
               ),
             );
           },
-          child: const Text(
+          child: Text(
             'Sign Out',
             style: TextStyle(
               fontSize: 20,
-              color: Colors.white,
+              color: backgroundColor,
               fontWeight: FontWeight.w600,
             ),
           ),

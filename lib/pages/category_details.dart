@@ -90,27 +90,30 @@ class _CatDetailsState extends State<CatDetails> {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 24),
+          icon: Icon(Icons.arrow_back_ios_new, color: foregroundColor, size: 24),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => CartPage()),
-        backgroundColor: Colors.red,
+        backgroundColor: backgroundColor,
         child: Badge(
-          backgroundColor: Colors.white,
-          label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Colors.red, fontSize: 13, fontWeight: FontWeight.bold))),
-          child: const Icon(Icons.shopping_cart_outlined, size: 30, color: Colors.white),
+          backgroundColor: tertiaryColor,
+          label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 13, fontWeight: FontWeight.bold))),
+          child: Icon(Icons.shopping_cart_outlined, size: 30, color: foregroundColor),
         ),
       ),
       body: Container(
-        color: const Color(0xFF00246B),
+        color: backgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -149,23 +152,26 @@ class _CatDetailsState extends State<CatDetails> {
   }
 
   Widget _buildSkeletonCard() {
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      color: Colors.grey.shade900,
+      // color: Colors.grey.shade900,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
-        title: Container(height: 24, color: Colors.grey.shade800),
-        subtitle: Container(height: 16, color: Colors.grey.shade800),
-        trailing: Container(height: 80, width: 80, color: Colors.grey.shade800),
+        title: Container(height: 24, color: foregroundColor),
+        subtitle: Container(height: 16, color: foregroundColor),
+        trailing: Container(height: 80, width: 80, color: foregroundColor),
       ),
     );
   }
 
   Widget _buildGameCard(gm.GameModel game) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      color: Colors.blue.shade600,
+      color: foregroundColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: () => _navigateToGameDetail(game),
@@ -191,7 +197,7 @@ class _CatDetailsState extends State<CatDetails> {
                   children: [
                     Text(
                       game.name,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: backgroundColor),
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -200,7 +206,7 @@ class _CatDetailsState extends State<CatDetails> {
                         const SizedBox(width: 4),
                         Text(
                           game.rating.toStringAsFixed(1),
-                          style: const TextStyle(color: Colors.white70, fontSize: 16),
+                          style: TextStyle(color: backgroundColor, fontSize: 16),
                         ),
                       ],
                     ),

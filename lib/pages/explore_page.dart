@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/controller/cart_controller.dart';
-// import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/categories_page.dart';
 import 'package:nexplay/widgets/search.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
+// import 'package:nexplay/pages/cart.dart';
+// import 'package:nexplay/util/colors.dart';
 
 class ExplorePage extends StatelessWidget {
   final String username;
   ExplorePage({super.key, required this.username});
-
   final CartController cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: const Color(0xFF1B2838),
+      backgroundColor: backgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -25,17 +28,11 @@ class ExplorePage extends StatelessWidget {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Welcome, $username', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                ],
-              ),
-              background: Image.asset(
-                'assets/images/ss1.png',
-                fit: BoxFit.fitWidth,
-              ),
-            ),
+                title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Text('Welcome, $username', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
+                ]),
+                background: Image.asset('assets/images/ss3.png', fit: BoxFit.fitWidth)),
+            backgroundColor: foregroundColor,
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -45,12 +42,12 @@ class ExplorePage extends StatelessWidget {
                 children: [
                   const SearchBarr(),
                   const SizedBox(height: 24),
-                  const Text(
+                  Text(
                     'Trending Now',
                     style: TextStyle(
                       fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      color: foregroundColor,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -59,21 +56,23 @@ class ExplorePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Categories',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: foregroundColor,
                         ),
                       ),
                       TextButton(
+                        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(foregroundColor)),
                         onPressed: () => Get.to(() => const CategoriesPage()),
-                        child: const Text(
+                        child: Text(
                           'View All',
                           style: TextStyle(
-                            color: Color(0xFF66C0F4),
+                            color: backgroundColor,
                             fontWeight: FontWeight.bold,
+                            fontSize: 17,
                           ),
                         ),
                       ),

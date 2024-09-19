@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/controller/library_controller.dart' as libraryitem;
 import 'package:nexplay/pages/Purchased.dart';
-// import 'package:nexplay/pages/add_card.dart';
 import '../controller/cart_controller.dart';
+// import 'package:nexplay/pages/add_card.dart';
 
 class CartPage extends StatelessWidget {
   final CartController _cartController = Get.find();
@@ -14,14 +14,25 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: foregroundColor,
+            size: 24,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Cart',
-          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: foregroundColor),
         ),
         centerTitle: true,
       ),
@@ -29,8 +40,9 @@ class CartPage extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.black,
-              Colors.deepPurple.shade900,
+              backgroundColor,
+              tertiaryColor,
+              foregroundColor,
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -48,7 +60,7 @@ class CartPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final item = _cartController.cartItems[index];
                             return Card(
-                              color: Colors.blue.shade900,
+                              color: backgroundColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -58,24 +70,25 @@ class CartPage extends StatelessWidget {
                                 leading: Image.network(item.backgroundImage, width: 100, height: 100, fit: BoxFit.cover),
                                 title: Text(
                                   item.name,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w600,
+                                    color: foregroundColor,
                                   ),
                                 ),
                                 subtitle: Text(
                                   '\$${(item.price * item.quantity).toStringAsFixed(2)}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 19,
-                                    color: Colors.white70,
+                                    color: foregroundColor,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 trailing: IconButton(
                                   onPressed: () => _cartController.removeItem(index),
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.delete_outline_outlined,
-                                    color: Colors.red,
+                                    color: tertiaryColor,
                                     size: 40,
                                   ),
                                 ),
@@ -84,7 +97,6 @@ class CartPage extends StatelessWidget {
                           },
                         ),
                       )
-                    // : const Center(child: Text('empty cart')),
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +108,7 @@ class CartPage extends StatelessWidget {
                             width: Get.width * 0.7,
                           ),
                           const SizedBox(height: 15),
-                          const Text('Oops, Cart is empty 😖', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white, fontStyle: FontStyle.normal))
+                          Text('Oops, Cart is empty 😖', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: backgroundColor, fontStyle: FontStyle.normal))
                         ],
                       ),
               ),
@@ -106,20 +118,20 @@ class CartPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ListTile(
-                        title: const Text(
+                        title: Text(
                           'Total:',
                           style: TextStyle(
                             fontSize: 20,
-                            color: Colors.white70,
+                            color: backgroundColor,
                           ),
                         ),
                         subtitle: Obx(
                           () => Text(
                             '\$${_cartController.totalPrice.toStringAsFixed(2)}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              color: backgroundColor,
                             ),
                           ),
                         ),
@@ -127,7 +139,7 @@ class CartPage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: backgroundColor,
                         padding: const EdgeInsets.symmetric(
                           vertical: 12,
                           horizontal: 25,
@@ -163,8 +175,8 @@ class CartPage extends StatelessWidget {
                             'EMPTY CART!',
                             'Add some games to the cart first',
                             snackPosition: SnackPosition.TOP,
-                            backgroundColor: Colors.grey.shade500,
-                            colorText: Colors.white,
+                            backgroundColor: backgroundColor,
+                            colorText: foregroundColor,
                             duration: const Duration(seconds: 2),
                             borderRadius: 10,
                             margin: const EdgeInsets.all(10),
@@ -173,12 +185,12 @@ class CartPage extends StatelessWidget {
                           );
                         }
                       },
-                      child: const Text(
+                      child: Text(
                         'PLACE ORDER',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: foregroundColor,
                         ),
                       ),
                     ),

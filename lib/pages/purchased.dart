@@ -28,7 +28,7 @@ class _PurchasedState extends State<Purchased> with SingleTickerProviderStateMix
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 40), () {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     });
@@ -42,19 +42,13 @@ class _PurchasedState extends State<Purchased> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
-      body: Container(
+      backgroundColor: backgroundColor,
+      body: SizedBox(
         width: Get.width,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.deepPurple.shade900,
-              Colors.black
-            ],
-          ),
-        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -71,12 +65,12 @@ class _PurchasedState extends State<Purchased> with SingleTickerProviderStateMix
             const SizedBox(height: 40),
             FadeTransition(
               opacity: _fadeAnimation,
-              child: const Text(
+              child: Text(
                 'THANK YOU!',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: foregroundColor,
                   letterSpacing: 2,
                 ),
               ),
@@ -90,11 +84,11 @@ class _PurchasedState extends State<Purchased> with SingleTickerProviderStateMix
                   color: Colors.white.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: const Text(
+                child: Text(
                   'Your purchase was successful.',
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white70,
+                    color: foregroundColor,
                   ),
                   textAlign: TextAlign.center,
                 ),

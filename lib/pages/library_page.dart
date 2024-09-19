@@ -9,6 +9,7 @@ import 'package:nexplay/models/my_game_model.dart' as gamemodel;
 import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/pages/achievements.dart';
 import 'package:nexplay/pages/game_detail.dart';
+// import 'package:nexplay/util/colors.dart';
 
 class Library extends StatelessWidget {
   final LibraryController _libraryController = Get.find();
@@ -17,13 +18,12 @@ class Library extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
-      // backgroundColor: Color(0xFF46211A),
-      backgroundColor: Color(0xFFF1D3B2),
-      appBar: AppBar(
-        title: const Center(child: Text("Library", style: TextStyle(color: Color(0xFF46211A), fontSize: 36, fontWeight: FontWeight.w900))),
-        backgroundColor: Colors.transparent,
-      ),
+      backgroundColor: backgroundColor,
+      appBar: AppBar(title: Center(child: Text("Library", style: TextStyle(color: foregroundColor, fontSize: 36, fontWeight: FontWeight.w900))), backgroundColor: Colors.transparent),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: _libraryController.isLibraryEmpty.value
@@ -38,8 +38,8 @@ class Library extends StatelessWidget {
                       ),
                       child: ExpansionTile(
                         showTrailingIcon: false,
-                        collapsedBackgroundColor: Color(0xFFA43820),
-                        backgroundColor: Color(0xFFF1D3B2),
+                        collapsedBackgroundColor: tertiaryColor,
+                        backgroundColor: foregroundColor,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         title: ClipRRect(
@@ -57,14 +57,14 @@ class Library extends StatelessWidget {
                                       width: 150,
                                       child: Text(
                                         item.name.toString(),
-                                        style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
+                                        style: TextStyle(color: backgroundColor, fontSize: 20, fontWeight: FontWeight.w700),
                                         textAlign: TextAlign.center,
                                       )),
                                   Row(
                                     children: [
-                                      Text('Played for ', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
-                                      Text(item.playtime.toString(), style: TextStyle(color: Colors.red.shade500, fontSize: 18, fontWeight: FontWeight.w500)),
-                                      Text(' hours', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
+                                      Text('Played for ', style: TextStyle(color: backgroundColor, fontSize: 14, fontWeight: FontWeight.w500)),
+                                      Text(item.playtime.toString(), style: TextStyle(color: Colors.red.shade500, fontSize: 20, fontWeight: FontWeight.w500)),
+                                      Text(' hours', style: TextStyle(color: backgroundColor, fontSize: 14, fontWeight: FontWeight.w500)),
                                     ],
                                   )
                                 ],
@@ -73,15 +73,15 @@ class Library extends StatelessWidget {
                                 children: [
                                   TextButton(
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStatePropertyAll(Color(0xFF46211A)),
+                                      backgroundColor: WidgetStatePropertyAll(backgroundColor),
                                     ),
                                     onPressed: () => Get.to(() => AchievementsPage(id: item.id)),
-                                    child: Text('ACHIEVEMENTS', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                                    child: Text('ACHIEVEMENTS', style: TextStyle(color: foregroundColor, fontSize: 15, fontWeight: FontWeight.w800)),
                                   ),
                                   TextButton(
                                     style: ButtonStyle(
                                       minimumSize: WidgetStatePropertyAll(Size(130, 40)),
-                                      backgroundColor: WidgetStatePropertyAll(Color(0xFF46211A)),
+                                      backgroundColor: WidgetStatePropertyAll(backgroundColor),
                                     ),
                                     onPressed: () {
                                       var game = _libraryController.libraryItems[index];
@@ -106,7 +106,7 @@ class Library extends StatelessWidget {
                                         ));
                                       }));
                                     },
-                                    child: Text('STORE PAGE', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                                    child: Text('STORE PAGE', style: TextStyle(color: foregroundColor, fontSize: 17, fontWeight: FontWeight.w700)),
                                   ),
                                 ],
                               )
@@ -128,13 +128,22 @@ class Library extends StatelessWidget {
                     width: Get.width * 0.8,
                   ),
                   const SizedBox(height: 15),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Uhhh, no games bought yet. 🙊',
-                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: Color(0xFF46211A), fontStyle: FontStyle.normal),
-                      textAlign: TextAlign.center,
-                    ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Uhhh, no games bought yet.',
+                          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: foregroundColor, fontStyle: FontStyle.normal),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Text(
+                        '🙊',
+                        style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold, color: foregroundColor, fontStyle: FontStyle.normal),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   )
                 ],
               ),

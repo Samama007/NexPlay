@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
@@ -10,8 +11,15 @@ class ScreenShotDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios_new, color: foregroundColor, size: 25), onPressed: () => Get.back()),
+      ),
       body: Center(
         child: PinchZoom(
           maxScale: 5,

@@ -1,5 +1,6 @@
-import 'dart:async'; // Import Timer
+import 'dart:async';
 import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/models/my_game_model.dart' as gamemodel;
@@ -7,8 +8,8 @@ import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/models/search_mode.dart';
 import 'package:nexplay/pages/game_detail.dart';
 import 'package:searchfield/searchfield.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+// import 'package:nexplay/util/colors.dart';
 
 class SearchBarr extends StatefulWidget {
   const SearchBarr({super.key});
@@ -55,6 +56,9 @@ class _SearchBarrState extends State<SearchBarr> {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).primaryColor;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 10),
       child: SearchField(
@@ -66,6 +70,10 @@ class _SearchBarrState extends State<SearchBarr> {
                 ),
               )
               .toList(),
+          scrollbarDecoration: ScrollbarDecoration(thumbColor: backgroundColor, crossAxisMargin: 3, thickness: 10),
+          suggestionsDecoration: SuggestionDecoration(color: Colors.transparent, selectionColor: Colors.black),
+          suggestionItemDecoration:  BoxDecoration(color: foregroundColor),
+          marginColor: Colors.transparent,
           onSearchTextChanged: (query) {
             _onSearchChanged(query);
             return suggestions.map((gameName) => SearchFieldListItem<String>(gameName, child: searchChild(gameName))).toList();
@@ -74,12 +82,11 @@ class _SearchBarrState extends State<SearchBarr> {
             FocusScope.of(context).unfocus();
           },
           suggestionState: Suggestion.hidden,
-          suggestionStyle: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontStyle: FontStyle.normal),
+          suggestionStyle:  TextStyle(color: foregroundColor, fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontStyle: FontStyle.normal),
           onTap: () {
             FocusScope.of(context).focusedChild;
           },
           onSuggestionTap: (value) {
-            //price
             PriceModel priceModel = PriceModel();
             Random random = Random();
             int randomIndex = random.nextInt(100);
@@ -108,9 +115,11 @@ class _SearchBarrState extends State<SearchBarr> {
           hint: 'Search for a game...',
           searchInputDecoration: SearchInputDecoration(
             hintText: 'Search for a game...',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+            hintStyle:  TextStyle(color: foregroundColor),
+            searchStyle:  TextStyle(color: foregroundColor),
+            suffixIcon:  Icon(Icons.search_rounded, color: foregroundColor),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide:  BorderSide(color: foregroundColor, style: BorderStyle.solid)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide:  BorderSide(color: foregroundColor, style: BorderStyle.solid)),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 15,
@@ -120,8 +129,8 @@ class _SearchBarrState extends State<SearchBarr> {
     );
   }
 
-  // Helper widget to show game suggestions
   Widget searchChild(String gameName) {
+    Color backgroundColor = Theme.of(context).primaryColor;
     final game = games.firstWhere((g) => g.name == gameName);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -129,8 +138,10 @@ class _SearchBarrState extends State<SearchBarr> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            // Image.network(game.backgroundImage),
-            Text(game.name),
+            Text(
+              game.name,
+              style:  TextStyle(color: backgroundColor, fontSize: 16, fontWeight: FontWeight.w400, fontStyle: FontStyle.normal),
+            ),
           ],
         ),
       ),

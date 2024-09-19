@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +29,9 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).primaryColor;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       body: PageView(
         controller: pageController,
@@ -42,56 +47,48 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF46211A),
+        decoration: BoxDecoration(
+          color: tertiaryColor,
         ),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: GNav(
           selectedIndex: selectedIndex,
           onTabChange: onTapped,
-          rippleColor: Colors.grey[800]!, // Tab ripple color
-          hoverColor: Colors.grey[700]!, // Tab hover color
-          haptic: true, // Haptic feedback when a tab is clicked
+          rippleColor: backgroundColor,
+          hoverColor: backgroundColor,
+          haptic: true,
           tabBorderRadius: 15,
-          backgroundColor: const Color(0xFF46211A),
-          color: Colors.white, // Inactive icon color
-          activeColor: Colors.red.shade500, // Active icon color
+          backgroundColor: tertiaryColor,
+          color: Colors.white,
           iconSize: 24,
-          tabBackgroundColor: Colors.red.shade200.withOpacity(0.3), // Active tab background color
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          gap: 8, // Gap between icon and text
-          duration: const Duration(milliseconds: 400), // Animation duration
-          curve: Curves.easeInOut, // Animation curve
+          gap: 8,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
           tabs: [
             GButton(
               icon: FontAwesomeIcons.magnifyingGlass,
               text: "Explore",
-              iconActiveColor: Colors.red.shade500,
+              iconActiveColor: foregroundColor,
               iconColor: Colors.white,
-              textColor: Colors.red.shade500,
-              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
-              backgroundColor: Colors.red.shade200.withOpacity(0.3),
+              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: foregroundColor),
+              backgroundColor: backgroundColor,
             ),
-            const GButton(
+            GButton(
               icon: FontAwesomeIcons.book,
               text: "Library",
-              iconActiveColor: Color(0xFF46211A),
+              iconActiveColor: foregroundColor,
               iconColor: Colors.white,
-              // textColor: Colors.green.shade500,
-              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF46211A)),
-              backgroundColor: Color(0xFFF1D3B2),
+              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: foregroundColor),
+              backgroundColor: backgroundColor,
             ),
             GButton(
               icon: FontAwesomeIcons.user,
               text: "Profile",
-              iconActiveColor: Colors.blue.shade500,
+              iconActiveColor: foregroundColor,
               iconColor: Colors.white,
-              textColor: Colors.blue.shade500,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              backgroundColor: Colors.blue.shade200.withOpacity(0.3),
+              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: foregroundColor),
+              backgroundColor: backgroundColor,
             ),
           ],
         ),

@@ -80,10 +80,13 @@ class _AchievementsPageState extends State<AchievementsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
-      backgroundColor: const Color(0xFF2C5F2D),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: const Text("Achievements", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900)),
+        title: Text("Achievements", style: TextStyle(color: foregroundColor, fontSize: 30, fontWeight: FontWeight.w900)),
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
@@ -108,13 +111,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     ),
                     child: Column(
                       children: [
-                        ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                            child: Container(
-                              height: 120,
-                              width: double.infinity,
-                              color: Colors.grey.shade800,
-                            )),
+                        ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), child: Container(height: 120, width: double.infinity, color: Colors.grey.shade800)),
                         const SizedBox(height: 5),
                         AutoSizeText(
                           BoneMock.name,
@@ -156,7 +153,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                 if (index < achievements.length) {
                   var achievement = achievements[index];
                   return Card(
-                    color: const Color(0xFF97BC62),
+                    color: tertiaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -177,10 +174,10 @@ class _AchievementsPageState extends State<AchievementsPage> {
                           maxLines: 2,
                           minFontSize: 15,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w900),
+                          style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 18, fontWeight: FontWeight.w900),
                           textAlign: TextAlign.center,
                         ),
-                        Container(width: 50, height: 1, color: Colors.black),
+                        Container(width: 50, height: 1, color: backgroundColor),
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
@@ -189,7 +186,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                             maxLines: 3,
                             minFontSize: 14,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+                            style: const TextStyle(color: Color(0xFFF1D3B2), fontWeight: FontWeight.w400, fontSize: 16),
                             textAlign: TextAlign.start,
                           ),
                         )
@@ -197,10 +194,10 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     ),
                   );
                 } else if (isLoading) {
-                  return const Center(
+                  return Center(
                       child: Padding(
-                    padding: EdgeInsets.only(left: 100),
-                    child: CircularProgressIndicator(color: Colors.white),
+                    padding: const EdgeInsets.only(left: 100),
+                    child: CircularProgressIndicator(color: foregroundColor),
                   ));
                 } else {
                   return const SizedBox.shrink();

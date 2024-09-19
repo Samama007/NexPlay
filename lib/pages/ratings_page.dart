@@ -38,21 +38,28 @@ class _RatingsPageState extends State<RatingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     Object? selectedValue;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reviews', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700)),
+        title: Text('Reviews', style: TextStyle(color: foregroundColor, fontSize: 30, fontWeight: FontWeight.w700)),
         centerTitle: true,
-        backgroundColor: Colors.deepPurple.shade900,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         bottomOpacity: 0,
         toolbarHeight: Get.height * 0.08,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: foregroundColor, size: 24),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: Container(
           padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
           height: MediaQuery.of(context).size.height,
-          color: Colors.deepPurple.shade900,
+          color: backgroundColor,
           child: ListView.builder(
             itemCount: isLoading ? 4 : description!.ratings.length,
             physics: const BouncingScrollPhysics(),
@@ -62,7 +69,7 @@ class _RatingsPageState extends State<RatingsPage> {
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(15)),
+                  decoration: BoxDecoration(color: foregroundColor, borderRadius: BorderRadius.circular(15)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -88,25 +95,26 @@ class _RatingsPageState extends State<RatingsPage> {
                                     ? Text(BoneMock.subtitle)
                                     : Text(
                                         '${myUser!.results[index].name.first} ${myUser!.results[index].name.last}',
-                                        style: const TextStyle(color: Colors.white),
+                                        style: TextStyle(color: backgroundColor),
                                       )),
                           ),
                           DropdownButton(
                               value: selectedValue,
-                              icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
-                              style: const TextStyle(color: Colors.white),
-                              underline: Container(color: Colors.black),
+                              icon: Icon(Icons.more_vert_rounded, color: backgroundColor),
+                              style: TextStyle(color: backgroundColor),
+                              underline: Container(color: backgroundColor),
                               items: [
                                 DropdownMenuItem(
                                   value: 'Report',
-                                  child: const Text('Flag as Inappropiate'),
+                                  child: Text('Flag as Inappropiate', style: TextStyle(color: foregroundColor)),
                                   onTap: () {
                                     Get.snackbar(
                                       'Thank You',
                                       'Review Flagged as Inappropiate',
-                                      titleText: const Text('Thank You', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18), textAlign: TextAlign.center),
-                                      messageText: const Text('Review Flagged as Inappropiate', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12), textAlign: TextAlign.center),
-                                      backgroundColor: Colors.black,
+                                      padding: const EdgeInsets.all(5),
+                                      titleText: Text('Thank You', style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w700, fontSize: 18), textAlign: TextAlign.center),
+                                      messageText: Text('Review Flagged as Inappropiate', style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w400, fontSize: 12), textAlign: TextAlign.center),
+                                      backgroundColor: foregroundColor,
                                       duration: const Duration(seconds: 3),
                                       isDismissible: true,
                                       maxWidth: MediaQuery.sizeOf(context).width * 0.7,
@@ -128,7 +136,8 @@ class _RatingsPageState extends State<RatingsPage> {
                       RatingBar.readOnly(
                         filledIcon: Icons.star,
                         isHalfAllowed: true,
-                        halfFilledColor: const Color.fromARGB(255, 255, 230, 7),
+                        filledColor: backgroundColor,
+                        halfFilledColor: tertiaryColor,
                         halfFilledIcon: Icons.star_half_sharp,
                         emptyIcon: Icons.star_border,
                         initialRating: isLoading ? 0 : (description!.ratings[index].percent / 100) * 5,
@@ -143,7 +152,7 @@ class _RatingsPageState extends State<RatingsPage> {
                             ? Text(BoneMock.subtitle)
                             : Text(
                                 '"${description!.ratings[index].title.toUpperCase()}"',
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16),
+                                style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w500, fontSize: 16),
                               ),
                       ),
                     ],

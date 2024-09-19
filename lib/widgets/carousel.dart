@@ -5,12 +5,16 @@ import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+// import 'package:nexplay/util/colors.dart';
 
 class MyCarousel extends StatelessWidget {
   const MyCarousel({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    // Color backgroundColor = Theme.of(context).primaryColor;
+    // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return FutureBuilder<List<GameModel>>(
       future: GameApi().fetchGames(),
       builder: (context, snapshot) {
@@ -44,6 +48,7 @@ class MyCarousel extends StatelessWidget {
           return ConstrainedBox(
             constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.28),
             child: CarouselView(
+              backgroundColor: foregroundColor,
               onTap: (value) {
                 PriceModel priceModel = PriceModel();
                 Random random = Random();
@@ -60,10 +65,11 @@ class MyCarousel extends StatelessWidget {
                 );
               },
               itemExtent: 280,
-              shrinkExtent: 200,
+              shrinkExtent: 230,
               children: snapshot.data!
                   .map((game) => Card(
                         margin: const EdgeInsets.all(10),
+                        color: foregroundColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -81,9 +87,10 @@ class MyCarousel extends StatelessWidget {
                             ),
                             Container(
                               width: double.infinity,
+                              height: 50,
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.black54,
+                                color: foregroundColor.withOpacity(0.7),
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Text(

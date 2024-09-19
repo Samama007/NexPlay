@@ -26,6 +26,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -33,40 +36,30 @@ class _CategoriesPageState extends State<CategoriesPage> {
         elevation: 0,
         toolbarHeight: 40,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
-            color: Colors.white,
+            color: foregroundColor,
             size: 24,
           ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
         onPressed: () => Get.to(() => CartPage()),
-        backgroundColor: Colors.white,
+        backgroundColor: foregroundColor,
         child: Badge(
-          backgroundColor: Colors.red,
-          label: Obx(() => Text(
-                cartController.cartItems.length.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                ),
-              )),
-          child: const Icon(
-            Icons.shopping_cart_outlined,
-            size: 30,
-            color: Colors.black,
-          ),
+          backgroundColor: tertiaryColor,
+          label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 13, fontWeight: FontWeight.bold))),
+          child: Icon(Icons.shopping_cart_outlined, size: 30, color: backgroundColor),
         ),
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.black,
-              Colors.deepPurple.shade900,
+              backgroundColor,
+              tertiaryColor,
+              foregroundColor,
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
