@@ -76,6 +76,8 @@ class _GameDetailState extends State<GameDetail> {
                       ratings(foregroundColor, tertiaryColor),
                       const SizedBox(height: 15),
                       gameSS(),
+                      const SizedBox(height: 15),
+                      
                     ],
                   ),
                 ),

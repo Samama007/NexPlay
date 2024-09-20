@@ -1,12 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:nexplay/controller/cart_controller.dart';
+import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/categories_page.dart';
+import 'package:nexplay/pages/dev_hub.dart';
 import 'package:nexplay/widgets/search.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
 // import 'package:nexplay/pages/cart.dart';
-// import 'package:nexplay/util/colors.dart';
 
 class ExplorePage extends StatelessWidget {
   final String username;
@@ -17,19 +21,20 @@ class ExplorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Color backgroundColor = Theme.of(context).colorScheme.primary;
     Color foregroundColor = Theme.of(context).colorScheme.secondary;
-    // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: backgroundColor,
       body: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: 200.0,
+            expandedHeight: 150.0,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
                 title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Text('Welcome, $username', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
+                  Text('Welcome, $username', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                 ]),
                 background: Image.asset('assets/images/ss3.png', fit: BoxFit.fitWidth)),
             backgroundColor: foregroundColor,
@@ -40,7 +45,20 @@ class ExplorePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SearchBarr(),
+                  Row(
+                    children: [
+                      const SearchBarr(),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () => Get.to(() => CartPage()),
+                        child: Badge(
+                          backgroundColor: tertiaryColor,
+                          label: Obx(() => Text(cartController.cartItems.length.toString(), style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 14, fontWeight: FontWeight.bold))),
+                          child: Icon(Icons.shopping_cart_outlined, size: 40, color: foregroundColor),
+                        ),
+                      )
+                    ],
+                  ),
                   const SizedBox(height: 24),
                   Text(
                     'Trending Now',
@@ -80,6 +98,31 @@ class ExplorePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const Categories(),
+                  const SizedBox(height: 16),
+                  InkWell(
+                    onTap: () => Get.to(() => DevHub()),
+                    child: Stack(children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.elliptical(50, 50),
+                          bottomRight: Radius.elliptical(50, 50),
+                        ),
+                        child: Image.asset('assets/images/dev.png'),
+                      ),
+                      Positioned(
+                          top: 115,
+                          left: 12,
+                          child: Text(
+                            'DEVELEPORS HUB',
+                            style: TextStyle(
+                              color: backgroundColor,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          )),
+                    ]),
+                  )
                 ],
               ),
             ),

@@ -23,7 +23,7 @@ class Library extends StatelessWidget {
     Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(title: Center(child: Text("Library", style: TextStyle(color: foregroundColor, fontSize: 36, fontWeight: FontWeight.w900))), backgroundColor: Colors.transparent),
+      appBar: AppBar(centerTitle: true, title: Text("Library", style: TextStyle(color: foregroundColor, fontSize: 36, fontWeight: FontWeight.w900)), backgroundColor: Colors.transparent),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: _libraryController.isLibraryEmpty.value

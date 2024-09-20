@@ -59,8 +59,8 @@ class _SearchBarrState extends State<SearchBarr> {
     Color backgroundColor = Theme.of(context).primaryColor;
     Color foregroundColor = Theme.of(context).colorScheme.secondary;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 10),
+    return SizedBox(
+      width: Get.width * 0.8,
       child: SearchField(
           suggestions: suggestions
               .map(
@@ -72,7 +72,7 @@ class _SearchBarrState extends State<SearchBarr> {
               .toList(),
           scrollbarDecoration: ScrollbarDecoration(thumbColor: backgroundColor, crossAxisMargin: 3, thickness: 10),
           suggestionsDecoration: SuggestionDecoration(color: Colors.transparent, selectionColor: Colors.black),
-          suggestionItemDecoration:  BoxDecoration(color: foregroundColor),
+          suggestionItemDecoration: BoxDecoration(color: foregroundColor),
           marginColor: Colors.transparent,
           onSearchTextChanged: (query) {
             _onSearchChanged(query);
@@ -82,7 +82,7 @@ class _SearchBarrState extends State<SearchBarr> {
             FocusScope.of(context).unfocus();
           },
           suggestionState: Suggestion.hidden,
-          suggestionStyle:  TextStyle(color: foregroundColor, fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontStyle: FontStyle.normal),
+          suggestionStyle: TextStyle(color: foregroundColor, fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontStyle: FontStyle.normal),
           onTap: () {
             FocusScope.of(context).focusedChild;
           },
@@ -115,11 +115,11 @@ class _SearchBarrState extends State<SearchBarr> {
           hint: 'Search for a game...',
           searchInputDecoration: SearchInputDecoration(
             hintText: 'Search for a game...',
-            hintStyle:  TextStyle(color: foregroundColor),
-            searchStyle:  TextStyle(color: foregroundColor),
-            suffixIcon:  Icon(Icons.search_rounded, color: foregroundColor),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide:  BorderSide(color: foregroundColor, style: BorderStyle.solid)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide:  BorderSide(color: foregroundColor, style: BorderStyle.solid)),
+            hintStyle: TextStyle(color: foregroundColor),
+            searchStyle: TextStyle(color: foregroundColor),
+            suffixIcon: Icon(Icons.search_rounded, color: foregroundColor),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: foregroundColor, style: BorderStyle.solid)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: foregroundColor, style: BorderStyle.solid)),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 15,
@@ -140,7 +140,7 @@ class _SearchBarrState extends State<SearchBarr> {
           children: [
             Text(
               game.name,
-              style:  TextStyle(color: backgroundColor, fontSize: 16, fontWeight: FontWeight.w400, fontStyle: FontStyle.normal),
+              style: TextStyle(color: backgroundColor, fontSize: 16, fontWeight: FontWeight.w400, fontStyle: FontStyle.normal),
             ),
           ],
         ),
