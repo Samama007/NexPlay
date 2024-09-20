@@ -33,6 +33,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     var mheight = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -41,8 +44,9 @@ class _LoginPageState extends State<LoginPage> {
           height: mheight,
           decoration: BoxDecoration(
             gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-              Colors.black38,
-              Colors.red.shade500.withOpacity(0.8),
+              backgroundColor,
+              foregroundColor,
+              tertiaryColor,
             ]),
           ),
           child: Column(
@@ -56,15 +60,15 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 width: 350,
                 height: 430,
-                decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(20)),
+                decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   children: [
                     const SizedBox(
                       height: 20,
                     ),
-                    const Text(
+                    Text(
                       'Login to NexPlay!',
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800, color: Colors.white),
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800, color: foregroundColor),
                     ),
                     const SizedBox(height: 5),
                     const Divider(
@@ -81,15 +85,16 @@ class _LoginPageState extends State<LoginPage> {
                             width: 300,
                             child: TextFormField(
                               controller: _emailController,
-                              style: const TextStyle(color: Colors.white, fontSize: 15),
-                              decoration: const InputDecoration(
+                              style: TextStyle(color: foregroundColor, fontSize: 15),
+                              decoration: InputDecoration(
+                                errorStyle: TextStyle(color: foregroundColor),
                                 labelText: 'Email',
-                                labelStyle: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
+                                labelStyle: TextStyle(fontSize: 15, color: foregroundColor, fontWeight: FontWeight.w300),
                                 prefixIcon: Icon(
                                   FontAwesomeIcons.envelope,
-                                  color: Colors.white,
+                                  color: foregroundColor,
                                 ),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -109,12 +114,13 @@ class _LoginPageState extends State<LoginPage> {
                               controller: _passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
+                                  errorStyle: TextStyle(color: foregroundColor),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   labelText: 'Password',
-                                  labelStyle: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
-                                  prefixIcon: const Icon(Icons.lock, color: Colors.white)),
+                                  labelStyle: TextStyle(fontSize: 15, color: foregroundColor, fontWeight: FontWeight.w300),
+                                  prefixIcon: Icon(Icons.lock, color: foregroundColor)),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your password';
@@ -137,13 +143,13 @@ class _LoginPageState extends State<LoginPage> {
                               width: 170,
                               height: 50,
                               decoration: BoxDecoration(
-                                color: Colors.red.shade500,
+                                color: foregroundColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Text(
                                   'Login',
-                                  style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
+                                  style: TextStyle(fontSize: 30, color: backgroundColor, fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
@@ -155,11 +161,11 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordPage()));
                             },
-                            child: const Hero(
+                            child: Hero(
                               tag: 'forgot password',
                               child: Text(
                                 'Forgot Password?',
-                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: Colors.white),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: foregroundColor),
                               ),
                             ),
                           ),
@@ -173,9 +179,9 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'Don\'t have an account?',
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: backgroundColor),
                   ),
                   TextButton(
                     onPressed: () {
@@ -204,11 +210,12 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailandPasword(email, password);
+    User? user = await _auth.signInWithEmailandPasword(email, password, context);
+    if (!mounted) return;
 
     if (user != null) {
       String username = _emailController.text.replaceAll(RegExp(r'@.*\..*'), '').toUpperCase().toString();
-      toast('Welcome $username');
+      toast('Welcome $username', context);
       Get.to(BottomNavBar(name: username));
     }
   }

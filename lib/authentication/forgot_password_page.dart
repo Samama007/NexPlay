@@ -15,6 +15,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -25,8 +28,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.black38,
-              Colors.red.shade500.withOpacity(0.8),
+              tertiaryColor,
+              backgroundColor,
+              foregroundColor,
             ],
           ),
         ),
@@ -40,13 +44,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.white,
+                    color: foregroundColor,
                   ),
                 ),
                 const Spacer(),
-                const Hero(
+                Hero(
                   tag: 'forgot password',
                   child: Center(
                     child: Text(
@@ -54,7 +58,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                        color: foregroundColor,
                       ),
                     ),
                   ),
@@ -63,7 +67,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ],
             ),
             const SizedBox(height: 50),
-            const Center(
+            Center(
               child: SizedBox(
                 width: 350,
                 height: 150,
@@ -71,7 +75,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   'Please enter the email address you would like your password reset information sent to.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: foregroundColor,
                     fontSize: 22,
                   ),
                 ),
@@ -83,20 +87,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
+                    style: TextStyle(color: foregroundColor, fontSize: 15),
                     controller: _emailController,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(
-                        FontAwesomeIcons.envelope,
-                        color: Colors.white,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      labelText: 'Email Address',
-                      labelStyle: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                        prefixIcon: Icon(
+                          FontAwesomeIcons.envelope,
+                          color: foregroundColor,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: foregroundColor),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        labelText: 'Email Address',
+                        labelStyle: TextStyle(
+                          color: foregroundColor,
+                        ),
+                        errorStyle: TextStyle(color: foregroundColor)),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email address';
@@ -120,25 +129,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.error_outline_outlined,
-                            color: Colors.white,
+                            color: foregroundColor,
                             size: 30,
                           ),
-                          backgroundColor: Colors.black,
-                          contentTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w200),
+                          backgroundColor: foregroundColor,
+                          contentTextStyle: TextStyle(color: backgroundColor, fontSize: 18, fontWeight: FontWeight.w200),
                           content: Text(
                             'New password sent to ${_emailController.text}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
-                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              color: backgroundColor,
                             ),
                           ),
                         );
                       },
                     );
                     Future.delayed(const Duration(seconds: 3), () {
-                      Get.to(const LoginPage());
+                      Get.to(() => const LoginPage());
                     });
                   }
                 },
@@ -146,13 +156,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   width: 250,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.red.shade500,
+                    color: foregroundColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'Reset Password',
-                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 25, color: backgroundColor, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

@@ -99,7 +99,7 @@ class _GameDetailState extends State<GameDetail> {
               children: [
                 isLoading ? Text(BoneMock.name) : Text('Ratings and reviews', style: TextStyle(fontSize: 20, color: foregroundColor, fontWeight: FontWeight.w500)),
                 const Spacer(),
-                IconButton(onPressed: () => Get.to(RatingsPage(id: widget.game.id)), icon: Icon(Icons.arrow_forward_outlined, color: foregroundColor, size: 25))
+                IconButton(onPressed: () => Get.to(() => RatingsPage(id: widget.game.id)), icon: Icon(Icons.arrow_forward_outlined, color: foregroundColor, size: 25))
               ],
             ),
             Padding(
