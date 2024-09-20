@@ -85,9 +85,11 @@ class _LoginPageState extends State<LoginPage> {
                             width: 300,
                             child: TextFormField(
                               controller: _emailController,
+                              cursorColor: foregroundColor,
                               style: TextStyle(color: foregroundColor, fontSize: 15),
                               decoration: InputDecoration(
                                 errorStyle: TextStyle(color: foregroundColor),
+                                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: foregroundColor)),
                                 labelText: 'Email',
                                 labelStyle: TextStyle(fontSize: 15, color: foregroundColor, fontWeight: FontWeight.w300),
                                 prefixIcon: Icon(
@@ -111,13 +113,16 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             width: 300,
                             child: TextFormField(
+                              style: TextStyle(color: foregroundColor),
                               controller: _passwordController,
                               obscureText: true,
+                              cursorColor: foregroundColor,
                               decoration: InputDecoration(
                                   errorStyle: TextStyle(color: foregroundColor),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
+                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: foregroundColor)),
                                   labelText: 'Password',
                                   labelStyle: TextStyle(fontSize: 15, color: foregroundColor, fontWeight: FontWeight.w300),
                                   prefixIcon: Icon(Icons.lock, color: foregroundColor)),

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:nexplay/util/theme.dart';
 import 'authentication/firebase module/firebase_options.dart';
 import 'package:nexplay/authentication/login_page.dart';
-// import 'package:nexplay/widgets/bottom_nav_bar.dart';
+import 'package:nexplay/widgets/bottom_nav_bar.dart';
 import 'controllers.dart';
 
 void main() async {
@@ -51,8 +51,8 @@ class _NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      home: const LoginPage(),
-      // home: const BottomNavBar(name: 'username'),
+      // home: const LoginPage(),
+      home: const BottomNavBar(name: 'username'),
       // theme: ThemeData(),
       theme: lightTheme,
       darkTheme: darkTheme,
