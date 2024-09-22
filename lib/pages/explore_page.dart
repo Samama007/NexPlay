@@ -75,7 +75,7 @@ class ExplorePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Categories',
+                        'Browse by Category',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -99,30 +99,27 @@ class ExplorePage extends StatelessWidget {
                   const SizedBox(height: 16),
                   const Categories(),
                   const SizedBox(height: 16),
-                  InkWell(
-                    onTap: () => Get.to(() => DevHub()),
-                    child: Stack(children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.elliptical(50, 50),
-                          bottomRight: Radius.elliptical(50, 50),
-                        ),
-                        child: Image.asset('assets/images/dev.png'),
+                  Stack(children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.elliptical(50, 50),
+                        bottomRight: Radius.elliptical(50, 50),
                       ),
-                      Positioned(
-                          top: 115,
-                          left: 12,
-                          child: Text(
-                            'DEVELEPORS HUB',
-                            style: TextStyle(
-                              color: backgroundColor,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          )),
-                    ]),
-                  )
+                      child: InkWell(onTap: () => Get.to(() => DevelopersPage()), child: Image.asset('assets/images/dev.png')),
+                    ),
+                    Positioned(
+                        top: 115,
+                        left: 12,
+                        child: Text(
+                          'DEVELEPORS HUB',
+                          style: TextStyle(
+                            color: Color(0xFFF1D3B2),
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        )),
+                  ])
                 ],
               ),
             ),

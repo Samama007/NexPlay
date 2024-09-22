@@ -1,13 +1,13 @@
 class DeveloperModel {
     final int count;
-    final String next;
+    final String? next;
     final dynamic previous;
     final List<Result> results;
 
     DeveloperModel({
         required this.count,
-        required this.next,
-        required this.previous,
+        this.next,
+        this.previous,
         required this.results,
     });
 

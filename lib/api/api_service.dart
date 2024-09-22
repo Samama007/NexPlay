@@ -1,10 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'package:nexplay/models/achievements_model.dart';
+import 'package:nexplay/models/dev_model.dart';
 import 'package:nexplay/models/my_category_description.dart';
 import 'package:nexplay/models/my_categories_model.dart';
 import 'package:nexplay/models/my_game_description_model.dart';
 import 'dart:convert';
 import 'package:nexplay/models/my_game_model.dart';
+import 'package:nexplay/models/search_mode.dart';
 import 'package:nexplay/models/user_model.dart';
 
 class GameApi {
@@ -75,6 +77,24 @@ class GameApi {
       return category;
     } else {
       throw Exception('Failed to load Categories');
+    }
+  }
+
+  Future<DeveloperModel> fetchDevelopers(int page) async {
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/developers?key=b4c477df733b421d8b4d897023fb0f6e&page=$page'));
+    if (response.statusCode == 200) {
+      return DeveloperModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load developers');
+    }
+  }
+
+  Future<SearchModel> searchGames(String query) async {
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&search=$query'));
+    if (response.statusCode == 200) {
+      return SearchModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('API error');
     }
   }
 }

@@ -4,6 +4,7 @@ class DescriptionModel {
   final String description;
   final int? metacritic;
   final DateTime? released;
+  final String? backgroundImage;
   final String? backgroundImageAdditional;
   final String? website;
   final List<Developer> developers;
@@ -15,6 +16,7 @@ class DescriptionModel {
     required this.description,
     this.metacritic,
     this.released,
+    this.backgroundImage,
     this.backgroundImageAdditional,
     this.website,
     required this.developers,
@@ -29,14 +31,9 @@ class DescriptionModel {
         released: json["released"] != null ? DateTime.parse(json["released"] as String) : null,
         backgroundImageAdditional: json["background_image_additional"] as String?,
         website: json["website"] as String?,
-        developers: (json["developers"] as List<dynamic>?)
-                ?.map((x) => Developer.fromJson(x as Map<String, dynamic>))
-                .toList() ??
-            [],
-        ratings: (json["ratings"] as List<dynamic>?)
-                ?.map((x) => Rating.fromJson(x as Map<String, dynamic>))
-                .toList() ??
-            [],
+        developers: (json["developers"] as List<dynamic>?)?.map((x) => Developer.fromJson(x as Map<String, dynamic>)).toList() ?? [],
+        ratings: (json["ratings"] as List<dynamic>?)?.map((x) => Rating.fromJson(x as Map<String, dynamic>)).toList() ?? [],
+        backgroundImage: json["background_image"] as String?,
       );
 }
 
