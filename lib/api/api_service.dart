@@ -6,6 +6,7 @@ import 'package:nexplay/models/my_categories_model.dart';
 import 'package:nexplay/models/my_game_description_model.dart';
 import 'dart:convert';
 import 'package:nexplay/models/my_game_model.dart';
+import 'package:nexplay/models/released_model.dart';
 import 'package:nexplay/models/search_mode.dart';
 import 'package:nexplay/models/user_model.dart';
 
@@ -71,10 +72,10 @@ class GameApi {
     final response = await http.get(Uri.parse('https://api.rawg.io/api/games/$id/achievements?key=b4c477df733b421d8b4d897023fb0f6e&page=$page'));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      List<AchievementsModel> category = [
+      List<AchievementsModel> achievements = [
         AchievementsModel.fromJson(data)
       ];
-      return category;
+      return achievements;
     } else {
       throw Exception('Failed to load Categories');
     }
@@ -95,6 +96,19 @@ class GameApi {
       return SearchModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('API error');
+    }
+  }
+
+  List<ReleasedModel> released = [];
+  Future<List<ReleasedModel>> sortbyreleased() async {
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&ordering=added'));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      List result = data['results'];
+      released.addAll(result.map((gameJson) => ReleasedModel.fromJson(gameJson)).toList());
+      return released;
+    } else {
+      throw Exception('Failed to load games by release date');
     }
   }
 }

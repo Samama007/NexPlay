@@ -18,7 +18,6 @@ class _EgState extends State<Eg> {
   void initState() {
     super.initState();
     _populategames(pageNumber);
-
     _scrollController.addListener(
       () {
         if (_scrollController.position.maxScrollExtent == _scrollController.offset) {

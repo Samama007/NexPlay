@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:nexplay/controller/cart_controller.dart';
 import 'package:nexplay/pages/cart.dart';
 import 'package:nexplay/pages/categories_page.dart';
 import 'package:nexplay/pages/dev_hub.dart';
+import 'package:nexplay/pages/graph.dart';
 import 'package:nexplay/widgets/search.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
@@ -119,7 +119,9 @@ class ExplorePage extends StatelessWidget {
                             fontStyle: FontStyle.italic,
                           ),
                         )),
-                  ])
+                  ]),
+                  const SizedBox(height: 25),
+                  GameGraph(),
                 ],
               ),
             ),

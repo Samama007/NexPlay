@@ -36,13 +36,28 @@ class Categories extends StatelessWidget {
             label: 'Racing',
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 1))),
           ),
-          _buildCategoryItem(context, icon: Icon(FontAwesomeIcons.gun, color: backgroundColor, size: 40), label: 'Shooter', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 2)))),
+          _buildCategoryItem(context,
+              icon: Icon(FontAwesomeIcons.gun, color: backgroundColor, size: 40),
+              label: 'Shooter',
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CatDetails(id: 2),
+                  ))),
           _buildCategoryItem(
             context,
             icon: Icon(Icons.shield, color: backgroundColor, size: 40),
             label: 'RPG',
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 5))),
           ),
+          _buildCategoryItem(context,
+              icon: FaIcon(
+                FontAwesomeIcons.hammer,
+                size: 40,
+                color: backgroundColor,
+              ),
+              label: 'Fighting',
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CatDetails(id: 6)))),
         ],
       ),
     );
