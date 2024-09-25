@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:nexplay/models/achievements_model.dart';
+import 'package:nexplay/models/bestseller_model.dart';
 import 'package:nexplay/models/dev_model.dart';
 import 'package:nexplay/models/my_category_description.dart';
 import 'package:nexplay/models/my_categories_model.dart';
@@ -7,8 +8,8 @@ import 'package:nexplay/models/my_game_description_model.dart';
 import 'dart:convert';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/models/released_model.dart';
-import 'package:nexplay/models/search_mode.dart';
 import 'package:nexplay/models/user_model.dart';
+// import 'package:nexplay/models/search_mode.dart';
 
 class GameApi {
   Future<List<GameModel>> fetchGames() async {
@@ -90,18 +91,18 @@ class GameApi {
     }
   }
 
-  Future<SearchModel> searchGames(String query) async {
-    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&search=$query'));
-    if (response.statusCode == 200) {
-      return SearchModel.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('API error');
-    }
-  }
+  // Future<SearchModel> searchGames(String query) async {
+  //   final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&search=$query'));
+  //   if (response.statusCode == 200) {
+  //     return SearchModel.fromJson(json.decode(response.body));
+  //   } else {
+  //     throw Exception('API error');
+  //   }
+  // }
 
   List<ReleasedModel> released = [];
   Future<List<ReleasedModel>> sortbyreleased() async {
-    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&ordering=added'));
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&ordering=created'));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       List result = data['results'];
@@ -109,6 +110,19 @@ class GameApi {
       return released;
     } else {
       throw Exception('Failed to load games by release date');
+    }
+  }
+
+  List<BestsellerModel> bestSeller = [];
+  Future<List<BestsellerModel>> sortbyBestSeller() async {
+    final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&ordering=-metacritic'));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      List result = data['results'];
+      bestSeller.addAll(result.map((gameJson) => BestsellerModel.fromJson(gameJson)).toList());
+      return bestSeller;
+    } else {
+      throw Exception('Failed to load games by bestSeller');
     }
   }
 }

@@ -34,6 +34,7 @@ class _RatingsPageState extends State<RatingsPage> {
       myUser = fetchedUsers;
       isLoading = false;
     });
+    print(description!.ratings.isEmpty ? 'EMPTY' : 'NOT EMPTY');
   }
 
   @override
@@ -56,111 +57,198 @@ class _RatingsPageState extends State<RatingsPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
-          height: MediaQuery.of(context).size.height,
-          color: backgroundColor,
-          child: ListView.builder(
-            itemCount: isLoading ? 4 : description!.ratings.length,
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(color: foregroundColor, borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: isLoading
+          ? _buildSkeletonList(backgroundColor, foregroundColor)
+          : description!.ratings.isEmpty
+              ? Center(child: Text('No ratings yet...', style: TextStyle(color: foregroundColor, fontSize: 25, fontWeight: FontWeight.w500)))
+              : Container(
+                  padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
+                  height: MediaQuery.of(context).size.height,
+                  color: backgroundColor,
+                  child: ListView.builder(
+                    itemCount: description!.ratings.length,
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return _buildRatingCard(index, backgroundColor, foregroundColor, tertiaryColor, selectedValue);
+                    },
+                  ),
+                ),
+    );
+  }
+
+  Widget _buildSkeletonList(Color backgroundColor, Color foregroundColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
+      color: backgroundColor,
+      child: ListView.builder(
+        itemCount: 4,
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: foregroundColor,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Skeletonizer(
-                            enabled: isLoading,
-                            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
-                            child: isLoading
-                                ? const CircleAvatar()
-                                : CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      myUser!.results[index].picture.thumbnail,
-                                    ),
-                                  ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Skeletonizer(
-                                enabled: isLoading,
-                                effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
-                                child: isLoading
-                                    ? Text(BoneMock.subtitle)
-                                    : Text(
-                                        '${myUser!.results[index].name.first} ${myUser!.results[index].name.last}',
-                                        style: TextStyle(color: backgroundColor),
-                                      )),
-                          ),
-                          DropdownButton(
-                              value: selectedValue,
-                              icon: Icon(Icons.more_vert_rounded, color: backgroundColor),
-                              style: TextStyle(color: backgroundColor),
-                              underline: Container(color: backgroundColor),
-                              items: [
-                                DropdownMenuItem(
-                                  value: 'Report',
-                                  child: Text('Flag as Inappropiate', style: TextStyle(color: foregroundColor)),
-                                  onTap: () {
-                                    Get.snackbar(
-                                      'Thank You',
-                                      'Review Flagged as Inappropiate',
-                                      padding: const EdgeInsets.all(5),
-                                      titleText: Text('Thank You', style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w700, fontSize: 18), textAlign: TextAlign.center),
-                                      messageText: Text('Review Flagged as Inappropiate', style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w400, fontSize: 12), textAlign: TextAlign.center),
-                                      backgroundColor: foregroundColor,
-                                      duration: const Duration(seconds: 3),
-                                      isDismissible: true,
-                                      maxWidth: MediaQuery.sizeOf(context).width * 0.7,
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      borderRadius: 15,
-                                      snackStyle: SnackStyle.FLOATING,
-                                    );
-                                  },
-                                ),
-                              ],
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedValue = newValue;
-                                });
-                              })
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      RatingBar.readOnly(
-                        filledIcon: Icons.star,
-                        isHalfAllowed: true,
-                        filledColor: backgroundColor,
-                        halfFilledColor: tertiaryColor,
-                        halfFilledIcon: Icons.star_half_sharp,
-                        emptyIcon: Icons.star_border,
-                        initialRating: isLoading ? 0 : (description!.ratings[index].percent / 100) * 5,
-                        maxRating: 5,
-                        size: 35,
-                      ),
-                      const SizedBox(height: 8),
                       Skeletonizer(
-                        enabled: isLoading,
-                        effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
-                        child: isLoading
-                            ? Text(BoneMock.subtitle)
-                            : Text(
-                                '"${description!.ratings[index].title.toUpperCase()}"',
-                                style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w500, fontSize: 16),
-                              ),
+                        enabled: true,
+                        effect: ShimmerEffect(
+                          baseColor: backgroundColor,
+                          highlightColor: foregroundColor,
+                          duration: const Duration(seconds: 1),
+                        ),
+                        child: const CircleAvatar(),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Skeletonizer(
+                          enabled: true,
+                          effect: ShimmerEffect(
+                            baseColor: backgroundColor,
+                            highlightColor: foregroundColor,
+                            duration: const Duration(seconds: 1),
+                          ),
+                          child: Text(BoneMock.subtitle),
+                        ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  Skeletonizer(
+                    enabled: true,
+                    effect: ShimmerEffect(
+                      baseColor: backgroundColor,
+                      highlightColor: foregroundColor,
+                      duration: const Duration(seconds: 1),
+                    ),
+                    child: RatingBar.readOnly(
+                      filledIcon: Icons.star,
+                      isHalfAllowed: true,
+                      filledColor: backgroundColor,
+                      halfFilledIcon: Icons.star_half_sharp,
+                      emptyIcon: Icons.star_border,
+                      initialRating: 0,
+                      maxRating: 5,
+                      size: 35,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Skeletonizer(
+                    enabled: true,
+                    effect: ShimmerEffect(
+                      baseColor: backgroundColor,
+                      highlightColor: foregroundColor,
+                      duration: const Duration(seconds: 1),
+                    ),
+                    child: Text(BoneMock.subtitle),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildRatingCard(int index, Color backgroundColor, Color foregroundColor, Color tertiaryColor, Object? selectedValue) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: foregroundColor,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    myUser!.results[index].picture.thumbnail,
+                  ),
                 ),
-              );
-            },
-          )),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    '${myUser!.results[index].name.first} ${myUser!.results[index].name.last}',
+                    style: TextStyle(color: backgroundColor),
+                  ),
+                ),
+                DropdownButton(
+                  value: selectedValue,
+                  icon: Icon(Icons.more_vert_rounded, color: backgroundColor),
+                  style: TextStyle(color: backgroundColor),
+                  underline: Container(color: backgroundColor),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'Report',
+                      child: Text('Flag as Inappropiate', style: TextStyle(color: foregroundColor)),
+                      onTap: () {
+                        Get.snackbar(
+                          'Thank You',
+                          'Review Flagged as Inappropriate',
+                          padding: const EdgeInsets.all(5),
+                          titleText: Text(
+                            'Thank You',
+                            style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w700, fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                          messageText: Text(
+                            'Review Flagged as Inappropriate',
+                            style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w400, fontSize: 12),
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: foregroundColor,
+                          duration: const Duration(seconds: 3),
+                          isDismissible: true,
+                          maxWidth: MediaQuery.sizeOf(context).width * 0.7,
+                          snackPosition: SnackPosition.BOTTOM,
+                          borderRadius: 15,
+                          snackStyle: SnackStyle.FLOATING,
+                        );
+                      },
+                    ),
+                  ],
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedValue = newValue;
+                    });
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            RatingBar.readOnly(
+              filledIcon: Icons.star,
+              isHalfAllowed: true,
+              filledColor: backgroundColor,
+              halfFilledColor: tertiaryColor,
+              halfFilledIcon: Icons.star_half_sharp,
+              emptyIcon: Icons.star_border,
+              initialRating: (description!.ratings[index].percent / 100) * 5,
+              maxRating: 5,
+              size: 35,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '"${description!.ratings[index].title.toUpperCase()}"',
+              style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w500, fontSize: 16),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
