@@ -34,7 +34,6 @@ class _RatingsPageState extends State<RatingsPage> {
       myUser = fetchedUsers;
       isLoading = false;
     });
-    print(description!.ratings.isEmpty ? 'EMPTY' : 'NOT EMPTY');
   }
 
   @override

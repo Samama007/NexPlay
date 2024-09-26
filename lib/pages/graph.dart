@@ -24,7 +24,6 @@ class GameGraph extends StatefulWidget {
 class GgameGraphState extends State<GameGraph> {
   List<ReleasedModel> released = [];
   List<bs.BestsellerModel> bestSeller = [];
-  // List<ReleasedModel> popularUpcoming = [];
   bool isLoading = true;
 
   @override
@@ -69,7 +68,7 @@ class GgameGraphState extends State<GameGraph> {
         maxWidth: Get.width,
       ),
       child: DefaultTabController(
-        length: 3,
+        length: 2,
         initialIndex: 0,
         child: ColoredBox(
           color: foregroundColor,
@@ -88,10 +87,6 @@ class GgameGraphState extends State<GameGraph> {
                   Tab(
                     icon: Icon(Icons.new_label),
                     text: 'New & Trending',
-                  ),
-                  Tab(
-                    icon: Icon(Icons.brush),
-                    text: 'Popular Upcoming',
                   ),
                 ],
               ),
@@ -128,20 +123,18 @@ class GgameGraphState extends State<GameGraph> {
                                 child: InkWell(
                                   onTap: () async {
                                     try {
-                                      DescriptionModel description = await GameApi().fetchDescription(game.id);
                                       GameModel gameModel = GameModel(
-                                        id: description.id,
-                                        name: description.name,
-                                        backgroundImage: description.backgroundImage ?? '',
-                                        rating: description.ratings.isNotEmpty ? description.ratings[0].percent : 0.0,
-                                        released: description.released ?? DateTime.now(),
-                                        playtime: 0,
-                                        ratingsCount: description.ratings.isNotEmpty ? description.ratings[0].count : 0,
-                                        shortScreenshots: [],
-                                        esrbRating: EsrbRating(id: 0, name: 'Unknown', slug: 'unknown'),
+                                        id: game.id,
+                                        name: game.name!,
+                                        backgroundImage: game.backgroundImage!,
+                                        rating: game.rating!,
+                                        released: game.released!,
+                                        playtime: game.playtime!,
+                                        ratingsCount: game.ratingsCount!,
+                                        shortScreenshots: game.shortScreenshots!.map((ss) => ShortScreenshot(id: ss.id!, image: ss.image!)).toList(),
+                                        esrbRating: EsrbRating(id: 0, name: game.esrbRating!.id.toString(), slug: game.esrbRating!.slug!),
                                       );
                                       Get.to(() => GameDetail(game: gameModel, price: (double.parse(price) / 2).toStringAsFixed(2)));
-                                      // Get.to(() => GameDetail(game: gameModel, price: price));
                                     } catch (e) {
                                       Get.snackbar(
                                         'Error',
@@ -175,7 +168,7 @@ class GgameGraphState extends State<GameGraph> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                  width: 150,
+                                                  width: 130,
                                                   child: Text(
                                                     game.name!,
                                                     maxLines: 2,
@@ -296,7 +289,7 @@ class GgameGraphState extends State<GameGraph> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                  width: 200,
+                                                  width: 130,
                                                   child: Text(
                                                     game.name,
                                                     maxLines: 2,
@@ -346,20 +339,6 @@ class GgameGraphState extends State<GameGraph> {
                               );
                             },
                           ),
-                  ),
-                  ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        color: backgroundColor,
-                        child: ListTile(
-                          // leading: Image.network('src'),
-                          title: Text('name'),
-                          subtitle: Text('esrb'),
-                          trailing: Text('price'),
-                        ),
-                      );
-                    },
                   ),
                 ]),
               ),

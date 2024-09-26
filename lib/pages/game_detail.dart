@@ -77,7 +77,6 @@ class _GameDetailState extends State<GameDetail> {
                       const SizedBox(height: 15),
                       gameSS(),
                       const SizedBox(height: 15),
-                      
                     ],
                   ),
                 ),
@@ -117,7 +116,7 @@ class _GameDetailState extends State<GameDetail> {
                       )
                     ],
                   ),
-                  const SizedBox(width: 30),
+                  const SizedBox(width: 20),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 25),
                     child: RatingBar.readOnly(
