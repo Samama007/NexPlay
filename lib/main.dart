@@ -5,7 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/util/theme.dart';
 import 'authentication/firebase module/firebase_options.dart';
-import 'package:nexplay/authentication/login_page.dart';
+// import 'package:nexplay/authentication/login_page.dart';
 import 'package:nexplay/widgets/bottom_nav_bar.dart';
 import 'controllers.dart';
 
