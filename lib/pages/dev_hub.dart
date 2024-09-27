@@ -76,7 +76,6 @@ class _DevelopersPageState extends State<DevelopersPage> {
     Color backgroundColor = Theme.of(context).colorScheme.primary;
     Color foregroundColor = Theme.of(context).colorScheme.secondary;
     return Scaffold(
-      extendBodyBehindAppBar: true,
       backgroundColor: backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
