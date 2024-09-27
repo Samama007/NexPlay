@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/controller/library_controller.dart' as libraryitem;
-import 'package:nexplay/pages/Purchased.dart';
+import 'package:nexplay/pages/purchased.dart';
 import '../controller/cart_controller.dart';
-// import 'package:nexplay/pages/add_card.dart';
 
 class CartPage extends StatelessWidget {
   final CartController _cartController = Get.find();
