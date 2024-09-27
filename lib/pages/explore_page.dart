@@ -10,7 +10,6 @@ import 'package:nexplay/pages/graph.dart';
 import 'package:nexplay/widgets/search.dart';
 import 'package:nexplay/widgets/carousel.dart';
 import 'package:nexplay/widgets/categories.dart';
-// import 'package:nexplay/pages/cart.dart';
 
 class ExplorePage extends StatelessWidget {
   final String username;

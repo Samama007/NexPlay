@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nexplay/api/api_service.dart';
 import 'package:nexplay/models/my_game_description_model.dart';
 import 'package:nexplay/models/user_model.dart';
+// import 'package:nexplay/util/theme.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class RatingsPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _RatingsPageState extends State<RatingsPage> {
   DescriptionModel? description;
   bool isLoading = true;
   MyUser? myUser;
+  double userRating = 0;
+  TextEditingController reviewController = TextEditingController();
 
   @override
   void initState() {
@@ -36,12 +39,39 @@ class _RatingsPageState extends State<RatingsPage> {
     });
   }
 
+  void submitReview() {
+    Color backgroundColor = Theme.of(context).colorScheme.primary;
+    Color foregroundColor = Theme.of(context).colorScheme.secondary;
+    if (reviewController.text.isNotEmpty && userRating > 0) {
+      setState(() {
+        description!.ratings.add(Rating(id: 23, title: reviewController.text, count: 234, percent: (userRating / 5) * 100));
+      });
+      Get.snackbar(
+        backgroundColor: foregroundColor,
+        colorText: backgroundColor,
+        'Review Submitted',
+        'Thank you for your feedback!',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      reviewController.clear();
+      setState(() {
+        userRating = 0;
+      });
+    } else {
+      Get.snackbar(
+        backgroundColor: foregroundColor,
+        colorText: backgroundColor,
+        'Error',
+        'Please provide a rating and a review.',
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Color backgroundColor = Theme.of(context).colorScheme.primary;
     Color foregroundColor = Theme.of(context).colorScheme.secondary;
-    Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
-    Object? selectedValue;
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +79,6 @@ class _RatingsPageState extends State<RatingsPage> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        bottomOpacity: 0,
         toolbarHeight: Get.height * 0.08,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: foregroundColor, size: 24),
@@ -61,18 +90,75 @@ class _RatingsPageState extends State<RatingsPage> {
           : description!.ratings.isEmpty
               ? Center(child: Text('No ratings yet...', style: TextStyle(color: foregroundColor, fontSize: 25, fontWeight: FontWeight.w500)))
               : Container(
-                  padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   height: MediaQuery.of(context).size.height,
                   color: backgroundColor,
-                  child: ListView.builder(
-                    itemCount: description!.ratings.length,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return _buildRatingCard(index, backgroundColor, foregroundColor, tertiaryColor, selectedValue);
-                    },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: description!.ratings.length,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return _buildRatingCard(index, backgroundColor, foregroundColor);
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 180, child: _buildReviewInput(foregroundColor, backgroundColor)),
+                    ],
                   ),
                 ),
+    );
+  }
+
+  Widget _buildReviewInput(Color foregroundColor, Color backgroundColor) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RatingBar(
+                filledIcon: Icons.star,
+                isHalfAllowed: true,
+                emptyIcon: Icons.star_border,
+                halfFilledIcon: Icons.star_half,
+                initialRating: userRating,
+                maxRating: 5,
+                size: 35,
+                onRatingChanged: (rating) {
+                  setState(() {
+                    userRating = rating;
+                  });
+                },
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 80,
+            child: TextField(
+              cursorColor: foregroundColor,
+              style: TextStyle(color: foregroundColor, fontSize: 16, fontWeight: FontWeight.w400),
+              controller: reviewController,
+              decoration: InputDecoration(
+                hintText: 'Write your review...',
+                hintStyle: TextStyle(color: foregroundColor),
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: foregroundColor.withOpacity(0.1),
+              ),
+              maxLines: 3,
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(foregroundColor), foregroundColor: WidgetStatePropertyAll(backgroundColor)),
+            onPressed: submitReview,
+            child: Text('Submit', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: backgroundColor)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -159,7 +245,7 @@ class _RatingsPageState extends State<RatingsPage> {
     );
   }
 
-  Widget _buildRatingCard(int index, Color backgroundColor, Color foregroundColor, Color tertiaryColor, Object? selectedValue) {
+  Widget _buildRatingCard(int index, Color backgroundColor, Color foregroundColor) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Container(
@@ -185,47 +271,6 @@ class _RatingsPageState extends State<RatingsPage> {
                     style: TextStyle(color: backgroundColor),
                   ),
                 ),
-                DropdownButton(
-                  value: selectedValue,
-                  icon: Icon(Icons.more_vert_rounded, color: backgroundColor),
-                  style: TextStyle(color: backgroundColor),
-                  underline: Container(color: backgroundColor),
-                  items: [
-                    DropdownMenuItem(
-                      value: 'Report',
-                      child: Text('Flag as Inappropiate', style: TextStyle(color: foregroundColor)),
-                      onTap: () {
-                        Get.snackbar(
-                          'Thank You',
-                          'Review Flagged as Inappropriate',
-                          padding: const EdgeInsets.all(5),
-                          titleText: Text(
-                            'Thank You',
-                            style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w700, fontSize: 18),
-                            textAlign: TextAlign.center,
-                          ),
-                          messageText: Text(
-                            'Review Flagged as Inappropriate',
-                            style: TextStyle(color: backgroundColor, fontWeight: FontWeight.w400, fontSize: 12),
-                            textAlign: TextAlign.center,
-                          ),
-                          backgroundColor: foregroundColor,
-                          duration: const Duration(seconds: 3),
-                          isDismissible: true,
-                          maxWidth: MediaQuery.sizeOf(context).width * 0.7,
-                          snackPosition: SnackPosition.BOTTOM,
-                          borderRadius: 15,
-                          snackStyle: SnackStyle.FLOATING,
-                        );
-                      },
-                    ),
-                  ],
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue;
-                    });
-                  },
-                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -233,7 +278,6 @@ class _RatingsPageState extends State<RatingsPage> {
               filledIcon: Icons.star,
               isHalfAllowed: true,
               filledColor: backgroundColor,
-              halfFilledColor: tertiaryColor,
               halfFilledIcon: Icons.star_half_sharp,
               emptyIcon: Icons.star_border,
               initialRating: (description!.ratings[index].percent / 100) * 5,
