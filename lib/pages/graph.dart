@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-// import 'package:flutter/cupertino.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +9,6 @@ import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/models/released_model.dart';
 import 'package:nexplay/pages/game_detail.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-// import 'package:get/get.dart';
 
 class GameGraph extends StatefulWidget {
   const GameGraph({super.key});
@@ -79,7 +75,7 @@ class GgameGraphState extends State<GameGraph> {
                 indicatorColor: tertiaryColor,
                 labelStyle: TextStyle(color: backgroundColor),
                 unselectedLabelStyle: TextStyle(color: backgroundColor),
-                tabs: [
+                tabs: const [
                   Tab(
                     icon: Icon(Icons.generating_tokens_outlined),
                     text: 'Best Sellers',
@@ -112,7 +108,7 @@ class GgameGraphState extends State<GameGraph> {
                           )
                         : ListView.builder(
                             padding: EdgeInsets.zero,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: bestSeller.length,
                             itemBuilder: (context, index) {
@@ -160,7 +156,7 @@ class GgameGraphState extends State<GameGraph> {
                                                 height: 100,
                                                 width: 150,
                                                 color: Colors.grey,
-                                                child: Icon(Icons.image_not_supported, size: 40, color: Colors.white),
+                                                child: const Icon(Icons.image_not_supported, size: 40, color: Colors.white),
                                               ),
                                         Padding(
                                           padding: const EdgeInsets.only(left: 5),
@@ -179,7 +175,7 @@ class GgameGraphState extends State<GameGraph> {
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   )),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 '${game.released!.day}-${game.released!.month}-${game.released!.year}',
                                                 style: TextStyle(
@@ -191,7 +187,7 @@ class GgameGraphState extends State<GameGraph> {
                                             ],
                                           ),
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Padding(
                                           padding: const EdgeInsets.only(right: 5),
                                           child: Column(
@@ -238,7 +234,7 @@ class GgameGraphState extends State<GameGraph> {
                           )
                         : ListView.builder(
                             padding: EdgeInsets.zero,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: released.length,
                             itemBuilder: (context, index) {
@@ -300,7 +296,7 @@ class GgameGraphState extends State<GameGraph> {
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   )),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 '${game.released.day}-${game.released.month}-2024',
                                                 style: TextStyle(
@@ -312,7 +308,7 @@ class GgameGraphState extends State<GameGraph> {
                                             ],
                                           ),
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Padding(
                                           padding: const EdgeInsets.only(right: 5),
                                           child: Column(

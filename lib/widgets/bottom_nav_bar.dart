@@ -43,7 +43,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
         children: [
           ExplorePage(username: widget.name),
           Library(),
-          ProfilePage(),
+          ProfilePage(username: widget.name),
         ],
       ),
       bottomNavigationBar: Container(
