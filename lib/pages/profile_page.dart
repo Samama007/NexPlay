@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,8 @@ import 'package:nexplay/pages/terms_conditions.dart';
 import 'package:nexplay/util/theme.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String username;
+  const ProfilePage({super.key, required this.username});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -81,26 +80,25 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Profile Section
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40,
                     backgroundImage: NetworkImage('https://img.redbull.com/images/c_crop,x_510,y_0,h_1234,w_926/c_fill,w_450,h_600/q_auto:low,f_auto/redbullcom/2020/9/16/qsavzzs1hulerklkkzzp/ac-header'), // Placeholder image, replace with actual image
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'Samama007',
+                    widget.username,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: foregroundColor),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     'LEVEL 15',
                     style: TextStyle(fontSize: 16, color: foregroundColor),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   ElevatedButton.icon(
                     style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(foregroundColor), foregroundColor: WidgetStatePropertyAll(backgroundColor)),
                     icon: Icon(_statusIcon, color: _statusColor),
@@ -114,31 +112,31 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             // Overview Section
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Icon(Icons.videogame_asset, color: tertiaryColor),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text('${_libraryController.libraryItems.length} Game(s)', style: TextStyle(fontSize: 16, color: foregroundColor)),
-                      Spacer(),
+                      const Spacer(),
                       Icon(Icons.access_time, color: tertiaryColor),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text('4 Years with NexPlay', style: TextStyle(fontSize: 16, color: foregroundColor)),
                     ],
                   ),
-                  SizedBox(height: 16),
-                  LinearProgressIndicator(value: 0),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 16),
+                  const LinearProgressIndicator(value: 0),
+                  const SizedBox(height: 25),
                   Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Icon(Icons.language, color: tertiaryColor),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: LanguagePickerDropdown(
                           itemBuilder: (Language language) => Text(
@@ -210,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     leading: Icon(Icons.copy_sharp, color: tertiaryColor),
                     title: Text('Terms and Conditions', style: TextStyle(color: foregroundColor, fontSize: 16)),
                     trailing: Icon(Icons.arrow_outward, color: foregroundColor),
-                    onTap: () => Get.to(() => TermsConditions()),
+                    onTap: () => Get.to(() => const TermsConditions()),
                   )
                 ],
               ),
@@ -230,8 +228,8 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             ListTile(
               tileColor: foregroundColor,
-              leading: Icon(Icons.circle, color: Colors.green),
-              title: Text('Online', style: TextStyle(color: backgroundColor)),
+              leading: const Icon(Icons.circle, color: Colors.green),
+              title: const Text('Online', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Online', Colors.green, Icons.circle);
                 Navigator.pop(context);
@@ -239,8 +237,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(
               tileColor: foregroundColor,
-              leading: Icon(Icons.remove_circle_outline, color: Colors.red),
-              title: Text('Do not disturb', style: TextStyle(color: backgroundColor)),
+              leading: const Icon(Icons.remove_circle_outline, color: Colors.red),
+              title: const Text('Do not disturb', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Do not disturb', Colors.red, Icons.remove_circle_outline);
                 Navigator.pop(context);
@@ -248,8 +246,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(
               tileColor: foregroundColor,
-              leading: Icon(Icons.access_time, color: Colors.orange),
-              title: Text('Away', style: TextStyle(color: backgroundColor)),
+              leading: const Icon(Icons.access_time, color: Colors.orange),
+              title: const Text('Away', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Away', Colors.orange, Icons.access_time);
                 Navigator.pop(context);
@@ -257,8 +255,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(
               tileColor: foregroundColor,
-              leading: Icon(Icons.radio_button_unchecked, color: Colors.grey),
-              title: Text('Invisible', style: TextStyle(color: backgroundColor)),
+              leading: const Icon(Icons.radio_button_unchecked, color: Colors.grey),
+              title: const Text('Invisible', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Invisible', Colors.grey, Icons.radio_button_unchecked);
                 Navigator.pop(context);

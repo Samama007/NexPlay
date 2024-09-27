@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/api/api_service.dart';
@@ -14,6 +13,7 @@ class DevelopersPage extends StatefulWidget {
   const DevelopersPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DevelopersPageState createState() => _DevelopersPageState();
 }
 
