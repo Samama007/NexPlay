@@ -1,5 +1,6 @@
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:nexplay/api/api_service.dart';
@@ -28,19 +29,51 @@ class _GameDetailState extends State<GameDetail> {
   bool isLoading = true;
   String price = '';
   cartitem.CartController cartController = Get.find();
+  String? _videoID;
+  YoutubePlayerController? _controller;
 
   @override
   void initState() {
     super.initState();
     fetchDetails();
+    _loadTrailer(widget.game.name);
   }
 
   Future<void> fetchDetails() async {
     DescriptionModel fetchedDetails = await gameApi.fetchDescription(widget.game.id);
     setState(() {
       description = fetchedDetails;
-      isLoading = false;
     });
+  }
+
+  void _loadTrailer(String gameName) async {
+    String? videoID = await gameApi.fetchtrailer(gameName);
+
+    if (videoID != null) {
+      setState(() {
+        _videoID = videoID;
+        _controller = YoutubePlayerController(
+          initialVideoId: _videoID!,
+          flags: const YoutubePlayerFlags(
+            autoPlay: false,
+            mute: false,
+            enableCaption: false,
+            loop: false,
+            disableDragSeek: true,
+            hideControls: false,
+            hideThumbnail: true,
+            forceHD: true,
+          ),
+        );
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -73,10 +106,9 @@ class _GameDetailState extends State<GameDetail> {
                       const SizedBox(height: 12),
                       gameDescription(foregroundColor, tertiaryColor),
                       const SizedBox(height: 15),
+                      gameSS(backgroundColor, foregroundColor, tertiaryColor),
+                      const SizedBox(height: 15),
                       ratings(foregroundColor, tertiaryColor),
-                      const SizedBox(height: 15),
-                      gameSS(),
-                      const SizedBox(height: 15),
                     ],
                   ),
                 ),
@@ -85,6 +117,92 @@ class _GameDetailState extends State<GameDetail> {
           ]),
         ),
       ),
+    );
+  }
+
+  Center gameSS(Color backgroundColor, Color foregroundColor, Color tertiaryColor) {
+    return Center(
+      child: isLoading
+          ? Skeletonizer(
+              enabled: isLoading,
+              effect: ShimmerEffect(baseColor: backgroundColor, highlightColor: foregroundColor, duration: const Duration(seconds: 1)),
+              child: Card(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Container(
+                    height: 200,
+                    width: double.infinity,
+                    color: backgroundColor,
+                  ),
+                ),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.only(left: 10, right: 15),
+              child: SizedBox(
+                width: double.infinity,
+                height: 187,
+                child: ListView.builder(
+                  itemCount: widget.game.shortScreenshots.length + 1,
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (index == 0 && _controller != null) {
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: 328,
+                            height: 187,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: YoutubePlayer(
+                                controller: _controller!,
+                                showVideoProgressIndicator: false,
+                                bottomActions: [
+                                  CurrentPosition(),
+                                  ProgressBar(isExpanded: true),
+                                  RemainingDuration(),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                        ],
+                      );
+                    } else {
+                      int imageIndex = index - 1;
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ScreenShotDetail(game: widget.game, index: imageIndex),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          clipBehavior: Clip.hardEdge,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          margin: const EdgeInsets.only(right: 15),
+                          child: Hero(
+                            tag: '${widget.game.shortScreenshots[imageIndex].id}',
+                            child: Image.network(
+                              widget.game.shortScreenshots[imageIndex].image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
     );
   }
 
@@ -343,55 +461,6 @@ class _GameDetailState extends State<GameDetail> {
           onPressed: () => Navigator.pop(context),
         ),
       ],
-    );
-  }
-
-  Center gameSS() {
-    return Center(
-      child: isLoading
-          ? Skeletonizer(
-              child: Card(
-                clipBehavior: Clip.hardEdge,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                margin: const EdgeInsets.only(right: 15),
-                child: Container(
-                  height: Get.width,
-                  width: 300,
-                  color: Colors.grey.shade300,
-                ),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-              child: SizedBox(
-                width: double.infinity,
-                height: 170,
-                child: ListView.builder(
-                    itemCount: widget.game.shortScreenshots.length,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenShotDetail(game: widget.game, index: index)));
-                        },
-                        child: Card(
-                          clipBehavior: Clip.hardEdge,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                          margin: const EdgeInsets.only(right: 15),
-                          child: Hero(
-                            tag: '${widget.game.shortScreenshots[index].id}',
-                            child: Image.network(
-                              widget.game.shortScreenshots[index].image,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ),
     );
   }
 }

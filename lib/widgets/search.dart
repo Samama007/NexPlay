@@ -117,6 +117,8 @@ class _SearchBarrState extends State<SearchBarr> {
             hintText: 'Search for a game...',
             hintStyle: TextStyle(color: foregroundColor),
             cursorColor: foregroundColor,
+            focusColor: foregroundColor,
+            helperStyle: TextStyle(color: foregroundColor),
             searchStyle: TextStyle(color: foregroundColor),
             suffixIcon: Icon(Icons.search_rounded, color: foregroundColor),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: foregroundColor, style: BorderStyle.solid)),

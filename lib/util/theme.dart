@@ -21,6 +21,6 @@ final ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: const Color(0xFF46211A),
 );
 
-const backgroundColor = Color(0xFFF1D3B2);
-const foregroundColor = Color(0xFF46211A);
-const tertiaryColor = Color(0xFFA43820);
+// const backgroundColor = Color(0xFFF1D3B2);
+// const foregroundColor = Color(0xFF46211A);
+// const tertiaryColor = Color(0xFFA43820);

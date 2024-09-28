@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: Icon(_statusIcon, color: _statusColor),
                     label: Text(_statusText),
                     onPressed: () {
-                      _showStatusDialog(context);
+                      _showStatusDialog(context, backgroundColor, foregroundColor, tertiaryColor);
                     },
                   ),
                 ],
@@ -219,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _showStatusDialog(BuildContext context) {
+  void _showStatusDialog(BuildContext context,Color backgroundColor, Color foregroundColor, Color tertiaryColor) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -229,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.circle, color: Colors.green),
-              title: const Text('Online', style: TextStyle(color: backgroundColor)),
+              title:  Text('Online', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Online', Colors.green, Icons.circle);
                 Navigator.pop(context);
@@ -238,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.remove_circle_outline, color: Colors.red),
-              title: const Text('Do not disturb', style: TextStyle(color: backgroundColor)),
+              title:  Text('Do not disturb', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Do not disturb', Colors.red, Icons.remove_circle_outline);
                 Navigator.pop(context);
@@ -247,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.access_time, color: Colors.orange),
-              title: const Text('Away', style: TextStyle(color: backgroundColor)),
+              title:  Text('Away', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Away', Colors.orange, Icons.access_time);
                 Navigator.pop(context);
@@ -256,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.radio_button_unchecked, color: Colors.grey),
-              title: const Text('Invisible', style: TextStyle(color: backgroundColor)),
+              title:  Text('Invisible', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Invisible', Colors.grey, Icons.radio_button_unchecked);
                 Navigator.pop(context);

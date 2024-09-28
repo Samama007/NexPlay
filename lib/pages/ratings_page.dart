@@ -46,13 +46,6 @@ class _RatingsPageState extends State<RatingsPage> {
       setState(() {
         description!.ratings.add(Rating(id: 23, title: reviewController.text, count: 234, percent: (userRating / 5) * 100));
       });
-      Get.snackbar(
-        backgroundColor: foregroundColor,
-        colorText: backgroundColor,
-        'Review Submitted',
-        'Thank you for your feedback!',
-        snackPosition: SnackPosition.BOTTOM,
-      );
       reviewController.clear();
       setState(() {
         userRating = 0;
@@ -85,30 +78,32 @@ class _RatingsPageState extends State<RatingsPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: isLoading
-          ? _buildSkeletonList(backgroundColor, foregroundColor)
-          : description!.ratings.isEmpty
-              ? Center(child: Text('No ratings yet...', style: TextStyle(color: foregroundColor, fontSize: 25, fontWeight: FontWeight.w500)))
-              : Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  height: MediaQuery.of(context).size.height,
-                  color: backgroundColor,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: description!.ratings.length,
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return _buildRatingCard(index, backgroundColor, foregroundColor);
-                          },
+      body: SizedBox(
+        height: Get.height,
+        child: Column(
+          children: [
+            Expanded(
+              child: isLoading
+                  ? _buildSkeletonList(backgroundColor, foregroundColor)
+                  : description!.ratings.isEmpty
+                      ? Center(child: Text('No ratings yet...', style: TextStyle(color: foregroundColor, fontSize: 25, fontWeight: FontWeight.w500)))
+                      : Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          color: backgroundColor,
+                          child: ListView.builder(
+                            itemCount: description!.ratings.length,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return _buildRatingCard(index, backgroundColor, foregroundColor);
+                            },
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 180, child: _buildReviewInput(foregroundColor, backgroundColor)),
-                    ],
-                  ),
-                ),
+            ),
+            SizedBox(height: 180, child: _buildReviewInput(foregroundColor, backgroundColor)),
+          ],
+        ),
+      ),
     );
   }
 

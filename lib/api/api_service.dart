@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:nexplay/models/achievements_model.dart';
 import 'package:nexplay/models/bestseller_model.dart';
@@ -91,15 +92,6 @@ class GameApi {
     }
   }
 
-  // Future<SearchModel> searchGames(String query) async {
-  //   final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&search=$query'));
-  //   if (response.statusCode == 200) {
-  //     return SearchModel.fromJson(json.decode(response.body));
-  //   } else {
-  //     throw Exception('API error');
-  //   }
-  // }
-
   List<ReleasedModel> released = [];
   Future<List<ReleasedModel>> sortbyreleased() async {
     final response = await http.get(Uri.parse('https://api.rawg.io/api/games?key=b4c477df733b421d8b4d897023fb0f6e&ordering=created'));
@@ -124,5 +116,26 @@ class GameApi {
     } else {
       throw Exception('Failed to load games by bestSeller');
     }
+  }
+
+  final String apiKey = 'AIzaSyCctfqlXixBR9Jd8HF42Y_lCyG0ZBZ9Q-8';
+  Future<String?> fetchtrailer(String gameName) async {
+    try {
+      final String query = Uri.encodeComponent("$gameName game trailer");
+      final String url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=$query&type=video&key=$apiKey';
+
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['items'].isNotEmpty) {
+          return data['items'][0]['id']['videoId'];
+        }
+      } else {
+        debugPrint('Failed to load trailer. Error code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching trailer: $e');
+    }
+    return null;
   }
 }

@@ -73,14 +73,7 @@ class ExplorePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Browse by Category',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: foregroundColor,
-                        ),
-                      ),
+                      Text('Browse by Category', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: foregroundColor)),
                       TextButton(
                         style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(foregroundColor)),
                         onPressed: () => Get.to(() => const CategoriesPage()),
