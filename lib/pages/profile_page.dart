@@ -164,6 +164,27 @@ class _ProfilePageState extends State<ProfilePage> {
                           setState(() {
                             _switchNotifications = value;
                           });
+                          if (value == true) {
+                            Get.snackbar(
+                              '',
+                              '',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: backgroundColor,
+                              colorText: foregroundColor,
+                              titleText: Text('Notifications ON', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                              messageText: Text('Be the first to hear about weekly sales, exclusive offers and more.', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.w400, fontSize: 12)),
+                            );
+                          } else {
+                            Get.snackbar(
+                              '',
+                              '',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: backgroundColor,
+                              colorText: foregroundColor,
+                              titleText: Text('Notifications OFF', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                              messageText: Text('Be the first to hear about weekly sales, exclusive offers and more.', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.w400, fontSize: 12)),
+                            );
+                          }
                         },
                         thumbColor: WidgetStateProperty.resolveWith((states) {
                           if (states.contains(WidgetState.selected)) {
@@ -189,6 +210,27 @@ class _ProfilePageState extends State<ProfilePage> {
                           setState(() {
                             _switchMarketing = value;
                           });
+                          if (value == true) {
+                            Get.snackbar(
+                              '',
+                              '',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: backgroundColor,
+                              colorText: foregroundColor,
+                              titleText: Text('Marketing Emails ON', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                              messageText: Text('Consent granted to receive marketing emails, weekly updates from NexPlay.', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.w400, fontSize: 12)),
+                            );
+                          } else {
+                            Get.snackbar(
+                              '',
+                              '',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: backgroundColor,
+                              colorText: foregroundColor,
+                              titleText: Text('Marketing Emails OFF', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                              messageText: Text('Consent revoked to receive marketing emails, weekly updates from NexPlay.', style: TextStyle(color: foregroundColor, fontWeight: FontWeight.w400, fontSize: 12)),
+                            );
+                          }
                         },
                         thumbColor: WidgetStateProperty.resolveWith((states) {
                           if (states.contains(WidgetState.selected)) {
@@ -219,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _showStatusDialog(BuildContext context,Color backgroundColor, Color foregroundColor, Color tertiaryColor) {
+  void _showStatusDialog(BuildContext context, Color backgroundColor, Color foregroundColor, Color tertiaryColor) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -229,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.circle, color: Colors.green),
-              title:  Text('Online', style: TextStyle(color: backgroundColor)),
+              title: Text('Online', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Online', Colors.green, Icons.circle);
                 Navigator.pop(context);
@@ -238,7 +280,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.remove_circle_outline, color: Colors.red),
-              title:  Text('Do not disturb', style: TextStyle(color: backgroundColor)),
+              title: Text('Do not disturb', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Do not disturb', Colors.red, Icons.remove_circle_outline);
                 Navigator.pop(context);
@@ -247,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.access_time, color: Colors.orange),
-              title:  Text('Away', style: TextStyle(color: backgroundColor)),
+              title: Text('Away', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Away', Colors.orange, Icons.access_time);
                 Navigator.pop(context);
@@ -256,7 +298,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               tileColor: foregroundColor,
               leading: const Icon(Icons.radio_button_unchecked, color: Colors.grey),
-              title:  Text('Invisible', style: TextStyle(color: backgroundColor)),
+              title: Text('Invisible', style: TextStyle(color: backgroundColor)),
               onTap: () {
                 _updateStatus('Invisible', Colors.grey, Icons.radio_button_unchecked);
                 Navigator.pop(context);

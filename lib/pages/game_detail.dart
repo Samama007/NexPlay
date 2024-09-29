@@ -106,9 +106,9 @@ class _GameDetailState extends State<GameDetail> {
                       const SizedBox(height: 12),
                       gameDescription(foregroundColor, tertiaryColor),
                       const SizedBox(height: 15),
-                      gameSS(backgroundColor, foregroundColor, tertiaryColor),
-                      const SizedBox(height: 15),
                       ratings(foregroundColor, tertiaryColor),
+                      const SizedBox(height: 15),
+                      gameSS(backgroundColor, foregroundColor, tertiaryColor),
                     ],
                   ),
                 ),
@@ -274,7 +274,7 @@ class _GameDetailState extends State<GameDetail> {
             isLoading
                 ? Text(BoneMock.paragraph, maxLines: 3)
                 : AnimatedReadMoreText(
-                    description!.description.replaceAll('<p>', '').replaceAll('<br />', '\n').replaceAll('</p>', '').toString(),
+                    description!.description.replaceAll('<p>', '').replaceAll('<br />', '\n').replaceAll('</p>', '').replaceAll('<br/>', '').replaceAll('<ul>', '').replaceAll('</ul>', '').replaceAll('<li>', '\n').replaceAll('<strong>', '').replaceAll('</strong>', '').replaceAll('</li>', '').toString(),
                     maxLines: 3,
                     textStyle: TextStyle(fontSize: 16, color: foregroundColor),
                     buttonTextStyle: TextStyle(fontSize: 16, color: tertiaryColor),
@@ -411,14 +411,19 @@ class _GameDetailState extends State<GameDetail> {
       enabled: isLoading,
       effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50, duration: const Duration(seconds: 1)),
       child: ListTile(
-        title: Center(child: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: foregroundColor))),
+        title: Text(widget.game.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: foregroundColor), textAlign: TextAlign.center),
         subtitle: Row(
           children: [
             isLoading
                 ? Text(BoneMock.subtitle)
-                : Text(
-                    description!.developers.first.name,
-                    style: TextStyle(fontSize: 18, color: tertiaryColor),
+                : SizedBox(
+                    width: Get.width * 0.7,
+                    child: Text(
+                      description!.developers.first.name,
+                      style: TextStyle(fontSize: 18, color: tertiaryColor),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   ),
             const Spacer(),
             isLoading ? Text(BoneMock.subtitle) : Text(description!.released!.year.toString(), style: TextStyle(fontSize: 18, color: tertiaryColor))

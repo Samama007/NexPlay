@@ -6,7 +6,7 @@ import 'package:nexplay/models/bestseller_model.dart' as bs;
 import 'package:nexplay/models/my_game_description_model.dart';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/models/price_model.dart';
-import 'package:nexplay/models/released_model.dart';
+import 'package:nexplay/models/released_model.dart' as rm;
 import 'package:nexplay/pages/game_detail.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -18,7 +18,7 @@ class GameGraph extends StatefulWidget {
 }
 
 class GgameGraphState extends State<GameGraph> {
-  List<ReleasedModel> released = [];
+  List<rm.ReleasedModel> released = [];
   List<bs.BestsellerModel> bestSeller = [];
   bool isLoading = true;
 
@@ -30,7 +30,7 @@ class GgameGraphState extends State<GameGraph> {
   }
 
   Future _fetchreleased() async {
-    List<ReleasedModel> data = await GameApi().sortbyreleased();
+    List<rm.ReleasedModel> data = await GameApi().sortbyreleased();
     setState(() {
       released.addAll(data);
       isLoading = false;
@@ -128,13 +128,13 @@ class GgameGraphState extends State<GameGraph> {
                                         playtime: game.playtime!,
                                         ratingsCount: game.ratingsCount!,
                                         shortScreenshots: game.shortScreenshots!.map((ss) => ShortScreenshot(id: ss.id!, image: ss.image!)).toList(),
-                                        esrbRating: EsrbRating(id: 0, name: game.esrbRating!.id.toString(), slug: game.esrbRating!.slug!),
+                                        esrbRating: EsrbRating(id: 0, name: game.esrbRating!.name!, slug: game.esrbRating!.slug!),
                                       );
                                       Get.to(() => GameDetail(game: gameModel, price: (double.parse(price) / 2).toStringAsFixed(2)));
                                     } catch (e) {
                                       Get.snackbar(
-                                        'Error',
-                                        e.toString(),
+                                        'Ummm...',
+                                        "Game isn't available currently",
                                         backgroundColor: backgroundColor,
                                         colorText: foregroundColor,
                                       );
@@ -247,18 +247,17 @@ class GgameGraphState extends State<GameGraph> {
                                     try {
                                       DescriptionModel description = await GameApi().fetchDescription(game.id);
                                       GameModel gameModel = GameModel(
-                                        id: description.id,
-                                        name: description.name,
-                                        backgroundImage: description.backgroundImage ?? '',
-                                        rating: description.ratings.isNotEmpty ? description.ratings[0].percent : 0.0,
-                                        released: description.released ?? DateTime.now(),
-                                        playtime: 0,
+                                        id: game.id,
+                                        name: game.name,
+                                        backgroundImage: game.backgroundImage,
+                                        rating: game.rating,
+                                        released: game.released,
+                                        playtime: game.playtime,
                                         ratingsCount: description.ratings.isNotEmpty ? description.ratings[0].count : 0,
-                                        shortScreenshots: [],
+                                        shortScreenshots: game.shortScreenshots.map((ss) => ShortScreenshot(id: ss.id, image: ss.image)).toList(),
                                         esrbRating: EsrbRating(id: 0, name: 'Unknown', slug: 'unknown'),
                                       );
                                       Get.to(() => GameDetail(game: gameModel, price: (double.parse(price) / 2).toStringAsFixed(2)));
-                                      // Get.to(() => GameDetail(game: gameModel, price: price));
                                     } catch (e) {
                                       Get.snackbar(
                                         'Error',

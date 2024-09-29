@@ -9,7 +9,6 @@ import 'package:nexplay/models/search_mode.dart';
 import 'package:nexplay/pages/game_detail.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:http/http.dart' as http;
-// import 'package:nexplay/util/colors.dart';
 
 class SearchBarr extends StatefulWidget {
   const SearchBarr({super.key});
@@ -71,7 +70,7 @@ class _SearchBarrState extends State<SearchBarr> {
               )
               .toList(),
           scrollbarDecoration: ScrollbarDecoration(thumbColor: backgroundColor, crossAxisMargin: 3, thickness: 10),
-          suggestionsDecoration: SuggestionDecoration(color: Colors.transparent, selectionColor: Colors.black),
+          suggestionsDecoration: SuggestionDecoration(color: Colors.transparent, selectionColor: foregroundColor.withOpacity(0.3)),
           suggestionItemDecoration: BoxDecoration(color: foregroundColor),
           marginColor: Colors.transparent,
           onSearchTextChanged: (query) {
