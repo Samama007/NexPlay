@@ -29,6 +29,7 @@ class GameModel {
       rating: json["rating"]?.toDouble(),
       released: DateTime.parse(json['released']),
       playtime: json['playtime'],
+      // fd
       ratingsCount: json['ratings_count'],
       shortScreenshots: List<ShortScreenshot>.from(
         json['short_screenshots'].map((x) => ShortScreenshot.fromJson(x)),
