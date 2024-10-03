@@ -47,6 +47,34 @@ flutter:
     - assets/images/
     - assets/svg/
 
+  fonts:
+    - family: ProzaLibre
+      fonts:
+        - asset: assets/fonts/ProzaLibre-Regular.ttf
+        - asset: assets/fonts/ProzaLibre-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/ProzaLibre-Italic.ttf
+          style: italic
+        - asset: assets/fonts/ProzaLibre-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/ProzaLibre-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/ProzaLibre-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/ProzaLibre-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/ProzaLibre-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/ProzaLibre-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/ProzaLibre-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+
+
 flutter_native_splash:
   android: true
   ios: true

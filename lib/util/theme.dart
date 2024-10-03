@@ -8,6 +8,7 @@ final ThemeData lightTheme = ThemeData(
     tertiary: Color(0xFFA43820),
   ),
   scaffoldBackgroundColor: const Color(0xFFF1D3B2),
+  fontFamily: 'ProzaLibre', // Apply Proza Libre globally
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -19,7 +20,9 @@ final ThemeData darkTheme = ThemeData(
     tertiary: Color(0xFFA43820),
   ),
   scaffoldBackgroundColor: const Color(0xFF46211A),
+  fontFamily: 'ProzaLibre', // Apply Proza Libre globally
 );
+
 
 // const backgroundColor = Color(0xFFF1D3B2);
 // const foregroundColor = Color(0xFF46211A);
