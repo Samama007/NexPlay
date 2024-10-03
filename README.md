@@ -1,6 +1,6 @@
 # NexPlay: Your Ultimate Gaming Marketplace
 
-NexPlay is an innovative Flutter-based mobile application designed to serve as a comprehensive database for video games. This project inspired by Steam on PC aims to provide gamers with a sleek, user-friendly interface to explore, purchase and track their gaming experiences.
+NexPlay is an ambitious Flutter-based mobile application that aims to revolutionize the mobile gaming marketplace. Inspired by platforms like Steam, NexPlay offers a comprehensive ecosystem for gamers to discover, purchase, and manage their digital game library.
 
 ## 🚀 Features:
 
