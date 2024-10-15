@@ -27,6 +27,7 @@ class _GameDetailState extends State<GameDetail> {
   GameApi gameApi = GameApi();
   DescriptionModel? description;
   bool isLoading = true;
+  bool videoLoading = true;
   String price = '';
   cartitem.CartController cartController = Get.find();
   String? _videoID;
@@ -43,6 +44,7 @@ class _GameDetailState extends State<GameDetail> {
     DescriptionModel fetchedDetails = await gameApi.fetchDescription(widget.game.id);
     setState(() {
       description = fetchedDetails;
+      isLoading = false;
     });
   }
 
@@ -65,7 +67,7 @@ class _GameDetailState extends State<GameDetail> {
             forceHD: true,
           ),
         );
-        isLoading = false;
+        videoLoading = false;
       });
     }
   }
@@ -122,9 +124,9 @@ class _GameDetailState extends State<GameDetail> {
 
   Center gameSS(Color backgroundColor, Color foregroundColor, Color tertiaryColor) {
     return Center(
-      child: isLoading
+      child: videoLoading
           ? Skeletonizer(
-              enabled: isLoading,
+              enabled: videoLoading,
               effect: ShimmerEffect(baseColor: backgroundColor, highlightColor: foregroundColor, duration: const Duration(seconds: 1)),
               child: Card(
                 clipBehavior: Clip.hardEdge,
@@ -274,7 +276,7 @@ class _GameDetailState extends State<GameDetail> {
             isLoading
                 ? Text(BoneMock.paragraph, maxLines: 3)
                 : AnimatedReadMoreText(
-                    description!.description.replaceAll('<p>', '').replaceAll('<br />', '\n').replaceAll('</p>', '').replaceAll('<br/>', '').replaceAll('<ul>', '').replaceAll('</ul>', '').replaceAll('<li>', '\n').replaceAll('<strong>', '').replaceAll('</strong>', '').replaceAll('</li>', '').toString(),
+                    description!.description.replaceAll('<p>', '').replaceAll('<br />', '\n').replaceAll('</p>', '').replaceAll('<br/>', '').replaceAll('<ul>', '').replaceAll('</ul>', '').replaceAll('<li>', '\n').replaceAll('<strong>', '').replaceAll('</strong>', '').replaceAll('</li>', '').replaceAll('h3', '').replaceAll('/h3', '').replaceAll('<>', '-').replaceAll('</>', ':').toString(),
                     maxLines: 3,
                     textStyle: TextStyle(fontSize: 16, color: foregroundColor),
                     buttonTextStyle: TextStyle(fontSize: 16, color: tertiaryColor),
@@ -393,7 +395,7 @@ class _GameDetailState extends State<GameDetail> {
                 const SizedBox(width: 30),
                 Column(
                   children: [
-                    Icon(Icons.hourglass_bottom, color: foregroundColor, size: 35),
+                    FaIcon(FontAwesomeIcons.clockRotateLeft, color: foregroundColor, size: 32),
                     const SizedBox(height: 2),
                     Text('${widget.game.playtime.toString()} hours', style: TextStyle(fontSize: 14, color: foregroundColor))
                   ],
@@ -426,7 +428,7 @@ class _GameDetailState extends State<GameDetail> {
                     ),
                   ),
             const Spacer(),
-            isLoading ? Text(BoneMock.subtitle) : Text(description!.released!.year.toString(), style: TextStyle(fontSize: 18, color: tertiaryColor))
+            isLoading ? Text(BoneMock.subtitle) : Text(widget.game.released.year.toString(), style: TextStyle(fontSize: 18, color: tertiaryColor))
           ],
         ),
       ),

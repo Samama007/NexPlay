@@ -29,8 +29,9 @@ class _PurchasedState extends State<Purchased> with SingleTickerProviderStateMix
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 40), () {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     });
   }
 

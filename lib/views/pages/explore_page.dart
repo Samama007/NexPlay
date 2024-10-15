@@ -106,7 +106,7 @@ class ExplorePage extends StatelessWidget {
                           'DEVELEPORS HUB',
                           style: TextStyle(
                             color: Color(0xFFF1D3B2),
-                            fontSize: 40,
+                            fontSize: 36,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
                           ),

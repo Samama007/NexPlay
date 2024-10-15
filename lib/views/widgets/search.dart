@@ -81,7 +81,7 @@ class _SearchBarrState extends State<SearchBarr> {
             FocusScope.of(context).unfocus();
           },
           suggestionState: Suggestion.hidden,
-          suggestionStyle: TextStyle(color: foregroundColor, fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontStyle: FontStyle.normal),
+          suggestionStyle: TextStyle(color: foregroundColor, fontSize: 16, fontWeight: FontWeight.w500),
           onTap: () {
             FocusScope.of(context).focusedChild;
           },
@@ -96,17 +96,23 @@ class _SearchBarrState extends State<SearchBarr> {
                   game: gamemodel.GameModel(
                     id: games[index].id,
                     name: games[index].name,
-                    backgroundImage: games[index].backgroundImage!,
-                    released: games[index].released!,
-                    playtime: games[index].playtime!,
-                    ratingsCount: games[index].ratingsCount!,
-                    rating: games[index].rating!,
+                    backgroundImage: games[index].backgroundImage,
+                    released: games[index].released,
+                    playtime: games[index].playtime,
+                    ratingsCount: games[index].ratingsCount,
+                    rating: games[index].rating,
                     shortScreenshots: games[index].shortScreenshots.map((screenshot) => gamemodel.ShortScreenshot(id: screenshot.id, image: screenshot.image!)).toList(),
-                    esrbRating: gamemodel.EsrbRating(
-                      id: 7,
-                      name: 'Mature',
-                      slug: '6.7',
-                    ),
+                    esrbRating: games[index].esrbRating != null
+                        ? gamemodel.EsrbRating(
+                            id: games[index].esrbRating!.id,
+                            name: games[index].esrbRating!.name,
+                            slug: games[index].esrbRating!.slug,
+                          )
+                        : gamemodel.EsrbRating(
+                            id: 1, // Default ID
+                            name: 'N/A', // Default name
+                            slug: '1', // Default slug
+                          ),
                   ),
                   price: price,
                 ));

@@ -90,7 +90,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
-      body: achievements.isEmpty && isLoading
+      body: isLoading
           ? GridView.builder(
               itemCount: 6,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -102,8 +102,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
               itemBuilder: (context, index) {
                 return Skeletonizer(
                   effect: ShimmerEffect(
-                    baseColor: Colors.grey.shade400,
-                    highlightColor: Colors.grey.shade50,
+                    baseColor: foregroundColor,
+                    highlightColor: backgroundColor,
                   ),
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -139,71 +139,73 @@ class _AchievementsPageState extends State<AchievementsPage> {
                   ),
                 );
               })
-          : GridView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(8),
-              itemCount: achievements.length + (isLoading ? 1 : 0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemBuilder: (context, index) {
-                if (index < achievements.length) {
-                  var achievement = achievements[index];
-                  return Card(
-                    color: tertiaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                          child: Image.network(
-                            achievement.image,
-                            height: 120,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
+          : achievements.isEmpty && isLoading
+              ? Center(child: Text('Sadly, no achievements available for this game 😢', style: TextStyle(color: foregroundColor, fontSize: 30, fontWeight: FontWeight.w900), textAlign: TextAlign.center))
+              : GridView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: achievements.length + (isLoading ? 1 : 0),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemBuilder: (context, index) {
+                    if (index < achievements.length) {
+                      var achievement = achievements[index];
+                      return Card(
+                        color: tertiaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        const SizedBox(height: 5),
-                        AutoSizeText(
-                          achievement.name,
-                          maxLines: 2,
-                          minFontSize: 15,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 18, fontWeight: FontWeight.w900),
-                          textAlign: TextAlign.center,
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                              child: Image.network(
+                                achievement.image,
+                                height: 120,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            AutoSizeText(
+                              achievement.name,
+                              maxLines: 2,
+                              minFontSize: 15,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 18, fontWeight: FontWeight.w900),
+                              textAlign: TextAlign.center,
+                            ),
+                            Container(width: 50, height: 1, color: backgroundColor),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: AutoSizeText(
+                                achievement.description,
+                                maxLines: 3,
+                                minFontSize: 14,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(color: Color(0xFFF1D3B2), fontWeight: FontWeight.w400, fontSize: 16),
+                                textAlign: TextAlign.start,
+                              ),
+                            )
+                          ],
                         ),
-                        Container(width: 50, height: 1, color: backgroundColor),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: AutoSizeText(
-                            achievement.description,
-                            maxLines: 3,
-                            minFontSize: 14,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Color(0xFFF1D3B2), fontWeight: FontWeight.w400, fontSize: 16),
-                            textAlign: TextAlign.start,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                } else if (isLoading) {
-                  return Center(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 100),
-                    child: CircularProgressIndicator(color: foregroundColor),
-                  ));
-                } else {
-                  return const SizedBox.shrink();
-                }
-              },
-            ),
+                      );
+                    } else if (isLoading) {
+                      return Center(
+                          child: Padding(
+                        padding: const EdgeInsets.only(left: 100),
+                        child: CircularProgressIndicator(color: foregroundColor),
+                      ));
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
     );
   }
 }

@@ -9,9 +9,11 @@ class DescriptionModel {
   final String? website;
   final List<Developer> developers;
   final List<Rating> ratings;
+  final double rating;
 
   DescriptionModel({
     required this.id,
+    required this.rating,
     required this.name,
     required this.description,
     this.metacritic,
@@ -34,6 +36,7 @@ class DescriptionModel {
         developers: (json["developers"] as List<dynamic>?)?.map((x) => Developer.fromJson(x as Map<String, dynamic>)).toList() ?? [],
         ratings: (json["ratings"] as List<dynamic>?)?.map((x) => Rating.fromJson(x as Map<String, dynamic>)).toList() ?? [],
         backgroundImage: json["background_image"] as String?,
+        rating: (json["rating"] as num).toDouble(),
       );
 }
 

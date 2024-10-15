@@ -28,6 +28,12 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
   }
 
   @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Color backgroundColor = Theme.of(context).primaryColor;
     Color foregroundColor = Theme.of(context).colorScheme.secondary;

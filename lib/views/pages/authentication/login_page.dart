@@ -7,6 +7,7 @@ import 'package:nexplay/views/pages/authentication/signup_page.dart';
 import 'package:nexplay/auth/user%20auth/firebase_auth_services.dart';
 import 'package:nexplay/views/widgets/bottom_nav_bar.dart';
 import 'package:nexplay/views/widgets/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -212,16 +213,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
+  String email = _emailController.text;
+  String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailandPasword(email, password, context);
-    if (!mounted) return;
+  User? user = await _auth.signInWithEmailandPasword(email, password, context);
+  if (!mounted) return;
 
-    if (user != null) {
-      String username = _emailController.text.replaceAll(RegExp(r'@.*\..*'), '').toUpperCase().toString();
-      toast('Welcome $username', context);
-      Get.to(BottomNavBar(name: username));
-    }
+  if (user != null) {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    // Store current user email
+    await pref.setString('currentUserEmail', email);
+
+    // Retrieve username based on the email
+    String username = pref.getString('username_$email') ?? 'Max';
+
+    toast('Welcome $username', context);
+    Get.off(() => BottomNavBar(name: username));
   }
+}
+
 }

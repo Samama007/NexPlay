@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nexplay/views/pages/authentication/login_page.dart';
 import 'package:nexplay/auth/user%20auth/firebase_auth_services.dart';
 import 'package:nexplay/views/widgets/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -221,16 +222,27 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void _signUp() async {
-    String email = _emailcontroller.text;
-    String password = _passwordcontroller.text;
+  String email = _emailcontroller.text;
+  String password = _passwordcontroller.text;
+  String username = _namecontroller.text;
 
-    User? user = await _auth.signUpWithEmailandPasword(email, password, context);
-    if (!mounted) return;
+  User? user = await _auth.signUpWithEmailandPasword(email, password, context);
+  if (!mounted) return;
 
-    if (user != null) {
-      Future.delayed(const Duration(seconds: 2));
-      toast('User successfully created', context);
-      Get.to(() => const LoginPage());
-    }
+  if (user != null) {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    // Store user-specific data using email as the key
+    await pref.setString('username_$email', username); // Store username with email prefix
+    await pref.setBool('loginStatus_$email', true); // Store login status specific to email
+
+    // Store current user email
+    await pref.setString('currentUserEmail', email); // Track the currently logged-in user
+
+    // ignore: use_build_context_synchronously
+    toast('Welcome to NexPlay, $username', context);
+    Get.to(() => const LoginPage());
   }
+}
+
 }

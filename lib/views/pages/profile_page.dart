@@ -6,7 +6,7 @@ import 'package:language_picker/languages.dart';
 import 'package:nexplay/views/pages/authentication/login_page.dart';
 import 'package:nexplay/controller/library_controller.dart';
 import 'package:nexplay/views/pages/terms_conditions.dart';
-import 'package:nexplay/util/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
@@ -47,14 +47,8 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('My Profile', style: TextStyle(color: foregroundColor)),
         actions: [
           IconButton(
-            icon: Icon(Icons.wb_sunny, color: foregroundColor),
-            onPressed: () {
-              Get.changeTheme(Get.isDarkMode ? lightTheme : darkTheme);
-            },
-          ),
-          IconButton(
             icon: Icon(Icons.logout, color: foregroundColor),
-            onPressed: () {
+            onPressed: () async {
               showDialog(
                 context: context,
                 builder: (context) {
@@ -66,13 +60,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   );
                 },
               );
+              SharedPreferences pref = await SharedPreferences.getInstance();
+
+              // Get current user email
+              String? email = pref.getString('currentUserEmail');
+
+              // Reset login status for the specific user
+              if (email != null) {
+                await pref.setBool('loginStatus_$email', false);
+              }
+
+              // Remove current user email
+              await pref.remove('currentUserEmail');
+
               _auth.signOut();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
-                ),
-              );
+              Get.offAll(const LoginPage());
             },
           ),
         ],

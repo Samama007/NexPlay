@@ -1,11 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:nexplay/services/api/api_service.dart';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/models/price_model.dart';
 import 'package:nexplay/views/pages/game_detail.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-// import 'package:nexplay/util/colors.dart';
+import 'package:get/get.dart';
 
 class MyCarousel extends StatelessWidget {
   const MyCarousel({super.key});
@@ -13,32 +14,52 @@ class MyCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color foregroundColor = Theme.of(context).colorScheme.secondary;
-    // Color backgroundColor = Theme.of(context).primaryColor;
+    Color backgroundColor = Theme.of(context).primaryColor;
     // Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
     return FutureBuilder<List<GameModel>>(
       future: GameApi().fetchGames(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Skeletonizer(
-            effect: ShimmerEffect(baseColor: Colors.grey.shade400, highlightColor: Colors.grey.shade50),
+            effect: ShimmerEffect(baseColor: backgroundColor, highlightColor: foregroundColor),
             child: Card(
               margin: const EdgeInsets.all(10),
+              color: backgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Container(
-                width: double.infinity,
-                height: 200,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade800,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  BoneMock.longParagraph,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
-                ),
+              child: Row(
+                children: [
+                  Container(
+                    width: Get.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: foregroundColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      BoneMock.longParagraph,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  SizedBox(width: Get.width * 0.03),
+                  Container(
+                    width: Get.width * 0.23,
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: foregroundColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      BoneMock.longParagraph,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
               ),
             ),
           );

@@ -61,12 +61,13 @@ class _DevelopersPageState extends State<DevelopersPage> {
         _gameDescriptions[gameId] = gameDescription;
       });
     } catch (e) {
-      // Handle error
+      rethrow;
     }
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_loadingMore) {
+      _currentPage++;
       _loadDevelopers();
     }
   }
@@ -139,13 +140,13 @@ class _DevelopersPageState extends State<DevelopersPage> {
                                       child: InkWell(
                                         onTap: () => Get.to(() => GameDetail(
                                               game: GameModel(
-                                                id: gameDescription!.id,
-                                                name: gameDescription.name,
-                                                backgroundImage: gameDescription.backgroundImage!,
-                                                released: gameDescription.released!,
+                                                id: 23,
+                                                name: gameDescription!.name,
+                                                backgroundImage: gameDescription.backgroundImage ?? '',
+                                                released: gameDescription.released ?? DateTime(2014),
                                                 playtime: 24,
                                                 ratingsCount: 2513,
-                                                rating: gameDescription.ratings[index].percent,
+                                                rating: gameDescription.rating,
                                                 shortScreenshots: [],
                                                 esrbRating: EsrbRating(id: 2, name: 'N/A', slug: 'slug'),
                                               ),
