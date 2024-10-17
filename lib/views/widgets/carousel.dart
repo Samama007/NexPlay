@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:nexplay/services/api/api_service.dart';
 import 'package:nexplay/models/my_game_model.dart';
 import 'package:nexplay/models/price_model.dart';

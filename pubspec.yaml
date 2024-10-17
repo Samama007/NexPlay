@@ -30,12 +30,12 @@ dependencies:
   lottie: ^3.1.2
   pinch_zoom: ^2.0.0
   searchfield: ^1.1.0
-  skeletonizer: ^1.4.2
-  youtube_player_flutter: ^9.1.0
   shared_preferences: ^2.3.2
+  skeletonizer: ^1.4.2
+  smooth_page_indicator: ^1.2.0+3
+  youtube_player_flutter: ^9.1.0
 
 dev_dependencies:
-
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
@@ -46,6 +46,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svg/
+    - assets/animations/
 
   fonts:
     - family: ProzaLibre

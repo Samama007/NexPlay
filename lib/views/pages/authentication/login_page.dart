@@ -213,24 +213,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
-  String email = _emailController.text;
-  String password = _passwordController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
 
-  User? user = await _auth.signInWithEmailandPasword(email, password, context);
-  if (!mounted) return;
+    User? user = await _auth.signInWithEmailandPasword(email, password, context);
+    if (!mounted) return;
 
-  if (user != null) {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (user != null) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
 
-    // Store current user email
-    await pref.setString('currentUserEmail', email);
+      // Store login status specifically for this user
+      await pref.setBool('loginStatus_$email', true);
 
-    // Retrieve username based on the email
-    String username = pref.getString('username_$email') ?? 'Max';
+      // Store current user email globally
+      await pref.setString('currentUserEmail', email);
 
-    toast('Welcome $username', context);
-    Get.off(() => BottomNavBar(name: username));
+      // Retrieve username based on the email
+      String username = pref.getString('username_$email') ?? 'Max';
+
+      toast('Welcome $username', context);
+      Get.off(() => BottomNavBar(name: username));
+    }
   }
-}
-
 }

@@ -53,15 +53,10 @@ class _PurchasedState extends State<Purchased> with SingleTickerProviderStateMix
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.network(
-              'https://assets10.lottiefiles.com/packages/lf20_touohxv0.json',
+            Lottie.asset(
+              'assets/animations/purchased.json',
               height: 200,
-              controller: _controller,
-              onLoaded: (composition) {
-                _controller
-                  ..duration = composition.duration
-                  ..forward();
-              },
+              repeat: false,
             ),
             const SizedBox(height: 40),
             FadeTransition(

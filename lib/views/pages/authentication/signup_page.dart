@@ -89,12 +89,11 @@ class _SignupPageState extends State<SignupPage> {
                             key: _formKey,
                             child: Column(
                               children: [
-                                const SizedBox(
-                                  height: 13,
-                                ),
+                                const SizedBox(height: 13),
                                 TextFormField(
                                   style: TextStyle(color: foregroundColor),
                                   controller: _namecontroller,
+                                  cursorColor: foregroundColor,
                                   decoration: InputDecoration(
                                       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: foregroundColor)),
                                       border: OutlineInputBorder(
@@ -115,12 +114,11 @@ class _SignupPageState extends State<SignupPage> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(
-                                  height: 23,
-                                ),
+                                const SizedBox(height: 23),
                                 TextFormField(
                                   style: TextStyle(color: foregroundColor),
                                   controller: _emailcontroller,
+                                  cursorColor: foregroundColor,
                                   decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -140,13 +138,12 @@ class _SignupPageState extends State<SignupPage> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(
-                                  height: 23,
-                                ),
+                                const SizedBox(height: 23),
                                 TextFormField(
                                   style: TextStyle(color: foregroundColor),
                                   controller: _passwordcontroller,
                                   obscureText: true,
+                                  cursorColor: foregroundColor,
                                   decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -202,9 +199,7 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
+              const SizedBox(height: 25),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -222,27 +217,27 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void _signUp() async {
-  String email = _emailcontroller.text;
-  String password = _passwordcontroller.text;
-  String username = _namecontroller.text;
+    String email = _emailcontroller.text;
+    String password = _passwordcontroller.text;
+    String username = _namecontroller.text;
 
-  User? user = await _auth.signUpWithEmailandPasword(email, password, context);
-  if (!mounted) return;
+    User? user = await _auth.signUpWithEmailandPasword(email, password, context);
+    if (!mounted) return;
 
-  if (user != null) {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (user != null) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
 
-    // Store user-specific data using email as the key
-    await pref.setString('username_$email', username); // Store username with email prefix
-    await pref.setBool('loginStatus_$email', true); // Store login status specific to email
+      // Store user-specific data using email as the key
+      await pref.setString('username_$email', username);
 
-    // Store current user email
-    await pref.setString('currentUserEmail', email); // Track the currently logged-in user
+      // Store login status specifically for this user
+      await pref.setBool('loginStatus_$email', true);
 
-    // ignore: use_build_context_synchronously
-    toast('Welcome to NexPlay, $username', context);
-    Get.to(() => const LoginPage());
+      // Store current user email globally
+      await pref.setString('currentUserEmail', email);
+
+      toast('Welcome to NexPlay, $username', context);
+      Get.to(() => const LoginPage());
+    }
   }
-}
-
 }

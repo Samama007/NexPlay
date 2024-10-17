@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:language_picker/language_picker.dart';
 import 'package:language_picker/languages.dart';
+import 'package:nexplay/util/theme.dart';
 import 'package:nexplay/views/pages/authentication/login_page.dart';
 import 'package:nexplay/controller/library_controller.dart';
 import 'package:nexplay/views/pages/terms_conditions.dart';
@@ -43,9 +44,16 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: backgroundColor,
         title: Text('My Profile', style: TextStyle(color: foregroundColor)),
         actions: [
+          IconButton(
+            icon: Icon(Icons.wb_sunny, color: foregroundColor),
+            onPressed: () {
+              Get.changeTheme(Get.isDarkMode ? lightTheme : darkTheme);
+            },
+          ),
           IconButton(
             icon: Icon(Icons.logout, color: foregroundColor),
             onPressed: () async {
@@ -76,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               _auth.signOut();
               Get.offAll(const LoginPage());
             },
-          ),
+          )
         ],
       ),
       body: SingleChildScrollView(

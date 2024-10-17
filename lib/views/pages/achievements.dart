@@ -16,7 +16,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
   List<Result> achievements = [];
   int pageNumber = 1;
   final ScrollController _scrollController = ScrollController();
-  bool isLoading = false;
+  bool isInitialLoading = true;
+  bool isPaginating = false;
   bool hasMore = true;
 
   @override
@@ -26,7 +27,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        if (!isLoading && hasMore) {
+        if (!isPaginating && hasMore) {
           _loadMoreAchievements();
         }
       }
@@ -41,27 +42,28 @@ class _AchievementsPageState extends State<AchievementsPage> {
 
   Future<void> _loadAchievements() async {
     setState(() {
-      isLoading = true;
+      isInitialLoading = true;
     });
 
     try {
       final achievementsModel = await GameApi().fetchAchievements(widget.id, pageNumber);
       setState(() {
         achievements = achievementsModel.first.results;
-        isLoading = false;
+        hasMore = achievementsModel.isNotEmpty; // Check if more data exists
+        isInitialLoading = false;
       });
     } catch (e) {
       setState(() {
-        isLoading = false;
+        isInitialLoading = false;
       });
     }
   }
 
   Future<void> _loadMoreAchievements() async {
-    if (isLoading) return;
+    if (isPaginating || !hasMore) return;
 
     setState(() {
-      isLoading = true;
+      isPaginating = true;
       pageNumber++;
     });
 
@@ -69,11 +71,12 @@ class _AchievementsPageState extends State<AchievementsPage> {
       final achievementsModel = await GameApi().fetchAchievements(widget.id, pageNumber);
       setState(() {
         achievements.addAll(achievementsModel.first.results);
-        isLoading = false;
+        hasMore = achievementsModel.isNotEmpty;
+        isPaginating = false;
       });
     } catch (e) {
       setState(() {
-        isLoading = false;
+        isPaginating = false;
       });
     }
   }
@@ -83,6 +86,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
     Color backgroundColor = Theme.of(context).colorScheme.primary;
     Color foregroundColor = Theme.of(context).colorScheme.secondary;
     Color tertiaryColor = Theme.of(context).colorScheme.tertiary;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -90,122 +94,138 @@ class _AchievementsPageState extends State<AchievementsPage> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
-      body: isLoading
-          ? GridView.builder(
-              itemCount: 6,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemBuilder: (context, index) {
-                return Skeletonizer(
-                  effect: ShimmerEffect(
-                    baseColor: foregroundColor,
-                    highlightColor: backgroundColor,
+      body: isInitialLoading
+          ? _buildLoadingGrid(backgroundColor, foregroundColor)
+          : achievements.isEmpty
+              ? Center(
+                  child: Text(
+                    'No achievements yet',
+                    style: TextStyle(color: foregroundColor, fontSize: 20, fontWeight: FontWeight.w900),
                   ),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), child: Container(height: 120, width: double.infinity, color: Colors.grey.shade800)),
-                        const SizedBox(height: 5),
-                        AutoSizeText(
-                          BoneMock.name,
-                          maxLines: 2,
-                          minFontSize: 15,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w900),
-                          textAlign: TextAlign.center,
-                        ),
-                        Container(width: 50, height: 1, color: Colors.black),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: AutoSizeText(
-                            BoneMock.name,
-                            maxLines: 3,
-                            minFontSize: 14,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
-                            textAlign: TextAlign.start,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              })
-          : achievements.isEmpty && isLoading
-              ? Center(child: Text('Sadly, no achievements available for this game 😢', style: TextStyle(color: foregroundColor, fontSize: 30, fontWeight: FontWeight.w900), textAlign: TextAlign.center))
-              : GridView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.all(8),
-                  itemCount: achievements.length + (isLoading ? 1 : 0),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.7,
-                  ),
-                  itemBuilder: (context, index) {
-                    if (index < achievements.length) {
-                      var achievement = achievements[index];
-                      return Card(
-                        color: tertiaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                              child: Image.network(
-                                achievement.image,
-                                height: 120,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            AutoSizeText(
-                              achievement.name,
-                              maxLines: 2,
-                              minFontSize: 15,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 18, fontWeight: FontWeight.w900),
-                              textAlign: TextAlign.center,
-                            ),
-                            Container(width: 50, height: 1, color: backgroundColor),
-                            const SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: AutoSizeText(
-                                achievement.description,
-                                maxLines: 3,
-                                minFontSize: 14,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(color: Color(0xFFF1D3B2), fontWeight: FontWeight.w400, fontSize: 16),
-                                textAlign: TextAlign.start,
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    } else if (isLoading) {
-                      return Center(
-                          child: Padding(
-                        padding: const EdgeInsets.only(left: 100),
-                        child: CircularProgressIndicator(color: foregroundColor),
-                      ));
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
+                )
+              : _buildAchievementsGrid(context, backgroundColor, foregroundColor, tertiaryColor),
+    );
+  }
+
+  Widget _buildLoadingGrid(Color backgroundColor, Color foregroundColor) {
+    return GridView.builder(
+      itemCount: 6,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.7,
+      ),
+      itemBuilder: (context, index) {
+        return Skeletonizer(
+          effect: ShimmerEffect(
+            baseColor: backgroundColor,
+            highlightColor: foregroundColor,
+          ),
+          child: Card(
+            color: foregroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Container(height: 120, width: double.infinity, color: Colors.grey.shade800),
                 ),
+                const SizedBox(height: 5),
+                AutoSizeText(
+                  BoneMock.name,
+                  maxLines: 2,
+                  minFontSize: 15,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w900),
+                  textAlign: TextAlign.center,
+                ),
+                Container(width: 50, height: 1, color: Colors.black),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: AutoSizeText(
+                    BoneMock.name,
+                    maxLines: 3,
+                    minFontSize: 14,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+                    textAlign: TextAlign.start,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAchievementsGrid(BuildContext context, Color backgroundColor, Color foregroundColor, Color tertiaryColor) {
+    return GridView.builder(
+      controller: _scrollController,
+      padding: const EdgeInsets.all(8),
+      itemCount: achievements.length + (isPaginating ? 1 : 0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.7,
+      ),
+      itemBuilder: (context, index) {
+        if (index < achievements.length) {
+          var achievement = achievements[index];
+          return Card(
+            color: tertiaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Image.network(
+                    achievement.image,
+                    height: 120,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                AutoSizeText(
+                  achievement.name,
+                  maxLines: 2,
+                  minFontSize: 15,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Color(0xFFF1D3B2), fontSize: 18, fontWeight: FontWeight.w900),
+                  textAlign: TextAlign.center,
+                ),
+                Container(width: 50, height: 1, color: backgroundColor),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: AutoSizeText(
+                    achievement.description,
+                    maxLines: 3,
+                    minFontSize: 14,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Color(0xFFF1D3B2), fontWeight: FontWeight.w400, fontSize: 16),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else if (isPaginating) {
+          return Center(
+            child: CircularProgressIndicator(color: foregroundColor),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }

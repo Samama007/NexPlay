@@ -28,6 +28,7 @@ class ExplorePage extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
+            // automaticallyImplyLeading: false,
             expandedHeight: 150.0,
             floating: false,
             pinned: true,

@@ -73,8 +73,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Skeletonizer(
                   effect: ShimmerEffect(
-                    baseColor: Colors.grey.shade400,
-                    highlightColor: Colors.grey.shade50,
+                    baseColor: backgroundColor,
+                    highlightColor: foregroundColor,
                   ),
                   child: GridView.builder(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -90,12 +90,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         elevation: 5,
-                        color: Colors.grey.shade700,
+                        color: backgroundColor,
                         child: const Center(
                           child: Text(
                             'Loading...',
                             style: TextStyle(
-                              color: Colors.white70,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
