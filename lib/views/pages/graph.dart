@@ -31,6 +31,7 @@ class GgameGraphState extends State<GameGraph> {
 
   Future _fetchreleased() async {
     List<rm.ReleasedModel> data = await GameApi().sortbyreleased();
+    if (!mounted) return;
     setState(() {
       released.addAll(data);
       isLoading = false;
@@ -39,6 +40,7 @@ class GgameGraphState extends State<GameGraph> {
 
   Future _fetchBestSeller() async {
     List<bs.BestsellerModel> data = await GameApi().sortbyBestSeller();
+    if (!mounted) return;
     setState(() {
       bestSeller.addAll(data);
       isLoading = false;

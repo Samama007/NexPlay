@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:language_picker/language_picker.dart';
 import 'package:language_picker/languages.dart';
+import 'package:nexplay/controller/image_controller.dart';
 import 'package:nexplay/util/theme.dart';
 import 'package:nexplay/views/pages/authentication/login_page.dart';
 import 'package:nexplay/controller/library_controller.dart';
@@ -21,12 +24,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final LibraryController _libraryController = Get.find();
+  final ImageController _imageController = Get.put(ImageController());
   Language _selectedLanguage = Languages.english;
   String _statusText = 'Online';
   Color _statusColor = Colors.green;
   IconData _statusIcon = Icons.circle;
   bool _switchNotifications = false;
   bool _switchMarketing = false;
+  File? _profileimage;
 
   void _updateStatus(String status, Color color, IconData icon) {
     setState(() {
@@ -95,9 +100,28 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage('https://img.redbull.com/images/c_crop,x_510,y_0,h_1234,w_926/c_fill,w_450,h_600/q_auto:low,f_auto/redbullcom/2020/9/16/qsavzzs1hulerklkkzzp/ac-header'), // Placeholder image, replace with actual image
+                  InkWell(
+                    splashColor: backgroundColor,
+                    highlightColor: backgroundColor,
+                    onTap: () {
+                      _imageController.pickImage();
+                    },
+                    child: Obx(() {
+                      return _imageController.profileImage.value != null
+                          ? Badge(
+                              label: Icon(Icons.camera_alt_outlined, color: backgroundColor, size: 20),
+                              backgroundColor: foregroundColor,
+                              alignment: Alignment(0.4, 0.7),
+                              child: CircleAvatar(
+                                radius: 60,
+                                backgroundImage: FileImage(_imageController.profileImage.value!),
+                              ),
+                            )
+                          : const CircleAvatar(
+                              radius: 60,
+                              backgroundImage: AssetImage('assets/images/profile.png'),
+                            );
+                    }),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -105,10 +129,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: foregroundColor),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    'LEVEL 15',
-                    style: TextStyle(fontSize: 16, color: foregroundColor),
-                  ),
+                  if (_libraryController.libraryItems.isNotEmpty)
+                    Text(
+                      'LEVEL ${(_libraryController.libraryItems.length / 2).floor() + 1}',
+                      style: TextStyle(fontSize: 16, color: foregroundColor),
+                    )
+                  else
+                    Text(
+                      'LEVEL 1',
+                      style: TextStyle(fontSize: 16, color: foregroundColor),
+                    ),
                   const SizedBox(height: 8),
                   ElevatedButton.icon(
                     style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(foregroundColor), foregroundColor: WidgetStatePropertyAll(backgroundColor)),
@@ -274,6 +304,15 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  Future _galleryImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image == null) return;
+    setState(() {
+      _profileimage = File(image.path);
+    });
   }
 
   void _showStatusDialog(BuildContext context, Color backgroundColor, Color foregroundColor, Color tertiaryColor) {

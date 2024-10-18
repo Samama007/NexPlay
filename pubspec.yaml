@@ -26,6 +26,7 @@ dependencies:
   google_fonts: ^6.2.1
   google_nav_bar: ^5.0.6
   http: ^1.2.2
+  image_picker: ^1.1.2
   language_picker: ^0.4.5
   lottie: ^3.1.2
   pinch_zoom: ^2.0.0

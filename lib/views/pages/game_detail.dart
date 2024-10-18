@@ -129,6 +129,7 @@ class _GameDetailState extends State<GameDetail> {
               enabled: videoLoading,
               effect: ShimmerEffect(baseColor: backgroundColor, highlightColor: foregroundColor, duration: const Duration(seconds: 1)),
               child: Card(
+                color: backgroundColor,
                 clipBehavior: Clip.hardEdge,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 child: Padding(
