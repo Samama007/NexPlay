@@ -40,7 +40,16 @@ class _NexPlayState extends State<NexPlay> {
   @override
   void initState() {
     super.initState();
+    _appStatus();
     _initialize();
+  }
+
+  Future _appStatus() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    // isfirstTime = pref.getBool('firstTime') ?? true;
+    setState(() {
+      isfirstTime = pref.getBool('firstTime') ?? true;
+    });
   }
 
   Future<void> _initialize() async {
@@ -56,19 +65,15 @@ class _NexPlayState extends State<NexPlay> {
     String? email = pref.getString('currentUserEmail');
 
     // Retrieve login status and username based on the current email
-    if (email != null) {
-      bool? loginStatus = pref.getBool('loginStatus_$email'); // Specific login status for the current user
-      String? currentUsername = pref.getString('username_$email');
+    // if (email != null) {
+    bool? loginStatus = pref.getBool('loginStatus_$email');
+    String? currentUsername = pref.getString('username_$email');
 
-      setState(() {
-        isLoggedIn = loginStatus ?? false;
-        username = currentUsername ?? 'Max';
-      });
-    } else {
-      setState(() {
-        isLoggedIn = false;
-      });
-    }
+    setState(() {
+      isLoggedIn = loginStatus ?? false;
+      username = currentUsername ?? 'Max';
+    });
+    // }
   }
 
   @override
@@ -81,13 +86,11 @@ class _NexPlayState extends State<NexPlay> {
           PointerDeviceKind.touch
         },
       ),
-      home: isLoggedIn ? BottomNavBar(name: username) : const LoginPage(),
-      // home: isfirstTime
-      //     ? OnboardingPage()
-      //     : isLoggedIn
-      //         ? BottomNavBar(name: username)
-      //         : const LoginPage(),
-      // home: OnboardingPage(),
+      home: isfirstTime
+          ? const OnboardingPage()
+          : isLoggedIn
+              ? BottomNavBar(name: username)
+              : const LoginPage(),
       theme: lightTheme,
       darkTheme: darkTheme,
     );

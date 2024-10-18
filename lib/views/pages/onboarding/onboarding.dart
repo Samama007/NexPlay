@@ -115,8 +115,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               onPressed: () async {
                 if (isLastPage) {
                   SharedPreferences pref = await SharedPreferences.getInstance();
-                  pref.setBool('firstTime', false);
-                  Get.offAll(LoginPage());
+                  await pref.setBool('firstTime', false);
+                  Get.offAll(() => LoginPage());
                 } else {
                   _controller.jumpToPage(2);
                 }

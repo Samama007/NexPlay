@@ -69,6 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               );
               SharedPreferences pref = await SharedPreferences.getInstance();
+              await pref.setBool('firstTime', false);
 
               // Get current user email
               String? email = pref.getString('currentUserEmail');

@@ -78,6 +78,7 @@ class Library extends StatelessWidget {
                                 children: [
                                   TextButton(
                                     style: ButtonStyle(
+                                      fixedSize: WidgetStatePropertyAll(Size(160, 20)),
                                       backgroundColor: WidgetStatePropertyAll(backgroundColor),
                                     ),
                                     onPressed: () => Get.to(() => AchievementsPage(id: item.id)),
@@ -85,6 +86,7 @@ class Library extends StatelessWidget {
                                   ),
                                   TextButton(
                                     style: ButtonStyle(
+                                      fixedSize: WidgetStatePropertyAll(Size(160, 20)),
                                       minimumSize: WidgetStatePropertyAll(Size(130, 40)),
                                       backgroundColor: WidgetStatePropertyAll(backgroundColor),
                                     ),

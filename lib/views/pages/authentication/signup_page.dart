@@ -231,13 +231,13 @@ class _SignupPageState extends State<SignupPage> {
       await pref.setString('username_$email', username);
 
       // Store login status specifically for this user
-      await pref.setBool('loginStatus_$email', true);
+      // await pref.setBool('loginStatus_$email', true);
 
       // Store current user email globally
       await pref.setString('currentUserEmail', email);
 
       toast('Welcome to NexPlay, $username', context);
-      Get.to(() => const LoginPage());
+      Get.offAll(() => const LoginPage());
     }
   }
 }

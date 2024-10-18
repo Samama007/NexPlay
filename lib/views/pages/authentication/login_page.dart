@@ -221,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       SharedPreferences pref = await SharedPreferences.getInstance();
-
+  
       // Store login status specifically for this user
       await pref.setBool('loginStatus_$email', true);
 
@@ -231,6 +231,7 @@ class _LoginPageState extends State<LoginPage> {
       // Retrieve username based on the email
       String username = pref.getString('username_$email') ?? 'Max';
 
+      // ignore: use_build_context_synchronously
       toast('Welcome $username', context);
       Get.off(() => BottomNavBar(name: username));
     }
