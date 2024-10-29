@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:language_picker/language_picker.dart';
 import 'package:language_picker/languages.dart';
 import 'package:nexplay/controller/image_controller.dart';
@@ -31,7 +29,6 @@ class _ProfilePageState extends State<ProfilePage> {
   IconData _statusIcon = Icons.circle;
   bool _switchNotifications = false;
   bool _switchMarketing = false;
-  File? _profileimage;
 
   void _updateStatus(String status, Color color, IconData icon) {
     setState(() {
@@ -57,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
             icon: Icon(Icons.wb_sunny, color: foregroundColor),
             onPressed: () {
               Get.changeTheme(Get.isDarkMode ? lightTheme : darkTheme);
+              print('Theme changed: Is Dark Mode: ${Get.isDarkMode}');
             },
           ),
           IconButton(
@@ -88,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
               await pref.remove('currentUserEmail');
 
               _auth.signOut();
-              Get.offAll(const LoginPage());
+              Get.offAll(() => const LoginPage());
             },
           )
         ],
@@ -304,15 +302,6 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-  }
-
-  Future _galleryImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (image == null) return;
-    setState(() {
-      _profileimage = File(image.path);
-    });
   }
 
   void _showStatusDialog(BuildContext context, Color backgroundColor, Color foregroundColor, Color tertiaryColor) {

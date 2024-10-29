@@ -227,15 +227,10 @@ class _SignupPageState extends State<SignupPage> {
     if (user != null) {
       SharedPreferences pref = await SharedPreferences.getInstance();
 
-      // Store user-specific data using email as the key
       await pref.setString('username_$email', username);
-
-      // Store login status specifically for this user
-      // await pref.setBool('loginStatus_$email', true);
-
-      // Store current user email globally
       await pref.setString('currentUserEmail', email);
 
+      // ignore: use_build_context_synchronously
       toast('Welcome to NexPlay, $username', context);
       Get.offAll(() => const LoginPage());
     }

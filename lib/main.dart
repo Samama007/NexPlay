@@ -46,7 +46,6 @@ class _NexPlayState extends State<NexPlay> {
 
   Future _appStatus() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    // isfirstTime = pref.getBool('firstTime') ?? true;
     setState(() {
       isfirstTime = pref.getBool('firstTime') ?? true;
     });
@@ -61,11 +60,8 @@ class _NexPlayState extends State<NexPlay> {
   Future<void> _checkLoginStatus() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
-    // Retrieve current user email
     String? email = pref.getString('currentUserEmail');
 
-    // Retrieve login status and username based on the current email
-    // if (email != null) {
     bool? loginStatus = pref.getBool('loginStatus_$email');
     String? currentUsername = pref.getString('username_$email');
 
@@ -73,7 +69,6 @@ class _NexPlayState extends State<NexPlay> {
       isLoggedIn = loginStatus ?? false;
       username = currentUsername ?? 'Max';
     });
-    // }
   }
 
   @override
